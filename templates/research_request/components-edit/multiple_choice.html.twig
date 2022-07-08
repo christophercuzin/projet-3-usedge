@@ -1,0 +1,43 @@
+{% if "multiple-choice" in templateComponent.component.name   %}
+{% if "multiple-choice" in answer.name  %}
+    <div class="request-multiple-choice-template-creation">
+        <div class="request-multiple-choice-template-content">
+            <input type="hidden" name="request-component-id-{{ templateComponent.component.id }}" value="{{ templateComponent.component.id }}">
+            <input type="hidden" name="request-component-question-{{ templateComponent.component.id }}" value="{{templateComponent.component.question}}">
+            <input class="request-name-input" type="hidden" name="request-component-name-{{ templateComponent.component.id }}" value="{{ answer.name  }}">
+            <p class="request-multiple-choice-template-question" id="multiple-choice-template-question">
+                {{templateComponent.component.question}}
+                {% if templateComponent.component.isMandatory %}
+                    <span class="request-multiple-choice-red-star" id="multiple-choice-red-star">*</span>
+                {% endif %}
+            </p>
+            <div class="request-multiple-choice-template-answers">
+            {% if templateComponent.component.isMandatory %}
+                {% set numberOrder = 0 %}
+                {% for answer in templateComponent.component.answers %}
+                    <div class="request-multiple-choice-template-answer">
+                        <input class="request-answer-input required" type="checkbox" value="{{answer.answer}}" name="answer-{{ templateComponent.component.id ~ '-' ~ numberOrder }}">
+                        <label for="multiple-choice-answer" class="request-multiple-choice-template-answer-label" id="multiple-choice-template-answer-label">
+                        {{answer.answer}}
+                        </label>
+                    </div>
+                    {% set numberOrder = numberOrder + 1 %}
+                {% endfor %}
+            {% else %}
+                {% set numberOrder = 0 %}
+                {% for answer in templateComponent.component.answers %}
+                    <div class="request-multiple-choice-template-answer">
+                        <input class="request-answer-input" type="checkbox" value="{{answer.answer}}" name="answer-{{ templateComponent.component.id ~ '-' ~ numberOrder }}">
+                        <label for="multiple-choice-answer" class="request-multiple-choice-template-answer-label" id="multiple-choice-template-answer-label">
+                        {{answer.answer}}
+                        </label>
+                    </div>
+                    {% set numberOrder = numberOrder + 1 %}
+                {% endfor %}
+            {% endif %}
+                <input type="hidden" name="counter-answer-{{ templateComponent.component.id }}" value="{{ numberOrder }}">
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endif %}

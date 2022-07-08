@@ -1,0 +1,13 @@
+{% if "section" in templateComponent.component.name  %}
+{% if "section" in answer.name  %}
+	<div class="request-section-title">
+		<div class="request-component-section-title">
+            <input type="hidden" name="request-component-id-{{ templateComponent.component.id }}" value="{{ templateComponent.component.id }}">
+            <input type="hidden" name="request-component-question-{{ templateComponent.component.id }}" value="{{templateComponent.component.title}}">
+            <input class="request-name-input" type="hidden" name="request-component-name-{{ templateComponent.component.id }}" value="{{ answer.name  }}">
+			<input type="hidden" name="answer-{{ templateComponent.component.id }}" value="{{templateComponent.component.title}}">
+			<p>{{ templateComponent.component.title}}</p>
+		</div>
+	</div>
+{% endif %}
+{% endif %}

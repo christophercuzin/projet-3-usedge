@@ -1,0 +1,12 @@
+{% if "separator" in templateComponent.component.name  %}
+{% if "separator" in answer.name  %}
+	<div class="request-separator-template-creation">
+        <div class="request-separator-template-content">
+            <input type="hidden" name="request-component-id-{{ templateComponent.component.id }}" value="{{ templateComponent.component.id }}">
+            <input type="hidden" name="request-component-question-{{ templateComponent.component.id }}" value="{{ answer.name  }}">
+            <input class="request-name-input" type="hidden" name="request-component-name-{{ templateComponent.component.id }}" value="{{ answer.name  }}">
+            <input type="hidden" name="answer-{{ templateComponent.component.id }}" value="{{answer.name }}">
+        </div>
+    </div>
+{% endif %}
+{% endif %}

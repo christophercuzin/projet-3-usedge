@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\ResearchRequest;
+use App\Repository\ResearchRequestRepository;
 use App\Repository\TemplateComponentRepository;
 use App\Service\CheckDataUtils;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,6 +29,19 @@ class ResearchRequestController extends AbstractController
             'requestComponents' => $requestComponents,
             'project' => $project,
             'templateId' => $templateId,
+        ]);
+    }
+
+    #[Route('/research-request/edit/{id}', name: 'research_request_edit')]
+    public function edit(
+        ResearchRequest $researchRequest,
+        ResearchRequestRepository $researchRequestRepo,
+        CheckDataUtils $checkDataUtils,
+        Request $request
+    ): Response {
+
+        return $this->render('research_request/edit.html.twig', [
+            'researchRequest' => $researchRequest,
         ]);
     }
 }

@@ -25,14 +25,12 @@ if (document.getElementById('button-add-objectives')) {
     
     inputCheckbox.addEventListener("keydown", function(event) {
         if (event.key === "Enter") {
+            event.preventDefault();
             const inputCheckbox = document.getElementById('input-objectives');
             const checkboxCase = document.getElementById('input-checkbox-objectives');
             const checkboxValue = document.getElementById('input-checkbox-text-objectives');
             const divCheckbox = document.getElementById('new-input-checkbox');
             const label = document.getElementById('newDivLabelDisplay1');
-            
-
-            event.preventDefault();
 
             let valueInput = inputCheckbox.value;
             let newDivParagraph = document.createElement("p");
@@ -78,6 +76,7 @@ if (document.getElementById('button-add-objectives')) {
             inputCheckbox.value = '';
             const collection = document.querySelectorAll('.all-div-input-edit');
             let j =1;
+            let k = 1;
             for (let i = 0; i < collection.length; i++) {
                 const elem = collection[i];
                 newLabel.setAttribute('id', 'newDivLabelDisplay' + j);
@@ -85,13 +84,17 @@ if (document.getElementById('button-add-objectives')) {
                     let target =  event.target;
                     if (target === elem) {
                         target.remove();
-                        const collection = document.querySelectorAll('.all-div-input-edit');
-                        for (const label of collection) {
-                            label.setAttribute('id', 'newDivLabelDisplay' + j);
+                        
+                    }
+                    if (target === elem) {
+                        const labels = document.querySelectorAll('.newDivLabelDisplay');
+                        for (const label of labels) {
+                            label.setAttribute('id', 'newDivLabelDisplay' + k);
+                            k++ 
                         }
                     }
                 };
-                j++ 
+                j++
             }
         }
     }, true);

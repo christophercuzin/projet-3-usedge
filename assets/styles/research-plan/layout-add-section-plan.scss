@@ -388,6 +388,9 @@
 .newDivLabelDisplay {
     display: none;
 }
+.input-example-checkbox-none {
+    display: none;
+}
 .all-div-input {
     margin-left: 60px;
     display: flex;
@@ -397,13 +400,14 @@
         margin-left: 5px;
     }
 }
-.all-input-hidden, .all-input-hidden-validate  {
+.all-input-hidden {
     @include dimension(500px, 30px);
     @include button($primary-white-1, $border-radius-10,
     1px solid $primary-white-1);
     @include textStyle($text-font, $font-size-16,
     $font-weight-600, $primary-blue-3);
     margin-bottom: 5px;
+    z-index: 2;
 }
 .create-recommandation-none {
     display: none;

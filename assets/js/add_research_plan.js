@@ -30,12 +30,20 @@ if (document.getElementById('title-section-research-plan')) {
     inputTitleSectionPlan.addEventListener("keydown", function (event) {
         if (event.key == "Enter") {
             event.preventDefault();
-            const valueInput = inputTitleSectionPlan.value;
-            buttonUntitled.value = valueInput;
+            
+        }
+        inputTitleSectionPlan.addEventListener("keyup", function (event) {
+            if (event.key != "Enter") {
+                const valueInput = inputTitleSectionPlan.value;
+                buttonUntitled.value = valueInput;
+            }
+        
+        })
+        inputTitleSectionPlan.addEventListener("focusout", function (event) {
             inputTitleSectionPlan.classList.remove('title-section-research-plan');
             inputTitleSectionPlan.classList.add("newTitleSection");
-            event.preventDefault();
-        }
+        })
+        
     }, true);
 
     const buttonRemoveTitle = document.getElementById('button-basket');

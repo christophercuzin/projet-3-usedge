@@ -1,9 +1,10 @@
 <div class="section-form-title">
-    <input type="text" name="research-plan-title" placeholder="Add section title here" id="title-section-research-plan" class="title-section-research-plan">
+    <input type="text" name="research-plan-title" placeholder="Add section title here" id="title-section-research-plan" class="title-section-research-plan" required>
     <a href="" id="button-basket"><img src="{{ asset('build/images/icons/trash-black.png') }}" alt="basket"></a>
 </div>
 
 <button type="button" id="assign-workshop" class="assign-workshop">
+    <p id="error" class="error"></p>
     <div class="assign-workshop-content">
         <img class="assign-workshop-content-image" src="{{ asset('build/images/icons/workshop.png') }}" alt="basket">
         <p class="assign-workshop-content-text">Assign a workshop for this phase</p>

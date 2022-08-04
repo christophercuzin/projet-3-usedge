@@ -87,7 +87,8 @@ class ResearchPlanController extends AbstractController
         ) {
             $researchPlanUtils->addResearchPlan($dataComponent);
             return $this->redirectToRoute('research_plan_new_section', ['id' => $id]);
-        } elseif (
+        }
+        if (
             !empty($researchPlan) &&
             !empty($dataComponent) &&
             $this->isCsrfTokenValid(
@@ -95,7 +96,14 @@ class ResearchPlanController extends AbstractController
                 $dataComponent['_token_research_plan']
             )
         ) {
-            $researchPlanUtils->addResearchPlanSection($dataComponent, $researchPlan);
+            $researchPlanUtils->researchPlanCheckEmpty($dataComponent);
+            $researchPlanUtils->researchPlanCheckLength($dataComponent);
+            $researchPlanErrors = $researchPlanUtils->getCheckErrors();
+            if (empty($researchPlanErrors)) {
+                $researchPlanUtils->addResearchPlanSection($dataComponent, $researchPlan);
+            } else {
+                return $this->render('research_plan/confirm.html.twig', ['errors' => $researchPlanErrors]);
+            }
         }
 
         $workshops = $workshopRepository->findAll();
@@ -108,7 +116,7 @@ class ResearchPlanController extends AbstractController
     }
 
     #[Route('/research-plan/{researchRequestId}/section/{sectionId}
-        ', name: 'research_plan_edit_section', methods: ['GET', 'POST'])]
+        ', name: 'edit_research_plan_section', methods: ['GET', 'POST'])]
     #[Entity('researchRequest', options: ['id' => 'researchRequestId'])]
     #[Entity('researchPlanSection', options: ['id' => 'sectionId'])]
     public function editSection(
@@ -139,18 +147,8 @@ class ResearchPlanController extends AbstractController
                     $dataComponent['_token_research_plan']
                 )
             ) {
-                $researchPlanUtils->updateResearchPlanSection($dataComponent, $researchPlan, $researchPlanSection);
+                $researchPlanUtils->addResearchPlanSection($dataComponent, $researchPlan);
             }
-            return $this->redirectToRoute('research_plan_new_section', ['id' => $resRequestId]);
-        } elseif (
-            !empty($researchPlan) &&
-            !empty($dataComponent) &&
-            $this->isCsrfTokenValid(
-                'research_plan',
-                $dataComponent['_token_research_plan']
-            )
-        ) {
-            $researchPlanUtils->addResearchPlanSection($dataComponent, $researchPlan);
         }
 
         $workshops = $workshopRepository->findAll();

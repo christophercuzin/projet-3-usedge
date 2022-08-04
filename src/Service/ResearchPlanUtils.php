@@ -138,7 +138,11 @@ class ResearchPlanUtils
         $id = $dataComponent['research_plan_section'];
         $researchPlanSection = $this->resPlanSecRepo->findOneBy(['id' => $id]);
         $entityManager = $this->entityManager;
-        if (!empty($dataComponent) && $researchPlan != null) {
+        if (
+            !empty($dataComponent) &&
+            $researchPlan != null &&
+            $researchPlanSection != null
+        ) {
             $researchPlanSection->setTitle($dataComponent['research-plan-title']);
             $researchPlanSection->setWorkshopName($dataComponent['workshop_name']);
             $researchPlanSection->setWorkshopDescription($dataComponent['workshop_description']);

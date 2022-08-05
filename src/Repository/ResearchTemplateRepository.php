@@ -50,6 +50,17 @@ class ResearchTemplateRepository extends ServiceEntityRepository
         }
     }
 
+    public function findByStatus(): array
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.status != :archive')
+            ->setParameter('archive', 'archive')
+            ->orderBy('r.id', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 //    /**
 //     * @return ResearchTemplate[] Returns an array of ResearchTemplate objects
 //     */

@@ -30,7 +30,7 @@ class ResearchTemplateController extends AbstractController
         CheckDataUtils $checkDataUtils,
         RetrieveAnswers $retrieveAnswers
     ): Response {
-        $researchTemplateList = $templateRepository->findBy([], ['id' => 'DESC']);
+        $researchTemplateList = $templateRepository->findByStatus();
         $dataComponent =  $checkDataUtils->trimData($request);
 
         if (

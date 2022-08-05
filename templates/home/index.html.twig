@@ -79,10 +79,14 @@
                 </table>
                 <div class="table-scroll">
                     <table>
+                    {% for researchPlan in researchPlans %}
+                                {% include "home/modals/_modal_details_research_plan.html.twig" %}
+                            {% endfor %}
                         {% for researchRequest in researchRequests %}
-                        {% if researchRequest.status is not same as 'Draft' %}
-                            {% include "home/modals/_modal_interview_planning_request.html.twig" %}
-                        {% endif %}
+                            {% if researchRequest.status is not same as 'Draft' %}
+                                {% include "home/modals/_modal_interview_planning_request.html.twig" %}
+                            {% endif %}
+                            
                             <tbody class="result">
                                 <tr>
                                     <td class="view-details view-request-type" id="view-request-type">
@@ -160,13 +164,13 @@
                 </table>
                 <div class="table-scroll" id="plan-table-scroll">
                     <table>
-                        {% for researchPlan in researchPlans %}
                         {% for researchRequest in researchRequests %}
-                        {% if researchPlan.researchRequest.status is not same as 'Draft' %}
-                            {% include "home/modals/_modal_interview_planning_request.html.twig" %}
-                        {% endif %}
+                            {% if researchRequest.status is not same as 'Draft' %}
+                                {% include "home/modals/_modal_interview_planning_request.html.twig" %}
+                            {% endif %}
                         {% endfor %}
-                        {% include "home/modals/_modal_details_research_plan.html.twig" %}
+                        {% for researchPlan in researchPlans %}
+                            {% include "home/modals/_modal_details_research_plan.html.twig" %}
                             <tbody class="result">
                                 <tr>
                                     <td class="view-details view-request-type" id="view-request-type">
@@ -194,7 +198,9 @@
                                     </td> 
                                     <td class="view-details">                                     
                                         {% if 'Draft' in researchPlan.status %}
-                                            <button class="edit-request-button" disabled="disabled">Edit</button>
+                                            <a href="{{path('app_research_plan', {id: researchPlan.researchRequest.id})}}">
+                                                <button type="button" class="edit-request-button">Edit</button>
+                                            </a>
                                         {% else %}
                                             <button id="{{ researchPlan.id }}" class="research-plan-details-button">View</button>
                                         {% endif %}

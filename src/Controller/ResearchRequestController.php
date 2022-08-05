@@ -51,6 +51,7 @@ class ResearchRequestController extends AbstractController
                 $dataComponent['_token_add_research_request_answer']
             )
         ) {
+            $requestUtils->updateResearchRequestStatus($dataComponent);
             $answerList = $requestUtils->researchRequestSortAnswer($dataComponent);
             $requestUtils->researchRequestCheckDate($answerList);
             $requestUtils->researchRequestCheckURL($answerList);

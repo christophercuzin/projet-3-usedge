@@ -147,4 +147,15 @@ class ResearchRequestUtils
 
         $entityManager->flush();
     }
+
+    public function updateResearchRequestStatus(array $dataComponent): void
+    {
+        $entityManager = $this->entityManager;
+        $researchRequest = $this->resReqRepository->findOneBy([], ['id' => 'DESC']);
+
+        if ($researchRequest != null) {
+            $researchRequest->setStatus($dataComponent['research-request-status']);
+        }
+        $entityManager->flush();
+    }
 }

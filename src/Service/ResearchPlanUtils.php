@@ -5,13 +5,14 @@ namespace App\Service;
 use App\Entity\ResearchPlan;
 use App\Entity\ResearchPlanSection;
 use App\Entity\ResearchRequest;
-use App\Repository\ResearchPlanRepository;
+use App\Repository\ResearchPlanSectionRepository;
 use App\Repository\ResearchRequestRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ResearchPlanUtils
 {
+    private ResearchPlanSectionRepository $resPlanSecRepo;
     private EntityManagerInterface $entityManager;
     private ResearchRequestRepository $resReqRepo;
     private array $checkErrors = [];
@@ -19,9 +20,11 @@ class ResearchPlanUtils
     public function __construct(
         EntityManagerInterface $entityManager,
         ResearchRequestRepository $resReqRepo,
+        ResearchPlanSectionRepository $resPlanSecRepo,
     ) {
         $this->entityManager = $entityManager;
         $this->resReqRepo = $resReqRepo;
+        $this->resPlanSecRepo = $resPlanSecRepo;
     }
 
     public function getCheckErrors(): array
@@ -35,7 +38,7 @@ class ResearchPlanUtils
             $this->checkErrors[] = "The coach field exceed 255 characters.";
         }
 
-        if (strlen($dataComponent['research-request-status']) > 255) {
+        if (strlen($dataComponent['research-plan-status']) > 255) {
             $this->checkErrors[] = "The status field exceed 255 characters.";
         }
 
@@ -62,7 +65,7 @@ class ResearchPlanUtils
             $this->checkErrors[] = "The coach field is mandatory";
         }
 
-        if (empty($dataComponent['research-request-status'])) {
+        if (empty($dataComponent['research-plan-status'])) {
             $this->checkErrors[] = "The status field is mandatory";
         }
 
@@ -93,7 +96,7 @@ class ResearchPlanUtils
 
         if (!empty($dataComponent)) {
             $researchPlan->setCoach($dataComponent['research-request-coach']);
-            $researchPlan->setStatus($dataComponent['research-request-status']);
+            $researchPlan->setStatus($dataComponent['research-plan-status']);
             $researchPlan->setCreationDate($creationDate);
             $entityManager->persist($researchPlan);
 
@@ -107,7 +110,9 @@ class ResearchPlanUtils
     {
         $researchPlanSection = new ResearchPlanSection();
         $entityManager = $this->entityManager;
-        if (!empty($dataComponent) && $researchPlan != null) {
+        if (isset($dataComponent['research_plan_section']) && !empty($dataComponent['research_plan_section'])) {
+            $this->updateResearchPlanSection($dataComponent, $researchPlan);
+        } elseif (!empty($dataComponent) && $researchPlan != null) {
             $researchPlanSection->setTitle($dataComponent['research-plan-title']);
             $researchPlanSection->setWorkshopName($dataComponent['workshop_name']);
             $researchPlanSection->setWorkshopDescription($dataComponent['workshop_description']);
@@ -122,18 +127,22 @@ class ResearchPlanUtils
             $researchPlanSection->setObjectives($researchPlanObjects);
 
             $entityManager->persist($researchPlanSection);
+            $entityManager->flush();
         }
-
-        $entityManager->flush();
     }
 
     public function updateResearchPlanSection(
         array $dataComponent,
         ?ResearchPlan $researchPlan,
-        ResearchPlanSection $researchPlanSection
     ): void {
+        $id = $dataComponent['research_plan_section'];
+        $researchPlanSection = $this->resPlanSecRepo->findOneBy(['id' => $id]);
         $entityManager = $this->entityManager;
-        if (!empty($dataComponent) && $researchPlan != null) {
+        if (
+            !empty($dataComponent) &&
+            $researchPlan != null &&
+            $researchPlanSection != null
+        ) {
             $researchPlanSection->setTitle($dataComponent['research-plan-title']);
             $researchPlanSection->setWorkshopName($dataComponent['workshop_name']);
             $researchPlanSection->setWorkshopDescription($dataComponent['workshop_description']);

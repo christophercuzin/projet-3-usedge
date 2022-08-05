@@ -1,3 +1,5 @@
+const { eventListeners } = require("@popperjs/core");
+
 if (document.getElementById('title-section-research-plan')) {
 
     const titleSection = document.getElementById('title-section-research-plan');
@@ -13,7 +15,6 @@ if (document.getElementById('title-section-research-plan')) {
     const availableWorkshopSelectButton = document.querySelectorAll('.available-workshop-button');
     const selectedWorkshopNameInput = document.getElementById('selected-workshop-name');
     const selectedWorkshopDescriptionInput = document.getElementById('selected-workshop-description');
-    const selectedWorkshopBuilder = document.getElementById('research-plan-workshop-selected-content');
     const selectedWorkshopName = document.querySelector('.research-plan-workshop-selected-name');
     const selectedWorkshopDescription = document.querySelector('.research-plan-workshop-selected-description');
     const selectedWorkshopDescritionTextarea = document.getElementById('selected-workshop-description-edit');
@@ -21,6 +22,9 @@ if (document.getElementById('title-section-research-plan')) {
     const linkViewRequest = document.getElementById('link-view-request');
     const modalInterviewPlanningRequest = document.getElementById('modal-interview-planning-request');
     const interviewPlanningHeaderClose = document.getElementById('interview-planning-header-close');
+    const buttonAddSection = document.getElementById('button-add-section');
+    const form = document.getElementById('sections-container');
+    const errormessage = document.getElementById('error');
     
 
     titleSection.addEventListener('click', function () {
@@ -31,12 +35,22 @@ if (document.getElementById('title-section-research-plan')) {
     inputTitleSectionPlan.addEventListener("keydown", function (event) {
         if (event.key == "Enter") {
             event.preventDefault();
-            const valueInput = inputTitleSectionPlan.value;
-            buttonUntitled.value = valueInput;
+            
+        }
+        inputTitleSectionPlan.addEventListener("keyup", function (event) {
+            if (event.key != "Enter") {
+                const valueInput = inputTitleSectionPlan.value;
+                buttonUntitled.value = valueInput;
+            }
+        
+        })
+        inputTitleSectionPlan.addEventListener("focusout", function (event) {
             inputTitleSectionPlan.classList.remove('title-section-research-plan');
             inputTitleSectionPlan.classList.add("newTitleSection");
-            event.preventDefault();
-        }
+            const valueInput = inputTitleSectionPlan.value;
+            buttonUntitled.value = valueInput;
+        })
+        
     }, true);
 
     const buttonRemoveTitle = document.getElementById('button-basket');
@@ -58,9 +72,9 @@ if (document.getElementById('title-section-research-plan')) {
     });
 
     // Function used to capture the enter keytouch and simulate it as a button click.
-    workshopSearchbar.addEventListener("keyup", function (e) {
+    workshopSearchbar.addEventListener("keydown", function (e) {
         if (e.key === 'Enter') {
-            e.preventDefault;
+            e.preventDefault();
             availableWorkshopSearchButton.click();
         }
     });
@@ -87,7 +101,10 @@ if (document.getElementById('title-section-research-plan')) {
     for (let i = 0; i < availableWorkshopSelectButton.length; i++) {
         availableWorkshopSelectButton[i].addEventListener('click', () => {
             assignWorkshopLink.classList.add('assign-workshop-display-none');
-            selectedWorkshopBuilder.classList.add('research-plan-workshop-selected-display-flex');
+            if(document.getElementById('research-plan-workshop-selected-content')) {
+                const selectedWorkshopBuilder = document.getElementById('research-plan-workshop-selected-content');
+                selectedWorkshopBuilder.classList.add('research-plan-workshop-selected-display-flex');
+            }
             selectedWorkshopName.innerHTML = workshopCardTitle[i].innerHTML;
             selectedWorkshopDescription.innerHTML = workshopCardDescription[i].innerHTML;
             selectedWorkshopNameInput.value = workshopCardTitle[i].innerHTML;
@@ -99,10 +116,8 @@ if (document.getElementById('title-section-research-plan')) {
 
     // Function used to open a textarea when the description needs to be edited
     selectedWorkshopEditIcon.addEventListener('click', () => {
-        selectedWorkshopEditIcon.classList.add('research-plan-workshop-select-edit-icon-display-none');
-        selectedWorkshopDescription.classList.add('research-plan-workshop-selected-description-display-none');
-        selectedWorkshopDescritionTextarea.classList.add('selected-workshop-description-edit-display-block');
-        selectedWorkshopDescritionTextarea.innerHTML = selectedWorkshopDescriptionInput.value.replace(/\s+/g, " ") ;
+        availableWorkshopModal.classList.add('research-plan-available-workshops-display');
+        modalInterviewPlanningRequest.classList.remove('modal-interview-planning-request-display');
     });
 
     // Function used to close the textarea and modify the description.
@@ -144,11 +159,20 @@ if (document.getElementById('title-section-research-plan')) {
     if (document.querySelector('.send-research-plan-validation')) {
         const sendResearchPlanValidation = document.querySelector('.send-research-plan-validation');
         sendResearchPlanValidation.addEventListener('click', (event) => {
+            titleSection.removeAttribute('required');
             let comfirm = confirm('this plan will be sent, check that all fields are filled in, otherwise the last section will not be saved');
             if (comfirm == false) {
                 event.preventDefault();
             }
 
+        })
+    }
+
+    if (buttonAddSection) {
+        buttonAddSection.addEventListener('click', (event) => {
+            if (selectedWorkshopNameInput.value == "") {
+                buttonAddSection.removeAttribute('formaction');
+            }
         })
     }
 }

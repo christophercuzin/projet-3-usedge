@@ -144,11 +144,13 @@
                 }
                 .plans-quantity {
                     margin: 0;
-                    @include textStyle($title-font, $font-size-18, $font-weight-600, $primary-blue-3);
+                    @include textStyle($title-font, $font-size-18, $font-weight-500, $primary-blue-3);
+                    letter-spacing: 0.12px;
                 }
                 .requests-quantity {
                     margin: 0;
-                    @include textStyle($title-font, $font-size-18, $font-weight-600, $primary-blue-3);
+                    @include textStyle($title-font, $font-size-18, $font-weight-500, $primary-blue-3);
+                    letter-spacing: 0.12px;
                 }
                 #create-request {
                     display: flex;
@@ -425,6 +427,12 @@
             margin-right: 10px;
         }
     }
+    .research-plan-details-button {
+        @include dimension(86px, 42px);
+        @include button($primary-white-1,$border-radius-10, 1px solid $primary-blue-1);
+        color: $primary-blue-1;
+    }
+
 }
 
 .sort-none {

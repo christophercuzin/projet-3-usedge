@@ -2,15 +2,14 @@
 
 namespace App\Controller;
 
-use App\Entity\ResearchPlan;
 use App\Entity\ResearchPlanSection;
 use App\Repository\CanvasWorkshopsRepository;
 use App\Entity\ResearchRequest;
 use App\Repository\ResearchPlanRepository;
-use App\Repository\ResearchPlanSectionRepository;
 use App\Service\CheckDataUtils;
 use App\Service\ResearchPlanUtils;
 use App\Service\ResearchRequestMailer;
+use App\Service\ResearchRequestUtils;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,6 +26,7 @@ class ResearchPlanController extends AbstractController
         Request $request,
         CheckDataUtils $checkDataUtils,
         ResearchPlanUtils $researchPlanUtils,
+        ResearchRequestUtils $researchReqUtils,
         ResearchRequestMailer $mailer,
         ResearchPlanRepository $researchPlanRepo,
     ): Response {
@@ -57,6 +57,7 @@ class ResearchPlanController extends AbstractController
                 $dataComponent['_token_research_plan']
             )
         ) {
+            $researchReqUtils->updateResearchRequestStatus($dataComponent);
             $researchPlanUtils->addResearchPlan($dataComponent);
             $mailer->researchPlanSendMail();
         }
@@ -169,6 +170,7 @@ class ResearchPlanController extends AbstractController
         ResearchPlanUtils $researchPlanUtils,
         ResearchRequestMailer $mailer,
         ResearchPlanRepository $researchPlanRepo,
+        ResearchRequestUtils $researchReqUtils,
     ): Response {
 
         $dataComponent = $checkDataUtils->trimData($request);
@@ -180,6 +182,7 @@ class ResearchPlanController extends AbstractController
             !empty($dataComponent['research-plan-recommendation'])
         ) {
             if ($this->isCsrfTokenValid('research_plan', $dataComponent['_token_research_plan'])) {
+                $researchReqUtils->updateResearchRequestStatus($dataComponent);
                 $researchPlanUtils->addResearchPlanSection($dataComponent, $researchPlan);
                 $mailer->researchPlanSendMail();
             }

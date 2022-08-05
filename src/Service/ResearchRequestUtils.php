@@ -151,7 +151,12 @@ class ResearchRequestUtils
     public function updateResearchRequestStatus(array $dataComponent): void
     {
         $entityManager = $this->entityManager;
-        $researchRequest = $this->resReqRepository->findOneBy([], ['id' => 'DESC']);
+        if (isset($dataComponent['research-request-id']) && !empty($dataComponent['research-request-id'])) {
+            $id = $dataComponent['research-request-id'];
+            $researchRequest = $this->resReqRepository->findOneBy(['id' => $id]);
+        } else {
+            $researchRequest = $this->resReqRepository->findOneBy([], ['id' => 'DESC']);
+        }
 
         if ($researchRequest != null) {
             $researchRequest->setStatus($dataComponent['research-request-status']);

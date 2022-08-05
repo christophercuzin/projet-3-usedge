@@ -13,6 +13,7 @@
 
 <form method="POST" class="sections-container" id="sections-container">
     <input type="hidden" name="_token_research_plan" value="{{ csrf_token('research_plan') }}">
+    <input id="research-request-status" type="hidden" name="research-request-status" value="Under review">
     {% include "research_plan/modals/_modal_interview_planning_request.html.twig" %}
     {% include "research_plan/modals/_modal_available_workshops.html.twig" %}
     <div class="section-selected">
@@ -36,7 +37,7 @@
     <div class="section-form">
         <input type="hidden" name="research-request-id" value="{{ researchRequest.id }}">
         <input type="hidden" name="research-request-coach" value="{{ researchRequest.researchTemplate.coach }}">
-        <input type="hidden" name="research-request-status" value="Sent to user">
+        <input type="hidden" name="research-plan-status" value="Sent to user">
         <div>
             {% include 'research_plan/_layout_add_section_plan.html.twig' %}
         </div>

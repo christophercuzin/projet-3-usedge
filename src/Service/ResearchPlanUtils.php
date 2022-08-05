@@ -38,7 +38,7 @@ class ResearchPlanUtils
             $this->checkErrors[] = "The coach field exceed 255 characters.";
         }
 
-        if (strlen($dataComponent['research-request-status']) > 255) {
+        if (strlen($dataComponent['research-plan-status']) > 255) {
             $this->checkErrors[] = "The status field exceed 255 characters.";
         }
 
@@ -65,7 +65,7 @@ class ResearchPlanUtils
             $this->checkErrors[] = "The coach field is mandatory";
         }
 
-        if (empty($dataComponent['research-request-status'])) {
+        if (empty($dataComponent['research-plan-status'])) {
             $this->checkErrors[] = "The status field is mandatory";
         }
 
@@ -96,7 +96,7 @@ class ResearchPlanUtils
 
         if (!empty($dataComponent)) {
             $researchPlan->setCoach($dataComponent['research-request-coach']);
-            $researchPlan->setStatus($dataComponent['research-request-status']);
+            $researchPlan->setStatus($dataComponent['research-plan-status']);
             $researchPlan->setCreationDate($creationDate);
             $entityManager->persist($researchPlan);
 

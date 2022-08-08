@@ -11,6 +11,9 @@
         {% if researchTemplate.status is same as "dropped" %}
             {% include "status-tags/_dropped.html.twig" %}
         {% endif %}
+        {% if researchTemplate.status is same as "archive" %}
+            {% include "status-tags/_archive.html.twig" %}
+        {% endif %}
             <img class="research-template-list-card-options" id="research-template-list-card-options{{ loop.index }}" src="{{ asset('build/images/icons/option-dots.png') }}">
             
         </div>

@@ -40,26 +40,20 @@ class ResearchRequestUtils
                 $componentIdList[] = $data;
             }
         }
-
         $answerList = [];
+
         foreach ($componentIdList as $componentId) {
             if ($dataComponent['request-component-name-' . $componentId] === 'multiple-choice') {
+                $multipleAnswers = [];
                 $multipleChoiceCount = $dataComponent['counter-answer-' . $componentId];
                 for ($i = 0; $i < $multipleChoiceCount; $i++) {
-                    if (isset($dataComponent['answer-' . $componentId . '-' . $i])) {
-                        $answerList[] = [
-                            'request-component-name' => $dataComponent['request-component-name-' . $componentId],
-                            'answer' => $dataComponent['answer-' . $componentId . '-' . $i],
-                            'question' => $dataComponent['request-component-question-' . $componentId]
-                        ];
-                    } else {
-                        $answerList[] = [
-                            'request-component-name' => $dataComponent['request-component-name-' . $componentId],
-                            'answer' => 'No answer',
-                            'question' => $dataComponent['request-component-question-' . $componentId]
-                        ];
-                    }
+                    $multipleAnswers[] = $dataComponent['multiple-answer-' . $componentId . '-' . $i];
                 }
+                $answerList[] = [
+                    'request-component-name' => $dataComponent['request-component-name-' . $componentId],
+                    'question' => $dataComponent['request-component-question-' . $componentId],
+                    'multipleAnswer' => $multipleAnswers,
+                ];
                 continue;
             }
             if (!empty($dataComponent['answer-' . $componentId])) {
@@ -136,12 +130,19 @@ class ResearchRequestUtils
 
         foreach ($answerList as $answers) {
             $requestAnswers = new AnswerRequest();
+
             if ($researchRequest instanceof ResearchRequest) {
                 $requestAnswers->setResearchRequest($researchRequest);
             }
             $requestAnswers->setName($answers['request-component-name']);
-            $requestAnswers->setAnswer($answers['answer']);
+            if ($answers['request-component-name'] != 'multiple-choice') {
+                $requestAnswers->setAnswer($answers['answer']);
+            } else {
+                $requestAnswers->setMultipleAnswers($answers['multipleAnswer']);
+                $requestAnswers->setAnswer('No answer');
+            }
             $requestAnswers->setQuestion($answers['question']);
+
             $entityManager->persist($requestAnswers);
         }
 

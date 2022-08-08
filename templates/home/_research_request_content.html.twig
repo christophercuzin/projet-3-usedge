@@ -55,10 +55,13 @@
 		{% endif %}
 
 		{# multiple-choice #}
-		{% if answerRequest.name is same as 'multiple-choice' and answerRequest.answer is not same as 'No answer' %}
+		{% if answerRequest.name is same as 'multiple-choice'%}
 			<div class="multiple-choice">
 				<h3>{{ answerRequest.question }}</h3>
-				<p>{{ answerRequest.answer }}</p>
+				{% for answer in answerRequest.multipleAnswers %}
+					<p>{{ answer }}</p>
+				{% endfor %}
+				
 			</div>
 		{% endif %}
 

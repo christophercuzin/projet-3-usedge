@@ -30,7 +30,6 @@ class ResearchTemplateController extends AbstractController
         CheckDataUtils $checkDataUtils,
         RetrieveAnswers $retrieveAnswers
     ): Response {
-        $researchTemplateList = $templateRepository->findByStatus();
         $dataComponent =  $checkDataUtils->trimData($request);
 
         if (
@@ -66,6 +65,7 @@ class ResearchTemplateController extends AbstractController
                 return $this->redirectToRoute('research_template_add', ['id' => $id], Response::HTTP_SEE_OTHER);
             }
         }
+        $researchTemplateList = $templateRepository->findByStatus();
 
         return $this->renderForm('research_template/index.html.twig', [
             'form' => $form,

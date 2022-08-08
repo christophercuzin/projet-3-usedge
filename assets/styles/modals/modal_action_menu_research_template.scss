@@ -57,6 +57,9 @@
 
         .delete-action-p {
             color: $secondary-dark-red-1;
+            &:hover {
+                cursor: pointer;
+            }
         }
     }
 }

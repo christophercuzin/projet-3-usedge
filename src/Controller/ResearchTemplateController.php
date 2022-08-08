@@ -66,11 +66,12 @@ class ResearchTemplateController extends AbstractController
             }
         }
         $researchTemplateList = $templateRepository->findByStatus();
-
-        return $this->renderForm('research_template/index.html.twig', [
-            'form' => $form,
-            'researchTemplates' => $researchTemplateList,
-        ]);
+        if (is_array($researchTemplateList)) {
+            return $this->renderForm('research_template/index.html.twig', [
+                'form' => $form,
+                'researchTemplates' => $researchTemplateList,
+            ]);
+        }
     }
 
     #[Route('/archive/{id}', name:'app_archive')]

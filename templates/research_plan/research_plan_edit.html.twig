@@ -13,7 +13,7 @@
 
 <form method="POST" class="sections-container" id="sections-container">
     <input type="hidden" name="_token_research_plan" value="{{ csrf_token('research_plan') }}">
-    <input id="research-request-status" type="hidden" name="research-request-status" value="Under review">
+    <input id="research-request-status" type="hidden" name="research-request-status" value="Solved">
     {% include "research_plan/modals/_modal_interview_planning_request.html.twig" %}
     {% include "research_plan/modals/_modal_available_workshops.html.twig" %}
     <div class="section-selected">

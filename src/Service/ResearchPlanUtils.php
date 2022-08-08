@@ -86,7 +86,7 @@ class ResearchPlanUtils
         $entityManager = $this->entityManager;
 
         if ($researchRequest instanceof ResearchRequest) {
-            $researchRequest->setStatus('Under review');
+            $researchRequest->setStatus($dataComponent['research-request-status']);
             $entityManager->persist($researchRequest);
         }
 

@@ -169,7 +169,7 @@ if (document.getElementById('title-section-research-plan')) {
     }
 
     if (buttonAddSection) {
-        buttonAddSection.addEventListener('click', (event) => {
+        buttonAddSection.addEventListener('click', () => {
             if (selectedWorkshopNameInput.value == "") {
                 buttonAddSection.removeAttribute('formaction');
             }

@@ -57,7 +57,7 @@ class ResearchTemplateRepository extends ServiceEntityRepository
             ->setParameter('archive', 'archive')
             ->orderBy('r.id', 'DESC')
             ->getQuery()
-            ->getResult()
+            ->execute(array())
             ;
     }
 

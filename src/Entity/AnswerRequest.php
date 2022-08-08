@@ -25,6 +25,9 @@ class AnswerRequest
     #[ORM\Column(type: 'string', length: 255)]
     private string $question;
 
+    #[ORM\Column(type: 'array')]
+    private array $multipleAnswers = [];
+
     public function getId(): ?int
     {
         return $this->id;
@@ -74,6 +77,18 @@ class AnswerRequest
     public function setQuestion(string $question): self
     {
         $this->question = $question;
+
+        return $this;
+    }
+
+    public function getMultipleAnswers(): ?array
+    {
+        return $this->multipleAnswers;
+    }
+
+    public function setMultipleAnswers(array $multipleAnswers): self
+    {
+        $this->multipleAnswers = $multipleAnswers;
 
         return $this;
     }

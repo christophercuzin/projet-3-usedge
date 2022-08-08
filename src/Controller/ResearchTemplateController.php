@@ -36,7 +36,7 @@ class ResearchTemplateController extends AbstractController
             isset($dataComponent['research-template-id']) &&
             $this->isCsrfTokenValid(
                 'add' . $dataComponent['research-template-id'],
-                $dataComponent['_token' . $dataComponent['research-template-id']]
+                $dataComponent['_token_template' . $dataComponent['research-template-id']]
             )
         ) {
             if (isset($dataComponent['research-template-status'])) {

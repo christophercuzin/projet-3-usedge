@@ -114,7 +114,7 @@ class AnswerRequestFixtures extends Fixture implements DependentFixtureInterface
         [
             'name' => 'multiple-choice',
             'question' => 'What IT category does your project concern?',
-            'multiple-answer' => ['Analytics', 'Infrastructure']
+            'answer' => ['Analytics', 'Infrastructure']
         ],
     ];
 
@@ -149,7 +149,7 @@ class AnswerRequestFixtures extends Fixture implements DependentFixtureInterface
                         ->setName($answerRequestValue['name'])
                         ->setQuestion($answerRequestValue['question'])
                         ->setAnswer('No answer')
-                        ->setMultipleAnswers($answerRequestValue['multiple-answer'])
+                        ->setMultipleAnswers($answerRequestValue['answer'])
                         ;
                 }
                 if ($this->getReference('research_request_' . $count) instanceof ResearchRequest) {

@@ -1,7 +1,7 @@
 {% if "external-link" in templateComponent.component.name %}
-	<div class="external-link-template-creation" draggable="true">
-		<div class="handle-template-component-draggable">
-			<img src="{{ asset('build/images/icons/burger.png') }}"/>
+	<div class="external-link-template-creation">
+		<div class="handle-template-component-draggable" draggable= "true">
+			<img src="{{ asset('build/images/icons/burger.png') }}" draggable= "true"/>
 		</div>
 		<div class="external-link-template-content">
             {% include "display-selected-component/_component_order_id_inputs.html.twig" %}
@@ -12,7 +12,7 @@
 				{% endif %}
 			</p>
 			<div class="external-link-input">
-				<input type="url" name="select-external-link" class="form-control" id="select-external-link" placeholder="https://www.google.com/...">
+				<input type="url" name="select-external-link" class="form-control" id="select-external-link" placeholder="Paste a link here..." disabled="disabled">
 			</div>
 		</div>
 		<div class="external-link-template-actions">

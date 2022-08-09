@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\AnswerRequest;
 use App\Entity\ResearchRequest;
 use App\Entity\ResearchTemplate;
+use App\Repository\ResearchRequestRepository;
 use App\Repository\ResearchTemplateRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,14 +14,17 @@ class ResearchRequestUtils
 {
     private EntityManagerInterface $entityManager;
     private ResearchTemplateRepository $resTempRepository;
+    private ResearchRequestRepository $resReqRepository;
     private array $checkErrors = [];
 
     public function __construct(
         EntityManagerInterface $entityManager,
         ResearchTemplateRepository $resTempRepository,
+        ResearchRequestRepository $resReqRepository,
     ) {
         $this->entityManager = $entityManager;
         $this->resTempRepository = $resTempRepository;
+        $this->resReqRepository = $resReqRepository;
     }
 
     public function getCheckErrors(): array
@@ -36,26 +40,20 @@ class ResearchRequestUtils
                 $componentIdList[] = $data;
             }
         }
-
         $answerList = [];
+
         foreach ($componentIdList as $componentId) {
             if ($dataComponent['request-component-name-' . $componentId] === 'multiple-choice') {
+                $multipleAnswers = [];
                 $multipleChoiceCount = $dataComponent['counter-answer-' . $componentId];
                 for ($i = 0; $i < $multipleChoiceCount; $i++) {
-                    if (isset($dataComponent['answer-' . $componentId . '-' . $i])) {
-                        $answerList[] = [
-                            'request-component-name' => $dataComponent['request-component-name-' . $componentId],
-                            'answer' => $dataComponent['answer-' . $componentId . '-' . $i],
-                            'question' => $dataComponent['request-component-question-' . $componentId]
-                        ];
-                    } else {
-                        $answerList[] = [
-                            'request-component-name' => $dataComponent['request-component-name-' . $componentId],
-                            'answer' => 'No answer',
-                            'question' => $dataComponent['request-component-question-' . $componentId]
-                        ];
-                    }
+                    $multipleAnswers[] = $dataComponent['multiple-answer-' . $componentId . '-' . $i];
                 }
+                $answerList[] = [
+                    'request-component-name' => $dataComponent['request-component-name-' . $componentId],
+                    'question' => $dataComponent['request-component-question-' . $componentId],
+                    'multipleAnswer' => $multipleAnswers,
+                ];
                 continue;
             }
             if (!empty($dataComponent['answer-' . $componentId])) {
@@ -106,7 +104,7 @@ class ResearchRequestUtils
         }
     }
 
-    public function addResearchRequest(array $dataComponent, array $answerList): void
+    public function addResearchRequest(array $dataComponent): void
     {
         $researchTemplate = $this->resTempRepository->findOneBy(['id' => $dataComponent['template_id']]);
         $entityManager = $this->entityManager;
@@ -122,15 +120,48 @@ class ResearchRequestUtils
         $researchRequest->setOwner($dataComponent['owner']);
         $entityManager->persist($researchRequest);
 
+        $entityManager->flush();
+    }
+
+    public function addResearchRequestAnswer(array $answerList): void
+    {
+        $researchRequest = $this->resReqRepository->findOneBy([], ['id' => 'DESC']);
+        $entityManager = $this->entityManager;
+
         foreach ($answerList as $answers) {
             $requestAnswers = new AnswerRequest();
-            $requestAnswers->setResearchRequest($researchRequest);
+
+            if ($researchRequest instanceof ResearchRequest) {
+                $requestAnswers->setResearchRequest($researchRequest);
+            }
             $requestAnswers->setName($answers['request-component-name']);
-            $requestAnswers->setAnswer($answers['answer']);
+            if ($answers['request-component-name'] != 'multiple-choice') {
+                $requestAnswers->setAnswer($answers['answer']);
+            } else {
+                $requestAnswers->setMultipleAnswers($answers['multipleAnswer']);
+                $requestAnswers->setAnswer('No answer');
+            }
             $requestAnswers->setQuestion($answers['question']);
+
             $entityManager->persist($requestAnswers);
         }
 
+        $entityManager->flush();
+    }
+
+    public function updateResearchRequestStatus(array $dataComponent): void
+    {
+        $entityManager = $this->entityManager;
+        if (isset($dataComponent['research-request-id']) && !empty($dataComponent['research-request-id'])) {
+            $id = $dataComponent['research-request-id'];
+            $researchRequest = $this->resReqRepository->findOneBy(['id' => $id]);
+        } else {
+            $researchRequest = $this->resReqRepository->findOneBy([], ['id' => 'DESC']);
+        }
+
+        if ($researchRequest != null) {
+            $researchRequest->setStatus($dataComponent['research-request-status']);
+        }
         $entityManager->flush();
     }
 }

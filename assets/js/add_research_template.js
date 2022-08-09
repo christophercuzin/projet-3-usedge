@@ -1,28 +1,41 @@
+function changeStatusColor(selectStatusList) {
+    const valueSelectStatusList = document.getElementById('select-status').value;
+    document.getElementById('research-template-status').value = valueSelectStatusList;
+
+    selectStatusList.classList.remove('bg-green-dot', 'bg-grey-dot', 'bg-red-dot');
+
+    switch (valueSelectStatusList) {
+    case "active":
+        selectStatusList.classList.add('bg-green-dot');
+        break;
+    case "draft":
+        selectStatusList.classList.add('bg-grey-dot');
+        break;
+    case "dropped":
+        selectStatusList.classList.add('bg-red-dot');
+        break;
+    }
+}
+
 if (document.getElementById('select-status')) {
     
-    const selectStatusList = document.getElementById('select-status');    
-
+    const selectStatusList = document.getElementById('select-status');
+    const handleOfComponents = document.getElementsByClassName('handle-template-component-draggable');
+    const formBuilder = document.getElementById('form-builder');
+    
     //-----------------------------------------------------
-    //Changing the color depending on the selected status
+    //Changing the color depending on the selected status and add the value of the template in a hidden input
     //-----------------------------------------------------
+    
+    changeStatusColor(selectStatusList);
 
     selectStatusList.addEventListener('change', function () {
-
-        const valueSelectStatusList = document.getElementById('select-status').value;
-
-        selectStatusList.classList.remove('bg-green-dot', 'bg-grey-dot', 'bg-red-dot');
-
-        switch (valueSelectStatusList) {
-        case "active":
-            selectStatusList.classList.add('bg-green-dot');
-            break;
-        case "draft":
-            selectStatusList.classList.add('bg-grey-dot');
-            break;
-        case "dropped":
-            selectStatusList.classList.add('bg-red-dot');
-            break;
-        }
+        changeStatusColor(selectStatusList);
+        const form = new FormData(formBuilder);
+        fetch('/research-template/' ,{
+            method: 'POST',
+            body: form
+        })
     });
 
 
@@ -58,12 +71,6 @@ if (document.getElementById('select-status')) {
         });
 
     }
-
-    // function used to add the value of the template in a hidden input
-
-    selectStatusList.addEventListener('change', (event) => {
-        document.getElementById('research-template-status').value = event.target.value;
-    })
     
     // function used to generate the component's order number in order to send it to the database
     if (document.getElementById('form-builder-save-button')) {
@@ -76,17 +83,45 @@ if (document.getElementById('select-status')) {
             let orderNumber = 1;
             componentCounter.value = 0;
             for (const component of componentsOrderNumber) {
-                component.name += orderNumber;            
+                component.setAttribute('name', 'component-order-number' + orderNumber);            
                 component.value = orderNumber;
                 componentCounter.value = orderNumber;
                 orderNumber++;
             }
             orderNumber = 1;
             for (const id of componentId) {
-                id.name += orderNumber;
+                id.setAttribute('name', 'research-template-component-id' + orderNumber);
                 orderNumber++;            
             }
         });
+    }
+
+    if (handleOfComponents.length > 0 ) {
+        for (const handleOfComponent of handleOfComponents) {
+            handleOfComponent.addEventListener('dragend', function(){
+                const componentsOrderNumber = document.getElementsByClassName('component-order-number');
+                const componentId = document.getElementsByClassName('research-template-component-id');
+                const componentCounter = document.getElementById('components-number-count');
+                let orderNumber = 1;
+                componentCounter.value = 0;
+                for (const component of componentsOrderNumber) {
+                    component.setAttribute('name', 'component-order-number' + orderNumber);            
+                    component.value = orderNumber;
+                    componentCounter.value = orderNumber;
+                    orderNumber++;
+                }
+                orderNumber = 1;
+                for (const id of componentId) {
+                    id.setAttribute('name', 'research-template-component-id' + orderNumber);
+                    orderNumber++;            
+                }
+                const form = new FormData(formBuilder);
+                fetch('/research-template/' ,{
+                    method: 'POST',
+                    body: form
+                })
+            });
+        }
     }
 }
 

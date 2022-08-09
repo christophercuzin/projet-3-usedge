@@ -11,11 +11,16 @@
         {% if researchTemplate.status is same as "dropped" %}
             {% include "status-tags/_dropped.html.twig" %}
         {% endif %}
+        {% if researchTemplate.status is same as "archive" %}
+            {% include "status-tags/_archive.html.twig" %}
+        {% endif %}
             <img class="research-template-list-card-options" id="research-template-list-card-options{{ loop.index }}" src="{{ asset('build/images/icons/option-dots.png') }}">
             
         </div>
         <p class="research-template-list-card-title">{{ researchTemplate.name }}</p>
-        <p class="research-template-list-card-description">{{ researchTemplate.description }}</p>
+        <div class="research-template-list-card-description-container">
+            <p class="research-template-list-card-description">{{ researchTemplate.description }}</p>
+        </div>
         <div class="research-template-list-card-caoch">
             <img class="research-template-list-card-coach-icon" src="{{ asset('build/images/icons/john-doe.png') }}">
             <div class="research-template-list-card-coach-part">
@@ -25,7 +30,7 @@
         </div>
         <p class="research-template-list-card-submission">
             Number of submissions : 
-            <span class="research-template-list-card-number-submissions">0</span>
+            <span class="research-template-list-card-number-submissions">{{ researchTemplate.researchRequests|length }}</span>
         </p>
         <button class="research-template-list-card-link-button">
             <img class="research-template-list-card-link-icon" src="{{ asset('build/images/icons/link.png') }}">

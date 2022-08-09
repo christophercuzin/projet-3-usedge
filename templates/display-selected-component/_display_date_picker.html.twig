@@ -1,7 +1,7 @@
 {% if "date-picker" in templateComponent.component.name %}
-    <div class="date-picker-template-creation" draggable="true">
-        <div class="handle-template-component-draggable">
-            <img src="{{ asset('build/images/icons/burger.png') }}"/>
+    <div class="date-picker-template-creation">
+        <div class="handle-template-component-draggable" draggable= "true">
+            <img src="{{ asset('build/images/icons/burger.png') }}" draggable= "true"/>
         </div>
         <div class="date-picker-template-content">
             {% include "display-selected-component/_component_order_id_inputs.html.twig" %}
@@ -12,7 +12,7 @@
                 {% endif %}
             </p>
             <div class="date-picker-input">
-                <input type="date" name="select-date" class="form-control" id="select-date">
+                <input type="date" name="select-date" class="form-control" id="select-date" disabled="disabled">
             </div>
         </div>
         <div class="date-picker-template-actions">

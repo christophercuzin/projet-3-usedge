@@ -255,7 +255,7 @@
             }
 
             .multiple-choice {
-
+                margin-bottom: 15px;
                 h3 {
                     @include textStyle($text-font, $font-size-14, $font-weight-600, $primary-grey-4);
                     line-height: 18px;

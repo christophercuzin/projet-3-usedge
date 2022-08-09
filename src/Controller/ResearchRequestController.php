@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\ResearchRequest;
+use App\Repository\AnswerRequestRepository;
 use App\Repository\ResearchRequestRepository;
 use App\Repository\TemplateComponentRepository;
 use App\Service\CheckDataUtils;
@@ -83,13 +84,19 @@ class ResearchRequestController extends AbstractController
     #[Route('/research-request/edit/{id}', name: 'research_request_edit')]
     public function edit(
         ResearchRequest $researchRequest,
-        ResearchRequestRepository $researchRequestRepo,
+        AnswerRequestRepository $answerReqRepo,
         CheckDataUtils $checkDataUtils,
+        TemplateComponentRepository $tempCompRepository,
         Request $request
     ): Response {
-
+        $researchTemplate = $researchRequest->getResearchTemplate();
+        $id = $researchTemplate->getId();
+        $requestComponents = $tempCompRepository->findBy(['researchTemplate' => $id], ['numberOrder' => 'ASC']);
+        $answerRequests = $answerReqRepo->findBy(['researchRequest' => $researchRequest]);
         return $this->render('research_request/edit.html.twig', [
             'researchRequest' => $researchRequest,
+            'answerRequests' => $answerRequests,
+            'requestComponents' => $requestComponents
         ]);
     }
 }

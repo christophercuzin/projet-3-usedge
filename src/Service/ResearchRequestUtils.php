@@ -41,9 +41,9 @@ class ResearchRequestUtils
             }
         }
         $answerList = [];
-
+        $componentNumber = 1;
         foreach ($componentIdList as $componentId) {
-            if ($dataComponent['request-component-name-' . $componentId] === 'multiple-choice') {
+            if ($dataComponent['request-component-name-' . $componentId] === 'multiple-choice' . $componentNumber) {
                 $multipleAnswers = [];
                 $multipleChoiceCount = $dataComponent['counter-answer-' . $componentId];
                 for ($i = 0; $i < $multipleChoiceCount; $i++) {
@@ -69,6 +69,7 @@ class ResearchRequestUtils
                     'question' => $dataComponent['request-component-question-' . $componentId]
                 ];
             }
+            $componentNumber++;
         }
 
         return $answerList;
@@ -127,7 +128,7 @@ class ResearchRequestUtils
     {
         $researchRequest = $this->resReqRepository->findOneBy([], ['id' => 'DESC']);
         $entityManager = $this->entityManager;
-
+        $count = 1;
         foreach ($answerList as $answers) {
             $requestAnswers = new AnswerRequest();
 
@@ -135,7 +136,7 @@ class ResearchRequestUtils
                 $requestAnswers->setResearchRequest($researchRequest);
             }
             $requestAnswers->setName($answers['request-component-name']);
-            if ($answers['request-component-name'] != 'multiple-choice') {
+            if ($answers['request-component-name'] != 'multiple-choice' . $count) {
                 $requestAnswers->setAnswer($answers['answer']);
             } else {
                 $requestAnswers->setMultipleAnswers($answers['multipleAnswer']);
@@ -144,6 +145,7 @@ class ResearchRequestUtils
             $requestAnswers->setQuestion($answers['question']);
 
             $entityManager->persist($requestAnswers);
+            $count++;
         }
 
         $entityManager->flush();

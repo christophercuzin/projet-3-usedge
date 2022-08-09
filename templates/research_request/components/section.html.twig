@@ -3,7 +3,7 @@
 		<div class="request-component-section-title">
             <input type="hidden" name="request-component-id-{{ requestComponent.component.id }}" value="{{ requestComponent.component.id }}">
             <input type="hidden" name="request-component-question-{{ requestComponent.component.id }}" value="{{requestComponent.component.title}}">
-            <input class="request-name-input" type="hidden" name="request-component-name-{{ requestComponent.component.id }}" value="{{ requestComponent.component.name }}">
+            <input class="request-name-input" type="hidden" name="request-component-name-{{ requestComponent.component.id }}" value="{{ requestComponent.component.name ~ orderNumber }}">
 			<input type="hidden" name="answer-{{ requestComponent.component.id }}" value="{{requestComponent.component.title}}">
 			<p>{{ requestComponent.component.title}}</p>
 		</div>

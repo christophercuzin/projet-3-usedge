@@ -20,6 +20,7 @@
             <input type="hidden" name="_token_add_research_request_answer" value="{{ csrf_token('add_research_request_answer') }}">
             <div class="add-research-request-form-builder">
             {% if requestComponents %}
+                {% set orderNumber = 1 %}
                 {% for requestComponent in requestComponents %}
                     {% include "research_request/components/section.html.twig" %}
                     {% include "research_request/components/single_choice.html.twig" %}
@@ -29,6 +30,7 @@
                     {% include "research_request/components/evaluation_scale.html.twig" %}
                     {% include "research_request/components/external_link.html.twig" %}
                     {% include "research_request/components/open_question.html.twig" %}
+                    {% set orderNumber = orderNumber + 1 %}
                 {% endfor %}
             {% endif %}
             </div>

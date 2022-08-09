@@ -149,4 +149,23 @@ class ResearchRequest
 
         return $this;
     }
+
+    public function getAnswers(): array
+    {
+        $researchRequests = $this->getAnswerRequests();
+        $answers = [];
+        foreach ($researchRequests as $answerRequest) {
+            $answers[] = [$answerRequest->getName() => $answerRequest->getAnswer()];
+        }
+        return $answers;
+    }
+    public function getMultipleAnswers(): array
+    {
+        $researchRequests = $this->getAnswerRequests();
+        $answers = [];
+        foreach ($researchRequests as $answerRequest) {
+            $answers[] = [$answerRequest->getName() => $answerRequest->getMultipleAnswers()];
+        }
+        return $answers;
+    }
 }

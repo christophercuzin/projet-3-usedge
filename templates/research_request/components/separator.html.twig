@@ -3,7 +3,7 @@
         <div class="request-separator-template-content">
             <input type="hidden" name="request-component-id-{{ requestComponent.component.id }}" value="{{ requestComponent.component.id }}">
             <input type="hidden" name="request-component-question-{{ requestComponent.component.id }}" value="{{ requestComponent.component.name }}">
-            <input class="request-name-input" type="hidden" name="request-component-name-{{ requestComponent.component.id }}" value="{{ requestComponent.component.name }}">
+            <input class="request-name-input" type="hidden" name="request-component-name-{{ requestComponent.component.id }}" value="{{ requestComponent.component.name ~ orderNumber }}">
             <input type="hidden" name="answer-{{ requestComponent.component.id }}" value="{{requestComponent.component.name}}">
         </div>
     </div>

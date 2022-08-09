@@ -1,31 +1,29 @@
-{% if "date-picker" in templateComponent.component.name %}
-{% if "date-picker" in answer.name %}
-        <div class="request-date-picker-template-creation">
-            <div class="request-date-picker-template-content">
-                <input type="hidden" name="request-component-id-{{ templateComponent.component.id }}" value="{{ templateComponent.component.id }}">
-                <input type="hidden" name="request-component-question-{{ templateComponent.component.id }}" value="{{templateComponent.component.title}}">
-                <input class="request-name-input" type="hidden" name="request-component-name-{{ templateComponent.component.id }}" value="{{ answer.name  }}">
-                <p class="request-date-picker-template-title" id="date-picker-template-title">
-                    {{templateComponent.component.title}}
-                    {% if templateComponent.component.isMandatory %}
-                        <span class="date-picker-red-star" id="date-picker-red-star">*</span>
-                    {% endif %}
-                </p>
-                {% if templateComponent.component.isMandatory %}
-                {% if templateComponent.component.title is same as answer.question %}
-                
-                <div class="request-date-picker-input">
-                    <input type="date" name="answer-{{ templateComponent.component.id }}" class="form-control request-answer-input" id="request-select-date" value="{{ answer.answer }}" required>
-                </div>
+
+{% for answerRequest in answerRequests %}
+{% if "date-picker" in requestComponent.component.name and 
+ requestComponent.component.title is same as answerRequest.question and
+  answerRequest.name is same as name %}
+    <div class="request-date-picker-template-creation">
+        <div class="request-date-picker-template-content">
+            <input type="hidden" name="request-component-id-{{ requestComponent.component.id }}" value="{{ requestComponent.component.id }}">
+            <input type="hidden" name="request-component-question-{{ requestComponent.component.id }}" value="{{requestComponent.component.title}}">
+            <input class="request-name-input" type="hidden" name="request-component-name-{{ requestComponent.component.id }}" value="{{ requestComponent.component.name }}">
+            <p class="request-date-picker-template-title" id="date-picker-template-title">
+                {{requestComponent.component.title}}
+                {% if requestComponent.component.isMandatory %}
+                    <span class="date-picker-red-star" id="date-picker-red-star">*</span>
                 {% endif %}
-                {% else %}
-                {% if templateComponent.component.title is same as answer.question %}
-                <div class="request-date-picker-input">
-                    <input type="date" name="answer-{{ templateComponent.component.id }}" class="form-control request-answer-input" id="request-select-date" value="{{ answer.answer }}" >
-                </div>
-            {% endif %}
-                {% endif %}
+            </p>
+            {% if requestComponent.component.isMandatory %}
+            <div class="request-date-picker-input">
+                <input type="date" name="answer-{{ requestComponent.component.id }}" class="form-control request-answer-input" id="request-select-date" value="{{answerRequest.answer}}" required>
             </div>
+            {% else %}
+            <div class="request-date-picker-input">
+                <input type="date" name="answer-{{ requestComponent.component.id }}" class="form-control request-answer-input" id="request-select-date" value="{{answerRequest.answer}}">
+            </div>
+            {% endif %}
         </div>
+    </div>
 {% endif %}
-{% endif %}
+{% endfor %}

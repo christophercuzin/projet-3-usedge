@@ -20,12 +20,10 @@
             <input type="hidden" name="owner" value="Jason Brand">
             <input id="research-request-status" type="hidden" name="research-request-status">
             <div class="add-research-request-form-builder">
-            {% if researchRequest.researchTemplate.templateComponents %}
-            
-                
-            
-                {% for templateComponent in researchRequest.researchTemplate.templateComponents  %}
-                {% for answer in researchRequest.answerRequests %}
+            {% if requestComponents %}
+                {% set orderNumber = 1 %}
+                {% for requestComponent in requestComponents %}
+                    {% set name = requestComponent.component.name ~ orderNumber %}
                     {% include "research_request/components-edit/section.html.twig" %}
                     {% include "research_request/components-edit/single_choice.html.twig" %}
                     {% include "research_request/components-edit/date_picker.html.twig" %}
@@ -34,7 +32,7 @@
                     {% include "research_request/components-edit/evaluation_scale.html.twig" %}
                     {% include "research_request/components-edit/external_link.html.twig" %}
                     {% include "research_request/components-edit/open_question.html.twig" %}
-                {% endfor %}
+                    {% set orderNumber = orderNumber + 1 %}
                 {% endfor %}
             {% endif %}
             </div>

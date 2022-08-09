@@ -90,7 +90,10 @@ class ResearchRequestController extends AbstractController
         Request $request
     ): Response {
         $researchTemplate = $researchRequest->getResearchTemplate();
-        $id = $researchTemplate->getId();
+        $id = "";
+        if ($researchTemplate != null) {
+            $id = $researchTemplate->getId();
+        }
         $requestComponents = $tempCompRepository->findBy(['researchTemplate' => $id], ['numberOrder' => 'ASC']);
         $answerRequests = $answerReqRepo->findBy(['researchRequest' => $researchRequest]);
         return $this->render('research_request/edit.html.twig', [

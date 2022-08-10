@@ -108,7 +108,7 @@
                                     </td>
                                     <td class="view-details">                                      
                                         {% if 'Draft' in researchRequest.status %}
-                                            <a href="{{path('research_request_edit', {id: researchRequest.id})}}">
+                                            <a href="{{path('research_request_edit', {id: researchRequest.id})}}" class="edit-request-link">
                                                 <button class="edit-request-button">Edit</button>
                                             </a>
                                         {% else %}
@@ -134,10 +134,9 @@
                                     <td class="view-details"></td>
                                 </tr>
                             </tbody>
-                            {% endif %}
-                       
-                    </div>
-                </table>
+                        {% endif %}   
+                    </table>
+                </div>
             </div>
             <div class="plans-list-none" id="plans-list-none">
                 <div class="plans-header">
@@ -201,7 +200,7 @@
                                     </td> 
                                     <td class="view-details">                                     
                                         {% if 'Draft' in researchPlan.status %}
-                                            <a href="{{path('app_research_plan', {id: researchPlan.researchRequest.id})}}">
+                                            <a href="{{path('app_research_plan', {id: researchPlan.researchRequest.id})}}" class="edit-request-link">
                                                 <button type="button" class="edit-request-button">Edit</button>
                                             </a>
                                         {% else %}
@@ -236,3 +235,4 @@
     </main>
 
 {% endblock %}
+

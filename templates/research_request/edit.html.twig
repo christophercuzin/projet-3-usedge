@@ -14,11 +14,9 @@
         </button>
     </header>
     <main class="add-research-request-main-content">
-        <form method="POST" action="{{ path('app_home') }}" id="add-research-request-form" class="add-research-request-form">
-            <input type="hidden" name="template_id" value="{{ researchRequest.researchTemplate.id }}">
-            <input type="hidden" name="project" value="{{ researchRequest.project }}">
-            <input type="hidden" name="owner" value="Jason Brand">
-            <input id="research-request-status" type="hidden" name="research-request-status">
+        <form method="POST" action="{{ path('research_request_edit', {id: researchRequest.id}) }}" id="add-research-request-form" class="add-research-request-form">
+            <input type="hidden" name="_token_edit_research_request_answer" value="{{ csrf_token('edit_research_request_answer') }}">
+            <input id="research-request-status" type="hidden" name="research-request-status" value="Waiting list">
             <div class="add-research-request-form-builder">
             {% if requestComponents %}
                 {% set orderNumber = 1 %}

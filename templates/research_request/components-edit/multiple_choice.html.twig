@@ -1,10 +1,10 @@
 {% for answerRequest in answerRequests %}
     {% for answers in researchRequest.multipleanswers %}
         {% for key, requestAnswer in answers %}
-        
             {% if "multiple-choice" in requestComponent.component.name and 
             requestComponent.component.question is same as answerRequest.question and
-            key is same as name %}
+            key is same as name and 
+            answerRequest.id is same as answers[0] %}
                 <div class="request-multiple-choice-template-creation">
                     <div class="request-multiple-choice-template-content">
                         <input type="hidden" name="request-component-id-{{ requestComponent.component.id }}" value="{{ requestComponent.component.id }}" class="request-component-id">

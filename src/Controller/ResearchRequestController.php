@@ -85,10 +85,13 @@ class ResearchRequestController extends AbstractController
     public function edit(
         ResearchRequest $researchRequest,
         AnswerRequestRepository $answerReqRepo,
+        ResearchRequestUtils $requestUtils,
         CheckDataUtils $checkDataUtils,
         TemplateComponentRepository $tempCompRepository,
+        ResearchRequestMailer $mailer,
         Request $request
     ): Response {
+        $dataComponent = $checkDataUtils->trimData($request);
         $researchTemplate = $researchRequest->getResearchTemplate();
         $id = "";
         if ($researchTemplate != null) {
@@ -96,6 +99,33 @@ class ResearchRequestController extends AbstractController
         }
         $requestComponents = $tempCompRepository->findBy(['researchTemplate' => $id], ['numberOrder' => 'ASC']);
         $answerRequests = $answerReqRepo->findBy(['researchRequest' => $researchRequest]);
+        if (
+            !empty($dataComponent) &&
+            $this->isCsrfTokenValid(
+                'edit_research_request_answer',
+                $dataComponent['_token_edit_research_request_answer']
+            )
+        ) {
+            $requestUtils->updateResearchRequestStatus($dataComponent);
+            $answerList = $requestUtils->researchRequestSortAnswer($dataComponent);
+            $requestUtils->researchRequestCheckDate($answerList);
+            $requestUtils->researchRequestCheckURL($answerList);
+            $requestErrors = $requestUtils->getCheckErrors();
+            if (empty($requestErrors)) {
+                $requestStatus = '';
+                $requestStatus = $researchRequest->getStatus();
+                $requestUtils->updateResearchRequestAnswer($answerList, $researchRequest);
+                if ($requestStatus === 'Waiting list') {
+                    $mailer->researchRequestSendMail();
+                } else {
+                    return $this->redirectToRoute('app_home');
+                }
+            }
+            return $this->render('research_request/confirm.html.twig', [
+                'errors' => $requestErrors,
+                'researchRequest' => $researchRequest,
+            ]);
+        }
         return $this->render('research_request/edit.html.twig', [
             'researchRequest' => $researchRequest,
             'answerRequests' => $answerRequests,

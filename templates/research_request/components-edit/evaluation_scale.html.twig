@@ -3,10 +3,9 @@
         {% for key, requestAnswer in answers %}
             {% if "evaluation-scale" in requestComponent.component.name and 
             requestComponent.component.question is same as answerRequest.question and
-            key is same as name %}
-            
+            key is same as name and 
+            answerRequest.id is same as answers[0] %}
                 <div class="request-evaluation-scale-template-creation" id="evaluation-scale-template-creation">
-                
                     <div class="request-evaluation-scale-template-content">
                         <input type="hidden" name="request-component-id-{{ requestComponent.component.id }}" value="{{ requestComponent.component.id }}">
                         <input type="hidden" name="request-component-question-{{ requestComponent.component.id }}" value="{{requestComponent.component.question}}">

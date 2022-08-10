@@ -90,11 +90,12 @@ if (document.getElementById('add-research-request-header')) {
     })
 
     newResearchRequestHeaderButton.addEventListener('click', () => {
-        
+        const requestNameInputs = document.querySelectorAll('.request-name-input');
         for (const componentId of inputComponentId) {
             const id = componentId.value
             const counterMultipleAnswer = document.getElementById('counter-multiple-answer' + id);
             const allCheckbox = document.querySelectorAll('.request-multiple-answer-input' + id);
+            
             let countCheckboxChecked = 0;
             if (allCheckbox[0]) {
                 
@@ -106,6 +107,11 @@ if (document.getElementById('add-research-request-header')) {
                     }
                 });
             }
+        }
+        let i = 1;
+        for (const requestNameInput of requestNameInputs) {
+            requestNameInput.value = requestNameInput.value + i;
+            i++
         }
         
     })

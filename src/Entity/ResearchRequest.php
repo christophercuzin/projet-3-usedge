@@ -155,17 +155,20 @@ class ResearchRequest
         $researchRequests = $this->getAnswerRequests();
         $answers = [];
         foreach ($researchRequests as $answerRequest) {
-            $answers[] = [$answerRequest->getName() => $answerRequest->getAnswer()];
+            $answers[] = [$answerRequest->getName() => $answerRequest->getAnswer(), $answerRequest->getId()];
         }
         return $answers;
     }
     public function getMultipleAnswers(): array
     {
         $researchRequests = $this->getAnswerRequests();
-        $answers = [];
+        $multipleanswers = [];
         foreach ($researchRequests as $answerRequest) {
-            $answers[] = [$answerRequest->getName() => $answerRequest->getMultipleAnswers()];
+            $multipleanswers[] = [
+                $answerRequest->getName() => $answerRequest->getMultipleAnswers(),
+                $answerRequest->getId()
+            ];
         }
-        return $answers;
+        return $multipleanswers;
     }
 }

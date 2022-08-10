@@ -3,7 +3,8 @@
         {% for key, requestAnswer in answers %}
             {% if "single-choice" in requestComponent.component.name and 
             requestComponent.component.question is same as answerRequest.question and
-            key is same as name %}
+            key is same as name and 
+            answerRequest.id is same as answers[0] %}
                 <div class="request-single-choice">
                     <div class="request-single-choice-content">
                         <p class="request-single-choice-question" id="single-choice-template-question">

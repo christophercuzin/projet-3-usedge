@@ -1,7 +1,7 @@
 @import '_var.scss';
 
 .add-research-request-header {
-    @include dimension (1920px, 68px);
+    @include dimension (100vw, 68px);
     background-color: $primary-white-1;
     display: flex;
     justify-content: space-between;
@@ -79,7 +79,7 @@
             flex-direction: column;
             justify-content: flex-start;
             align-items: flex-start;
-            padding: 2px 0;
+            padding: 2px 5px;
             gap: 25px;
         }
         .add-research-request-form-button {
@@ -163,6 +163,9 @@
                 text-align: center;
             }
         }
+        .research-request-alert-modal-button-link {
+            text-decoration: none;
+        }
         .research-request-alert-modal-button {
             @include dimension(180px, 42px);
             @include button($secondary-red-1, $border-radius-10, none);
@@ -176,5 +179,6 @@
             line-height: 18px;
             text-align: center;
         }
+
     }
 }

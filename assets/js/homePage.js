@@ -22,6 +22,7 @@ if (document.getElementById('reasearch-plans')) {
     const linksViewResearchRequest = document.getElementsByClassName('request-details-link');
     const planTableScroll = document.getElementById('plan-table-scroll');
     const researchPlanDetailsButtons = document.querySelectorAll('.research-plan-details-button');
+    const openResearchPlanDetailsButtons = document.querySelectorAll('.open-research-plan-details-button');
     const researchPlanDetailsModals = document.querySelectorAll('.research-center-details-research-plan');
     const researchPlanDetailsModalsClose = document.querySelectorAll('.details-research-plan-header-close');
     const researchPlanDetailsReturnLinks = document.querySelectorAll('.details-research-plan-header-return-icon');
@@ -135,7 +136,6 @@ if (document.getElementById('reasearch-plans')) {
                 }
                 if (idOfmodalInterviewPlanningRequest === idOfButtonViewResearchRequest) {
                     modalInterviewPlanningRequest.classList.add('modal-interview-planning-request-display');
-                    researchCenterAvailableTemplates.classList.remove('research-center-available-templates-display');
                 }
             }
         });
@@ -153,7 +153,7 @@ if (document.getElementById('reasearch-plans')) {
                 }
                 if (idOfmodalInterviewPlanningRequest === idOfButtonViewResearchRequest) {
                     modalInterviewPlanningRequest.classList.add('modal-interview-planning-request-display');
-                    researchCenterAvailableTemplates.classList.remove('research-center-available-templates-display');
+                    
                 }
             }
         });
@@ -181,18 +181,21 @@ if (document.getElementById('reasearch-plans')) {
                 }
                 if (idOfmodalResearchPlan === idOfButtonViewResearchPlan) {
                     researchPlanDetailsModal.classList.add('research-center-details-research-plan-display');
-                    researchCenterAvailableTemplates.classList.remove('research-center-available-templates-display');
                 }
             }
         });
     }
 
     // Function used to close the research plan details modal
-    for (let i = 0; i < researchPlanDetailsModalsClose.length; i++) {
-        researchPlanDetailsModalsClose[i].addEventListener('click', () => {
-            researchPlanDetailsModals[i].classList.remove('research-center-details-research-plan-display');
+    for (const researchPlanDetailsModalClose of researchPlanDetailsModalsClose) {
+        researchPlanDetailsModalClose.addEventListener('click', () => {
+            for (const researchPlanDetailsModal of researchPlanDetailsModals) {
+                researchPlanDetailsModal.classList.remove('research-center-details-research-plan-display');
+            }
         })
-    }
+    } 
+        
+    
 
     // function used to open the view of Interview planning requests after click on return button of research plan modal
     for (const researchPlanDetailsReturnLink of researchPlanDetailsReturnLinks) {
@@ -205,10 +208,24 @@ if (document.getElementById('reasearch-plans')) {
                 }
                 if (idOfmodalInterviewPlanningRequest === idOfButtonViewResearchPlanModal) {
                     modalInterviewPlanningRequest.classList.add('modal-interview-planning-request-display');
-                    researchCenterAvailableTemplates.classList.remove('research-center-available-templates-display');
                     for (const researchPlanDetailsModal of researchPlanDetailsModals) {
                         researchPlanDetailsModal.classList.remove('research-center-details-research-plan-display');
                     }
+                }
+            }
+        });
+    }
+
+    for (const openResearchPlanDetailsButton of openResearchPlanDetailsButtons) {
+        openResearchPlanDetailsButton.addEventListener('click', () => {
+            const idOfButtonViewResearchPlan = openResearchPlanDetailsButton.getAttribute('id');
+            for (const researchPlanDetailsModal of researchPlanDetailsModals) {
+                const idOfmodalResearchPlan = researchPlanDetailsModal.getAttribute('id');
+                if (idOfmodalResearchPlan != idOfButtonViewResearchPlan) {
+                    researchPlanDetailsModal.classList.remove('research-center-details-research-plan-display');
+                }
+                if (idOfmodalResearchPlan === idOfButtonViewResearchPlan) {
+                    researchPlanDetailsModal.classList.add('research-center-details-research-plan-display');
                 }
             }
         });

@@ -2,15 +2,14 @@
 
 namespace App\Controller;
 
-use App\Entity\ResearchPlan;
 use App\Entity\ResearchPlanSection;
 use App\Repository\CanvasWorkshopsRepository;
 use App\Entity\ResearchRequest;
 use App\Repository\ResearchPlanRepository;
-use App\Repository\ResearchPlanSectionRepository;
 use App\Service\CheckDataUtils;
 use App\Service\ResearchPlanUtils;
 use App\Service\ResearchRequestMailer;
+use App\Service\ResearchRequestUtils;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,6 +26,7 @@ class ResearchPlanController extends AbstractController
         Request $request,
         CheckDataUtils $checkDataUtils,
         ResearchPlanUtils $researchPlanUtils,
+        ResearchRequestUtils $researchReqUtils,
         ResearchRequestMailer $mailer,
         ResearchPlanRepository $researchPlanRepo,
     ): Response {
@@ -50,7 +50,14 @@ class ResearchPlanController extends AbstractController
         $researchPlanUtils->researchPlanCheckEmpty($dataComponent);
         $researchPlanUtils->researchPlanCheckLength($dataComponent);
         $researchPlanErrors = $researchPlanUtils->getCheckErrors();
-        if (empty($researchPlanErrors)) {
+        if (
+            empty($researchPlanErrors) &&
+            $this->isCsrfTokenValid(
+                'research_plan',
+                $dataComponent['_token_research_plan']
+            )
+        ) {
+            $researchReqUtils->updateResearchRequestStatus($dataComponent);
             $researchPlanUtils->addResearchPlan($dataComponent);
             $mailer->researchPlanSendMail();
         }
@@ -73,15 +80,31 @@ class ResearchPlanController extends AbstractController
 
         if (
             empty($researchPlan) &&
-            empty(!$dataComponent)
+            empty(!$dataComponent) &&
+            $this->isCsrfTokenValid(
+                'research_plan',
+                $dataComponent['_token_research_plan']
+            )
         ) {
             $researchPlanUtils->addResearchPlan($dataComponent);
             return $this->redirectToRoute('research_plan_new_section', ['id' => $id]);
-        } elseif (
+        }
+        if (
             !empty($researchPlan) &&
-            !empty($dataComponent)
+            !empty($dataComponent) &&
+            $this->isCsrfTokenValid(
+                'research_plan',
+                $dataComponent['_token_research_plan']
+            )
         ) {
-            $researchPlanUtils->addResearchPlanSection($dataComponent, $researchPlan);
+            $researchPlanUtils->researchPlanCheckEmpty($dataComponent);
+            $researchPlanUtils->researchPlanCheckLength($dataComponent);
+            $researchPlanErrors = $researchPlanUtils->getCheckErrors();
+            if (empty($researchPlanErrors)) {
+                $researchPlanUtils->addResearchPlanSection($dataComponent, $researchPlan);
+            } else {
+                return $this->render('research_plan/confirm.html.twig', ['errors' => $researchPlanErrors]);
+            }
         }
 
         $workshops = $workshopRepository->findAll();
@@ -94,7 +117,7 @@ class ResearchPlanController extends AbstractController
     }
 
     #[Route('/research-plan/{researchRequestId}/section/{sectionId}
-        ', name: 'research_plan_edit_section', methods: ['GET', 'POST'])]
+        ', name: 'edit_research_plan_section', methods: ['GET', 'POST'])]
     #[Entity('researchRequest', options: ['id' => 'researchRequestId'])]
     #[Entity('researchPlanSection', options: ['id' => 'sectionId'])]
     public function editSection(
@@ -118,15 +141,15 @@ class ResearchPlanController extends AbstractController
             $researchPlanUtils->researchPlanCheckEmpty($dataComponent);
             $researchPlanUtils->researchPlanCheckLength($dataComponent);
             $researchPlanErrors = $researchPlanUtils->getCheckErrors();
-            if (empty($researchPlanErrors)) {
-                $researchPlanUtils->updateResearchPlanSection($dataComponent, $researchPlan, $researchPlanSection);
+            if (
+                empty($researchPlanErrors) &&
+                $this->isCsrfTokenValid(
+                    'research_plan',
+                    $dataComponent['_token_research_plan']
+                )
+            ) {
+                $researchPlanUtils->addResearchPlanSection($dataComponent, $researchPlan);
             }
-            return $this->redirectToRoute('research_plan_new_section', ['id' => $resRequestId]);
-        } elseif (
-            !empty($researchPlan) &&
-            !empty($dataComponent)
-        ) {
-            $researchPlanUtils->addResearchPlanSection($dataComponent, $researchPlan);
         }
 
         $workshops = $workshopRepository->findAll();
@@ -147,6 +170,7 @@ class ResearchPlanController extends AbstractController
         ResearchPlanUtils $researchPlanUtils,
         ResearchRequestMailer $mailer,
         ResearchPlanRepository $researchPlanRepo,
+        ResearchRequestUtils $researchReqUtils,
     ): Response {
 
         $dataComponent = $checkDataUtils->trimData($request);
@@ -157,8 +181,11 @@ class ResearchPlanController extends AbstractController
             !empty($dataComponent['workshop_description']) ||
             !empty($dataComponent['research-plan-recommendation'])
         ) {
-            $researchPlanUtils->addResearchPlanSection($dataComponent, $researchPlan);
-            $mailer->researchPlanSendMail();
+            if ($this->isCsrfTokenValid('research_plan', $dataComponent['_token_research_plan'])) {
+                $researchReqUtils->updateResearchRequestStatus($dataComponent);
+                $researchPlanUtils->addResearchPlanSection($dataComponent, $researchPlan);
+                $mailer->researchPlanSendMail();
+            }
         }
         $mailer->researchPlanSendMail();
         return $this->render('research_plan/confirm.html.twig');

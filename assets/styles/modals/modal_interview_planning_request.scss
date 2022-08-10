@@ -4,19 +4,7 @@
 .home {
 
     .modal-interview-planning-request {
-        position: absolute;
-        top: 0px;
-        right: -1000px;
-        @include dimension(900px, 1080px);
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        background-color: $primary-white-1;
-        border-radius: 20px 0 0 20px;
-        padding: 50px;
-        gap: 20px;
-        transition: 0.3s;
-
+        display: none;
         .modal-interview-planning-request-header {
             @include dimension(800px, 44px);
             display: flex;
@@ -172,22 +160,21 @@
                 line-height: 18px;
                 margin-bottom: auto;
             }
-
             a {
                 text-decoration: none;
-
-                button {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    @include button($primary-blue-1, $border-radius-10, 0);
-                    @include textStyle($text-font, $font-size-14, $font-weight-600, $primary-white-1);
-                    @include dimension(189px, 42px);
-                    text-align: center;
-                    padding: 12px;
-                    gap: 5px;
-                }
             }
+            button {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                @include button($primary-blue-1, $border-radius-10, 0);
+                @include textStyle($text-font, $font-size-14, $font-weight-600, $primary-white-1);
+                @include dimension(189px, 42px);
+                text-align: center;
+                padding: 12px;
+                gap: 5px;
+            }
+            
         }
 
         .research-request-content-container {
@@ -268,7 +255,7 @@
             }
 
             .multiple-choice {
-
+                margin-bottom: 15px;
                 h3 {
                     @include textStyle($text-font, $font-size-14, $font-weight-600, $primary-grey-4);
                     line-height: 18px;
@@ -313,6 +300,19 @@
     }
 
     .modal-interview-planning-request-display {
+        position: absolute;
+        top: 0px;
+        box-shadow: 0px 4px 64px rgba(0, 0, 0, 0.25);
+        @include dimension(900px, 1080px);
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        background-color: $primary-white-1;
+        border-radius: 20px 0 0 20px;
+        padding: 50px;
+        gap: 20px;
+        animation-duration: 0.3s;
+        animation-name: slidein1;
         right: -50px;
     }
 }
@@ -321,21 +321,7 @@
 .research-plan {
 
     .modal-interview-planning-request {
-        position: absolute;
-        top: 0px;
-        right: -2850px;
-        /* right: -1950px; */
-        @include dimension(900px, 1080px);
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        background-color: $primary-white-1;
-        border-radius: 20px 0 0 20px;
-        padding: 50px;
-        gap: 20px;
-        transition: 0.3s;
-        z-index: 3;
-
+        display: none;
         .modal-interview-planning-request-header {
             @include dimension(800px, 44px);
             display: flex;
@@ -632,7 +618,20 @@
     }
 
     .modal-interview-planning-request-display {
+        position: absolute;
+        top: 0px;
         right: -100vw;
-        /* right: -1950px; */
+        box-shadow: 0px 4px 64px rgba(0, 0, 0, 0.25);
+        @include dimension(900px, 1080px);
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        background-color: $primary-white-1;
+        border-radius: 20px 0 0 20px;
+        padding: 50px;
+        gap: 20px;
+        animation-duration: 0.3s;
+        animation-name: slidein;
+        z-index: 3;
     }
 }

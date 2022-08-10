@@ -1,9 +1,10 @@
 <div class="section-form-title">
-    <input type="text" name="research-plan-title" placeholder="Add section title here" id="title-section-research-plan" class="title-section-research-plan">
+    <input type="text" name="research-plan-title" placeholder="Add section title here" id="title-section-research-plan" class="title-section-research-plan" required>
     <a href="" id="button-basket"><img src="{{ asset('build/images/icons/trash-black.png') }}" alt="basket"></a>
 </div>
 
 <button type="button" id="assign-workshop" class="assign-workshop">
+    <p id="error" class="error"></p>
     <div class="assign-workshop-content">
         <img class="assign-workshop-content-image" src="{{ asset('build/images/icons/workshop.png') }}" alt="basket">
         <p class="assign-workshop-content-text">Assign a workshop for this phase</p>
@@ -38,7 +39,7 @@
 <div class="add-objectives" id="add-objectives">
     <p class="add-objectives-p" id="add-objectives-p">Would you like to add some objectives for this phase ? </p>
     <div class="add-objectives-p-and-save-display"  id="add-objectives-p-and-save">
-        <p class="add-objectives-p" id="add-objectives"><img src="{{ asset('build/images/icons/targeting.png') }}" alt="icon of objectives">Objectives for this phase ? </p>
+        <p class="add-objectives-p" id="add-objectives-p"><img src="{{ asset('build/images/icons/targeting.png') }}" alt="icon of objectives">Objectives for this phase ? </p>
         <button type="button" id="edit-objectives-icon" class="edit-objectives-icon">
             <img src="{{ asset('build/images/icons/edit.png') }}" alt="edit icon">
         </button>

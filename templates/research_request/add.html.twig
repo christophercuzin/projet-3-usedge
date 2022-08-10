@@ -15,12 +15,12 @@
     </header>
     <main class="add-research-request-main-content">
         <form method="POST" action="{{ path('research_request_add', {id: templateId}) }}" id="add-research-request-form" class="add-research-request-form">
-            <input type="hidden" name="template_id" value="{{ templateId }}">
-            <input type="hidden" name="request_project" value="{{ project }}">
-            <input type="hidden" name="owner" value="John Doe">
-            <input id="research-request-status" type="hidden" name="research-request-status">
+            <input type="hidden" name="research_request_template_id" value="{{ templateId }}">
+            <input id="research-request-status" type="hidden" name="research-request-status" value="Waiting list">
+            <input type="hidden" name="_token_add_research_request_answer" value="{{ csrf_token('add_research_request_answer') }}">
             <div class="add-research-request-form-builder">
             {% if requestComponents %}
+                {% set orderNumber = 1 %}
                 {% for requestComponent in requestComponents %}
                     {% include "research_request/components/section.html.twig" %}
                     {% include "research_request/components/single_choice.html.twig" %}
@@ -30,6 +30,7 @@
                     {% include "research_request/components/evaluation_scale.html.twig" %}
                     {% include "research_request/components/external_link.html.twig" %}
                     {% include "research_request/components/open_question.html.twig" %}
+                    {% set orderNumber = orderNumber + 1 %}
                 {% endfor %}
             {% endif %}
             </div>

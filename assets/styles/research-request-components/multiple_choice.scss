@@ -1,9 +1,8 @@
 @import '../_var.scss';
 
 .request-multiple-choice-template-creation {
-    @include dimension(594px, 60px);
+    width: 100%;
     display: flex;
-    align-items: stretch;
     padding: 0;
     gap: 20px;
     .request-multiple-choice-template-draggable {
@@ -15,7 +14,7 @@
         }
     }
     .request-multiple-choice-template-content {
-        width: 868px;
+        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
@@ -29,14 +28,13 @@
             }
         }
         .request-multiple-choice-template-answers {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            @include dimension(100%, 30px);
+            width: 100%;
+            min-height: 30px;
             position: relative;
             .request-multiple-choice-template-answer {
                 @include textStyle($text-font, $font-size-14, $font-weight-600, $primary-blue-3);
                 margin-top: 9.25px;
+                margin-bottom: 9.25px;
                 margin-right: 10px;
             }
         }

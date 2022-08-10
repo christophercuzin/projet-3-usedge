@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New research request{% endblock %}
+
+{% block body %}
+    <header id="add-research-request-header" class="add-research-request-header">
+        <div class="add-research-request-header-logo-container">
+            <img class="add-research-request-header-logo" src="{{ asset('build/images/usedge-logo.png') }}"/>
+            <p class="add-research-request-header-title">New research request<p>
+        </div>
+        <button form="add-research-request-form" class="add-research-request-header-button" id="add-research-request-header-button">
+            <img class="add-research-request-header-button-icon" src="{{ asset('build/images/icons/logout-dark.png') }}"/>
+            <p class="add-research-request-header-button-text">Save and continue later</p>
+        </button>
+    </header>
+    <main class="add-research-request-main-content">
+        <form method="POST" action="{{ path('research_request_edit', {id: researchRequest.id}) }}" id="add-research-request-form" class="add-research-request-form">
+            <input type="hidden" name="_token_edit_research_request_answer" value="{{ csrf_token('edit_research_request_answer') }}">
+            <input id="research-request-status" type="hidden" name="research-request-status" value="Waiting list">
+            <div class="add-research-request-form-builder">
+            {% if requestComponents %}
+                {% set orderNumber = 1 %}
+                {% for requestComponent in requestComponents %}
+                    {% set name = requestComponent.component.name ~ orderNumber %}
+                    {% include "research_request/components-edit/section.html.twig" %}
+                    {% include "research_request/components-edit/single_choice.html.twig" %}
+                    {% include "research_request/components-edit/date_picker.html.twig" %}
+                    {% include "research_request/components-edit/separator.html.twig" %}
+                    {% include "research_request/components-edit/multiple_choice.html.twig" %}
+                    {% include "research_request/components-edit/evaluation_scale.html.twig" %}
+                    {% include "research_request/components-edit/external_link.html.twig" %}
+                    {% include "research_request/components-edit/open_question.html.twig" %}
+                    {% set orderNumber = orderNumber + 1 %}
+                {% endfor %}
+            {% endif %}
+            </div>
+            <button type="submit" class="add-research-request-form-button" id="add-research-request-form-button">
+                <img class="add-research-request-form-button-icon" src="{{ asset('build/images/icons/save-icon.png') }}"/>
+                <p class="add-research-request-form-button-text">Send/Update this research request</p>
+            </button>
+        </form>
+    </main>
+{% endblock %}

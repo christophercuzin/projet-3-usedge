@@ -43,7 +43,7 @@
             height: 12px;
         }
 
-        p {
+        .action-p {
             padding-left: 5px;
             font-family: 'Source Sans Pro';
             font-style: normal;
@@ -53,8 +53,10 @@
             display: flex;
             align-items: center;
             color: $primary-dark-1;
+            &:hover {
+                cursor: pointer;
+            }
         }
-
         .delete-action-p {
             color: $secondary-dark-red-1;
             &:hover {

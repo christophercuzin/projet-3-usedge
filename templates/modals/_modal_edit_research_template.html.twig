@@ -1,0 +1,40 @@
+
+<div class="edit-template-details-modal" id="edit-template-details-modal">
+    <div class="edit-template-details-close" id="edit-template-details-close">
+        <span class="edit-template-details-cross"></span>
+        <span class="edit-template-details-cross"></span>
+    </div>
+    <div class="edit-template-details-title">
+        <p>Add a new research request template</p>
+    </div>
+    <div class="edit-template-details-separator"></div>
+    <form method="POST" action=" {{path('research_template_edit_details', {id: researchTemplate.id})}} ">
+        <div class="modal-icon-select">
+            <div class="modal-icon-select-label">
+                <label class="modal-icon-select-label-name required">Select an icon :</label>
+                <div class="edit-icon-choice-button">
+                    <img class="edit-icon-choice-picture" id="edit-icon-choice-picture{{count}}" src="{{ asset(researchTemplate.icon) }}"/>
+                </div>
+            </div>
+            {% include "modals/_modal_select_research_template_icon.html.twig" %}
+        </div>
+            
+        <div class="modal-text-input">
+            <label class="modal-label required" for="edit_research_template_name">Name</label><span class="red-star">*</span></br>
+            <input type="text" class="edit-modal-input" id="edit_research_template_name" name="research_template_name" value="{{ researchTemplate.name }}">
+        </div>
+        <div class="modal-text-input">
+            <label class="modal-label required" for="edit_research_template_description">Description</label><span class="red-star">*</span></br>
+            <input type="text" class="edit-modal-input" id="edit_research_template_description" name="research_template_description" value="{{ researchTemplate.description }}">
+        </div>
+        <div class="modal-text-input">
+            <label class="modal-label required">Assigned coach</label><span class="red-star">*</span></br>
+            <select class="edit-modal-input" id="edit_research_template_coach" name="research_template_coach">
+                <option value="{{ researchTemplate.coach }}" selected>{{ researchTemplate.coach }}</option>
+            </select>
+        </div>
+        <input type="hidden" id="template_id_{{count}}" name="template_id" value="{{ researchTemplate.id }}">
+        <input type="hidden" name="_token_edit_research_template" value="{{ csrf_token('edit_research_template') }}">
+        <button type="submit" class="edit-template-button">Update this research request template</button>
+    </form>
+</div>

@@ -95,25 +95,6 @@ $border-radius-20: 20px;
     }
 }
 
-@keyframes slideout {
-    from {
-        right: -2850px;
-    }
-  
-    to {
-        right: -100vw;
-    }
-}
-
-@keyframes slideout1 {
-    from {
-        right: -50px;
-    }
-    to {
-        right: -1000px;
-    }
-}
-
 .body {
     overflow-x: hidden;
     display: flex;

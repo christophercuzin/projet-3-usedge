@@ -1,5 +1,9 @@
 import {iconList} from './modules/icons_module';
 
+function modalAnimationClose(editTemplateModal) {
+    editTemplateModal.classList.remove('edit-template-details-modal-close')
+}
+
 if (document.getElementById('add-template-button')) {
 
     // Careful : for first const, check real button id when integration !
@@ -15,6 +19,14 @@ if (document.getElementById('add-template-button')) {
     const templateDescriptionInput = document.getElementById('research_template_description');
     const templatecoachSelect = document.getElementById('research_template_coach');
     const iconChoicePicture = document.getElementById('icon-choice-picture');
+    const editTemplateLinks = document.getElementsByClassName('edit-template-link');
+    const editTemplateModals = document.getElementsByClassName('edit-template-details-modal');
+    const editTemplateModalCloseButtons = document.getElementsByClassName('edit-template-details-close');
+    const editIconPopupOpenButtons = document.getElementsByClassName('edit-icon-choice-button');
+    const editIconPopups = document.querySelectorAll('.modal-edit-icon-select-popup-hidden');
+    const editIconChoicePictures = document.querySelectorAll('.edit-icon-choice-picture')
+    const editIconPopupCloseButtons = document.getElementsByClassName('edit-template-icon-close');
+    const submitButtonEdit = document.querySelectorAll('.edit-template-button');
 
     // Function used to open the modal
     addTemplateModalOpenButton.addEventListener('click', () => {
@@ -28,6 +40,10 @@ if (document.getElementById('add-template-button')) {
         templateDescriptionInput.value = '';
         templatecoachSelect.value = '';
         addTemplateModal.classList.remove('template-details-modal-display');
+        addTemplateModal.classList.add('template-details-modal-close');
+        setTimeout(() => {
+            addTemplateModal.classList.remove('template-details-modal-close');
+        }, 600)
         iconPopup.classList.remove('modal-icon-select-popup');
         for (let iconNumber = 0; iconNumber < 6; iconNumber++) {
             let iconSubmitButton = document.getElementById(`research_template_icon_${iconNumber}`);
@@ -74,4 +90,57 @@ if (document.getElementById('add-template-button')) {
         }
     });
 
+    // Function used to open the modal to edit research template
+    for (const editTemplateLink of editTemplateLinks) {
+        for (const editTemplateModal of editTemplateModals) {
+            editTemplateLink.addEventListener('click', () => {
+                editTemplateModal.classList.add('edit-template-details-modal-display');
+            });
+        }
+    }
+
+    // Function used to close the edit modal
+    for (const editTemplateModal of editTemplateModals) {
+        for (const editTemplateModalCloseButton of editTemplateModalCloseButtons) {
+            editTemplateModalCloseButton.addEventListener('click', () => {
+                editTemplateModal.classList.remove('edit-template-details-modal-display');
+                editTemplateModal.classList.add('edit-template-details-modal-close');
+                setTimeout(() => {
+                    editTemplateModal.classList.remove('edit-template-details-modal-close');
+                }, 600) 
+            });
+        }
+    }
+
+    // Function used to open the edit icon pop-up
+    
+    for (const editIconPopup of editIconPopups) {
+        for (const editIconPopupOpenButton of editIconPopupOpenButtons) {
+            editIconPopupOpenButton.addEventListener('click', () => {
+                editIconPopup.classList.toggle('modal-edit-icon-select-popup');
+                
+            });
+        }
+        // Function used to close the icon pop-up
+        for (const editIconPopupCloseButton of editIconPopupCloseButtons) {
+            editIconPopupCloseButton.addEventListener('click', () => {
+                editIconPopup.classList.remove('modal-edit-icon-select-popup');
+            });
+        }
+
+        let i = 0;
+        for (const editIconChoicePicture of editIconChoicePictures) {
+            let id = document.getElementById('template_id_' + i).value;
+            for (let iconNumber = 0; iconNumber < 6; iconNumber++) {
+                let iconSubmitButton = document.getElementById(`edit_research_template_icon_${iconNumber}_` + id);
+                iconSubmitButton.addEventListener('click', () => {
+                    editIconChoicePicture.src = iconList[iconNumber];
+                    editIconPopup.classList.remove('modal-edit-icon-select-popup');
+                })
+            }
+            i++
+        }
+ 
+    }
+     
 }

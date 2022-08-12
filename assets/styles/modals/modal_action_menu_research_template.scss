@@ -53,8 +53,10 @@
             display: flex;
             align-items: center;
             color: $primary-dark-1;
+            &:hover {
+                cursor: pointer;
+            }
         }
-
         .delete-action-p {
             color: $secondary-dark-red-1;
             &:hover {

@@ -1,0 +1,24 @@
+<div class="full-screen-template-overview-modal-close" id="full-screen-template-overview-modal-close">
+    <div id="template-overview-modal" class="template-overview-modal">
+        <div class="template-overview-close" id="template-overview-close">
+            <span class="template-overview-cross"></span>
+            <span class="template-overview-cross"></span>
+        </div>
+        <div class="overview-research-request-form-builder">
+        {% if researchTemplate.templateComponents %}
+            {% set orderNumber = 1 %}
+            {% for requestComponent in researchTemplate.templateComponents %}
+                {% include "research_template/components/section.html.twig" %}
+                {% include "research_template/components/single_choice.html.twig" %}
+                {% include "research_template/components/date_picker.html.twig" %}
+                {% include "research_template/components/separator.html.twig" %}
+                {% include "research_template/components/multiple_choice.html.twig" %}
+                {% include "research_template/components/evaluation_scale.html.twig" %}
+                {% include "research_template/components/external_link.html.twig" %}
+                {% include "research_template/components/open_question.html.twig" %}
+                {% set orderNumber = orderNumber + 1 %}
+            {% endfor %}
+        {% endif %}
+        </div>
+    </div>
+</div>

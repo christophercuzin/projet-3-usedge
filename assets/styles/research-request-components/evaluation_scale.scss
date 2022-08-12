@@ -5,13 +5,13 @@
 }
 
 .request-evaluation-scale-template-creation {
-    @include dimension(635px, 93px);
+    @include dimension(98%, 93px);
     display: flex;
     align-items: center;
     padding: 0;
     gap: 20px;
     .request-evaluation-scale-template-content {
-        width: 868px;
+        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: flex-start;

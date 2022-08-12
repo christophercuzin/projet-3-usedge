@@ -1,0 +1,33 @@
+{% if "multiple-choice" in requestComponent.component.name %}
+    <div class="request-multiple-choice-template-creation">
+        <div class="request-multiple-choice-template-content">
+            <p class="request-multiple-choice-template-question" id="multiple-choice-template-question">
+                {{requestComponent.component.question}}
+                {% if requestComponent.component.isMandatory %}
+                    <span class="request-multiple-choice-red-star" id="multiple-choice-red-star">*</span>
+                {% endif %}
+            </p>
+            <div class="request-multiple-choice-template-answers">
+            {% if requestComponent.component.isMandatory %}
+                {% for answer in requestComponent.component.answers %}
+                    <div class="request-multiple-choice-template-answer">
+                        <input class="request-answer-input request-multiple-answer-input{{ requestComponent.component.id }} required{{ requestComponent.component.id }}" type="checkbox" value="{{answer.answer}}" name="multiple-answer-{{ requestComponent.component.id}}" disabled>
+                        <label class="request-multiple-choice-template-answer-label" id="multiple-choice-template-answer-label">
+                        {{answer.answer}}
+                        </label>
+                    </div>
+                {% endfor %}
+            {% else %}
+                {% for answer in requestComponent.component.answers %}
+                    <div class="request-multiple-choice-template-answer">
+                        <input class="request-answer-input request-multiple-answer-input{{ requestComponent.component.id }}" type="checkbox" value="{{answer.answer}}" name="multiple-answer-{{ requestComponent.component.id}}" disabled>
+                        <label class="request-multiple-choice-template-answer-label" id="multiple-choice-template-answer-label">
+                        {{answer.answer}}
+                        </label>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            </div>
+        </div>
+    </div>
+{% endif %}

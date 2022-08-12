@@ -37,6 +37,7 @@ import './js/modals/modal_delete_template.js';
 import './js/modals/modal_action_menu_research_template.js';
 import './js/modals/select_request.js';
 import './js/modals/modal_template_overview.js';
+import './js/modals/modal_view_all_submissions.js';
 
 // Bootstrap import
 import './bootstrap';

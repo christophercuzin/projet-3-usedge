@@ -7,10 +7,22 @@
                 <span class="request-details-cross"></span>
             </div>
         </div>
+        <table class="view-all-submssions-table">
+            <thead class="sort-by">
+                <tr class="sort-choice">
+                    <td class="sort view-all-submssions-type">TYPE AND DATE</td>
+                    <td class="sort view-all-submssions-owner">OWNER</td>
+                    <td class="sort view-all-submssions-status">STATUS</td>
+                </tr>
+                <tr class="button-thead">
+                </tr>
+            </thead>
+        </table>
         <div class="request-research-list">
             <div class="requests-list-modal" id="requests-list">
                 <table>
                     {% for researchRequest in researchTemplate.researchRequests %}
+                        {% include "home/modals/_modal_interview_planning_request.html.twig" %}
                         <tbody class="request-result">
                             <tr class="sort-choice">
                                 <td class="request-details" id="view-request-type">

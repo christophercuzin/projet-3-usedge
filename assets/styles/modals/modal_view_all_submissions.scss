@@ -1,184 +1,229 @@
 @import '../_var.scss';
 
 //Style of modal_interview_planning_request in the home page
-    .modal_view_all_submissions {
-        display: none;
-        .request-details-title {
-            @include dimension(100%, 100px);
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            p:first-child{
-                @include textStyle($title-font, 24px, $font-weight-500, $primary-blue-5);
-                margin-bottom: 3px;
-            }
-            p:nth-child(2) {
-                @include textStyle($text-font, $font-size-16, $font-weight-400, $primary-grey-3);
-            }
-            .request-details-close {
-                @include dimension(30px, 30px);
-                @include absolutePosition(35px, 830px);
-                &:hover {
-                    cursor: pointer;
-                }
-                .request-details-cross {
-                    @include absolutePosition(45.83%, 17%);
-                    @include dimension(25px, 2.5px);
-                    background-color: $primary-blue-5;
-                    border-radius: 2px;
-                    &:first-child {
-                        transform: rotateZ(45deg);
-                    }
-                    &:nth-child(2) {
-                        transform: rotateZ(-45deg);
-                    }
-                }
-            }
-        }
-        .request-research-list {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            flex-wrap: nowrap;
-            width: 100%;
-            overflow: scroll;
-            .requests-list-modal {
-                display: flex;
-                flex-direction: column;
-                width: 100%;
-                border-radius: $border-radius-20;
-                background: $primary-white-1;
-                gap: 20px;
-                .request-result {
-                    width: 98%;
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: space-between;
-                    border: 1px solid $primary-blue-2;
-                    border-radius: $border-radius-10;
-                    margin-bottom: 20px;
-                    .sort-choice {
-                        width: 100%;
-                        display: flex;
-                        flex-direction: row;
-                        justify-content: space-between;
-                    }      
-                    .request-details {
-                        display: flex;
-                        align-items: center;
-                        justify-content: flex-start;
-                        @include textStyle($text-font, $font-size-16, $font-weight-400, $primary-grey-1);
-                        background-color: $primary-white-1;
-                        height: 82px;
-                        width: 32%;
-                        padding-left: 20px;
-                        border-radius: $border-radius-10;
-                        .waiting-list {
-                            p {
-                                margin: 0;
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                                @include textStyle($text-font, $font-size-14, $font-weight-400, #FFA94F);
-                                @include dimension(89px, 24px);
-                                border-radius: 5px;
-                                background-color: #FFF1EA;
-                                img {
-                                    @include dimension(7px, 7px);
-                                    margin-right: 5px;
-                                }
-                            }
-                        }
-                        .dropped {
-                            @extend .waiting-list;
-                            p {          
-                                @include dimension(77px, 24px);     
-                                @include textStyle($text-font, $font-size-14, $font-weight-400, #EA6061);
-                                background-color: #FFE8E8;
-                            }
-                        }
-                        .solved {
-                            @extend .waiting-list;
-                            p {
-                                @include dimension(68px, 24px);
-                                @include textStyle($text-font, $font-size-14, $font-weight-400, #71D68F);
-                                background-color: #EDFFEC;
-                            }
-                        }
-                        .under-review {
-                            @extend .waiting-list;
-                            p {
-                                @include dimension(100px, 24px);
-                                @include textStyle($text-font, $font-size-14, $font-weight-400, $primary-blue-1);
-                                background-color: #ECEFFF;
-                            }
-                        }
-                        .draft {
-                            @extend .waiting-list;
-                            p {
-                                @include dimension(58px, 24px);
-                                @include textStyle($text-font, $font-size-14, $font-weight-400, $primary-grey-1);
-                                background-color: #F1F1F5;
-                            }
-                        }
-                        .request-owner-picture {
-                            @include dimension(30px, 30px);
-                            border-radius: 100px;
-                            margin-right: 5px;
-                        }
-                        .template-icon-modal {
-                            @include dimension(30px, 30px);
-                        }
-                        .view-request-type-content-modal {
-                            padding-left: 10px;
-                            display: flex;
-                            flex-direction: column;
-                            p {
-                                @include textStyle($text-font, $font-size-14, $font-weight-400, $primary-grey-1);
-                                margin: 0;
-                            }
-                            .requestType {
-                                @include textStyle($text-font, $font-size-16, $font-weight-600, $primary-blue-1);
-                            }  
-                        }
-                    }
-                    .color-status {
-                        width: 20%;
-                        padding: 0;
-                    }
-                    .create-plan-button-container {
-                        width: 15%;
-                        margin-right: 5px;
-                        td {
-                            display: flex;
-                            justify-content: center;
-                            width: 100%;
-                            padding: 0;
-                        }
-                        .view-request-button {
-                            @include dimension(86px, 42px);
-                            @include button($primary-white-1,$border-radius-10, 1px solid $primary-blue-1);
-                            color: $primary-blue-1;
-                        }
-                    } 
-                }  
-            }
-        }
-    }
-
-    .modal_view_all_submissions_display {
-        position: fixed;
-        top: 0px;
-        box-shadow: 0px 4px 64px rgba(0, 0, 0, 0.25);
-        @include dimension(900px, 1080px);
+.modal_view_all_submissions {
+    display: none;
+    .request-details-title {
+        @include dimension(100%, 100px);
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        background-color: $primary-white-1;
-        border-radius: 20px 0 0 20px;
-        padding: 35px;
-        gap: 20px;
-        animation-duration: 0.3s;
-        animation-name: slidein1;
-        right: 0;
+        p:first-child{
+            @include textStyle($title-font, 24px, $font-weight-500, $primary-blue-5);
+            margin-bottom: 3px;
+        }
+        p:nth-child(2) {
+            @include textStyle($text-font, $font-size-16, $font-weight-400, $primary-grey-3);
+        }
+        .request-details-close {
+            @include dimension(30px, 30px);
+            @include absolutePosition(35px, 830px);
+            &:hover {
+                cursor: pointer;
+            }
+            .request-details-cross {
+                @include absolutePosition(45.83%, 17%);
+                @include dimension(25px, 2.5px);
+                background-color: $primary-blue-5;
+                border-radius: 2px;
+                &:first-child {
+                    transform: rotateZ(45deg);
+                }
+                &:nth-child(2) {
+                    transform: rotateZ(-45deg);
+                }
+            }
+        }
     }
+    .view-all-submssions-table {
+        width: 100%;
+        border-bottom: none;
+        .sort-by {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+            width: 98%;
+            .sort-choice {
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                .sort {
+                    background-image: url(../../../assets/images/icons/arrow.png);
+                    background-repeat: no-repeat;
+                    background-position-y: center;
+                    width: 25%;
+                }
+                .view-all-submssions-owner {
+                    padding-left: 35px;
+                    background-position-x: 102px;
+                }
+                .view-all-submssions-status {
+                    padding-left: 30px;
+                    background-position-x: 92px;
+                }
+                .view-all-submssions-type {
+                    padding-left: 20px;
+                    background-position-x: 145px;
+                }
+            }
+            .button-thead {
+                width: 15%;
+            }
+        }
+}
+    .request-research-list {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+        width: 100%;
+        overflow: scroll;
+        .requests-list-modal {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            border-radius: $border-radius-20;
+            background: $primary-white-1;
+            gap: 20px;
+            .request-result {
+                width: 98%;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                border: 1px solid $primary-blue-2;
+                border-radius: $border-radius-10;
+                margin-bottom: 20px;
+                .sort-choice {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                }      
+                .request-details {
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-start;
+                    @include textStyle($text-font, $font-size-16, $font-weight-400, $primary-grey-1);
+                    background-color: $primary-white-1;
+                    height: 82px;
+                    width: 32%;
+                    padding-left: 20px;
+                    border-radius: $border-radius-10;
+                    .waiting-list {
+                        p {
+                            margin: 0;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            @include textStyle($text-font, $font-size-14, $font-weight-400, #FFA94F);
+                            @include dimension(89px, 24px);
+                            border-radius: 5px;
+                            background-color: #FFF1EA;
+                            img {
+                                @include dimension(7px, 7px);
+                                margin-right: 5px;
+                            }
+                        }
+                    }
+                    .dropped {
+                        @extend .waiting-list;
+                        p {          
+                            @include dimension(77px, 24px);     
+                            @include textStyle($text-font, $font-size-14, $font-weight-400, #EA6061);
+                            background-color: #FFE8E8;
+                        }
+                    }
+                    .solved {
+                        @extend .waiting-list;
+                        p {
+                            @include dimension(68px, 24px);
+                            @include textStyle($text-font, $font-size-14, $font-weight-400, #71D68F);
+                            background-color: #EDFFEC;
+                        }
+                    }
+                    .under-review {
+                        @extend .waiting-list;
+                        p {
+                            @include dimension(100px, 24px);
+                            @include textStyle($text-font, $font-size-14, $font-weight-400, $primary-blue-1);
+                            background-color: #ECEFFF;
+                        }
+                    }
+                    .draft {
+                        @extend .waiting-list;
+                        p {
+                            @include dimension(58px, 24px);
+                            @include textStyle($text-font, $font-size-14, $font-weight-400, $primary-grey-1);
+                            background-color: #F1F1F5;
+                        }
+                    }
+                    .request-owner-picture {
+                        @include dimension(30px, 30px);
+                        border-radius: 100px;
+                        margin-right: 5px;
+                    }
+                    .template-icon-modal {
+                        @include dimension(30px, 30px);
+                    }
+                    .view-request-type-content-modal {
+                        padding-left: 10px;
+                        display: flex;
+                        flex-direction: column;
+                        p {
+                            @include textStyle($text-font, $font-size-14, $font-weight-400, $primary-grey-1);
+                            margin: 0;
+                        }
+                        .requestType {
+                            @include textStyle($text-font, $font-size-16, $font-weight-600, $primary-blue-1);
+                        }  
+                    }
+                }
+                .color-status {
+                    width: 20%;
+                    padding: 0;
+                }
+                .create-plan-button-container {
+                    width: 15%;
+                    margin-right: 5px;
+                    td {
+                        display: flex;
+                        justify-content: center;
+                        width: 100%;
+                        padding: 0;
+                    }
+                    .view-request-button {
+                        @include dimension(86px, 42px);
+                        @include button($primary-white-1,$border-radius-10, 1px solid $primary-blue-1);
+                        color: $primary-blue-1;
+                    }
+                } 
+            }  
+        }
+    }
+}
+
+.modal_view_all_submissions_display {
+    position: fixed;
+    top: 0px;
+    box-shadow: 0px 4px 64px rgba(0, 0, 0, 0.25);
+    @include dimension(900px, 1080px);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: $primary-white-1;
+    border-radius: 20px 0 0 20px;
+    padding: 35px;
+    gap: 20px;
+    animation-duration: 0.3s;
+    animation-name: slidein1;
+    right: 0;
+}
+.modal_view_all_submissions_close {
+    @extend .modal_view_all_submissions_display;
+    right: -1000px;
+    animation-duration: 0.6s;
+    animation-name: slideout1;
+}
+

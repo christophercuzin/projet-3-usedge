@@ -1,7 +1,23 @@
 import {iconList} from './modules/icons_module';
 
-function modalAnimationClose(editTemplateModal) {
-    editTemplateModal.classList.remove('edit-template-details-modal-close')
+function changeStatusColor(selectStatusLists) {
+    for (const selectStatusList of selectStatusLists) {
+        const valueSelectStatusList = selectStatusList.value;
+    
+        selectStatusList.classList.remove('bg-green-dot', 'bg-grey-dot', 'bg-red-dot');
+
+        switch (valueSelectStatusList) {
+        case "active":
+            selectStatusList.classList.add('bg-green-dot');
+            break;
+        case "draft":
+            selectStatusList.classList.add('bg-grey-dot');
+            break;
+        case "dropped":
+            selectStatusList.classList.add('bg-red-dot');
+            break;
+        }
+    }
 }
 
 if (document.getElementById('add-template-button')) {
@@ -26,7 +42,7 @@ if (document.getElementById('add-template-button')) {
     const editIconPopups = document.querySelectorAll('.modal-edit-icon-select-popup-hidden');
     const editIconChoicePictures = document.querySelectorAll('.edit-icon-choice-picture')
     const editIconPopupCloseButtons = document.getElementsByClassName('edit-template-icon-close');
-    const submitButtonEdit = document.querySelectorAll('.edit-template-button');
+    const selectStatusLists = document.getElementsByClassName('edit-select-status');
 
     // Function used to open the modal
     addTemplateModalOpenButton.addEventListener('click', () => {
@@ -141,6 +157,13 @@ if (document.getElementById('add-template-button')) {
             i++
         }
  
+    }
+    changeStatusColor(selectStatusLists);
+
+    for (const selectStatusList of selectStatusLists) {
+        selectStatusList.addEventListener('change', function () {
+            changeStatusColor(selectStatusLists);
+        });
     }
      
 }

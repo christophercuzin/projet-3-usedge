@@ -49,6 +49,7 @@ class ResearchTemplateDetailsUtils
             $researchTemplate->setIcon($dataComponent['edit_research_template_icon_' . $dataComponent['template_id']]);
             $researchTemplate->setDescription($dataComponent['research_template_description']);
             $researchTemplate->setCoach($dataComponent['research_template_coach']);
+            $researchTemplate->setStatus($dataComponent['research_template_status']);
             $entityManager->persist($researchTemplate);
         }
         $entityManager->flush();

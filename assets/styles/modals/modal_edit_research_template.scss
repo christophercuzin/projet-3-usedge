@@ -171,6 +171,22 @@
                     outline: none;
                 }
             }
+            .edit-select-status {
+                background-repeat: no-repeat;
+                background-position-y: center;
+                background-position-x: 12px;
+                background-size: 10px;
+                padding-left: 25px;
+            }
+            .bg-green-dot {
+                background-image: url(../../images/icons/green-dot.png);
+            }
+            .bg-grey-dot {
+                background-image: url(../../images/icons/grey-dot.png);
+            }
+            .bg-red-dot {
+                background-image: url(../../images/icons/red-dot.png);
+            }
         }
         .edit-template-button {
             @include button($primary-blue-1, $border-radius-10, none);
@@ -190,7 +206,8 @@
     position: fixed;
     top: 290px;
     left: 718px;
-    @include dimension(700px, 501px);
+    width: 700px;
+    min-height: 561px;
     display: block;
     box-sizing: border-box;
     background-color: $primary-white-1;

@@ -4,10 +4,11 @@
 .modal_view_all_submissions {
     display: none;
     .request-details-title {
-        @include dimension(100%, 100px);
+        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+        margin-bottom: 20px;
         p:first-child{
             @include textStyle($title-font, 24px, $font-weight-500, $primary-blue-5);
             margin-bottom: 3px;
@@ -50,6 +51,7 @@
                 flex-direction: row;
                 justify-content: space-between;
                 .sort {
+                    @include textStyle($text-font, $font-size-14, $font-weight-600, $primary-grey-1);
                     background-image: url(../../../assets/images/icons/arrow.png);
                     background-repeat: no-repeat;
                     background-position-y: center;
@@ -72,22 +74,34 @@
                 width: 15%;
             }
         }
-}
-    .request-research-list {
+    }
+    .link-container {
+        text-align: center;
+        align-self: flex-end;
+        width: 100%;
+        margin-bottom: 30px;
+        margin-top: 30px;
+        .view-all-requests-link {
+            @include textStyle($text-font, $font-size-18,$font-weight-400, $primary-blue-1);
+        }
+    }
+    .view-all-request-research-list {
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
         flex-wrap: nowrap;
-        width: 100%;
-        overflow: scroll;
-        .requests-list-modal {
+        @include dimension(100%, 100%);
+        max-height: 700px;
+        padding-top: 20px;
+        .view-all-requests-list-modal {
             display: flex;
             flex-direction: column;
-            width: 100%;
+            justify-content: flex-start;
+            @include dimension(100%, 100%);
+            max-height: 700px;
+            overflow: scroll;
             border-radius: $border-radius-20;
             background: $primary-white-1;
-            gap: 20px;
-            .request-result {
+            .view-all-request-result {
                 width: 98%;
                 display: flex;
                 flex-direction: row;

@@ -1,0 +1,70 @@
+
+<div class="modal_view_all_submissions">
+    <div class="request-details-title">
+        <p>Requests submitted</p>
+        <div class="request-details-close" id="request-details-close">
+            <span class="request-details-cross"></span>
+            <span class="request-details-cross"></span>
+        </div>
+    </div>
+    <table class="view-all-submssions-table">
+        <thead class="sort-by">
+            <tr class="sort-choice">
+                <td class="sort view-all-submssions-type">TYPE AND DATE</td>
+                <td class="sort view-all-submssions-owner">OWNER</td>
+                <td class="sort view-all-submssions-status">STATUS</td>
+            </tr>
+            <tr class="button-thead">
+            </tr>
+        </thead>
+    </table>
+    <div class="view-all-request-research-list">
+        <div class="view-all-requests-list-modal" id="requests-list">
+            <table>
+                {% for researchRequest in researchTemplate.researchRequests %}
+                {% include "home/modals/_modal_interview_planning_request.html.twig" %}
+                    <tbody class="view-all-request-result">
+                        <tr class="sort-choice">
+                            <td class="request-details" id="view-request-type">
+                                <img class="template-icon-modal" src="{{ asset(researchRequest.researchTemplate.icon)}}">
+                                <div class="view-request-type-content-modal">
+                                    <p class="requestType">User interview</p>
+                                    <p>{{ researchRequest.creationDate|format_datetime('short', 'none', locale='fr')}}</p>
+                                </div>
+                            </td>
+                            <td class="request-details">
+                                <img class="request-owner-picture" src="https://i.pravatar.cc">{{ researchRequest.owner }}
+                            </td>
+                            <td class="request-details color-status">
+                                {% include "home/_research_request_status.html.twig" %}
+                            </td>
+                        </tr>
+                        <tr class="create-plan-button-container">
+                            <td class="request-details">
+                                <button id="{{ researchRequest.id }}" class="view-request-button">View</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                {% endfor %}
+            </table>
+            
+                {% if researchTemplate.researchRequests is empty %}
+                <table>
+                    <tbody class="result">
+                        <tr>
+                            <td class="request-details request-request-type" id="request-request-type">No request available</td>
+                        </tr>
+                        <tr class="sort-choice">
+                            <td class="request-details">No owner assigned</td>
+                            <td class="request-details">No status available</td>
+                        </tr>
+                    </tbody>
+                </table>
+                {% endif %}
+            
+        </div>
+    </div>
+    <div class="link-container">
+        <a class="view-all-requests-link" href="{{path('app_home')}}">View all requests</a>
+    </div>
+</div>

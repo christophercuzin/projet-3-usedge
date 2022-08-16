@@ -1,12 +1,12 @@
 @import '../_var.scss';
 
 .request-external-link-template-creation {
-    @include dimension(623px, 76px);
+    @include dimension(98%, 76px);
     display: flex;
     padding: 0;
     gap: 20px;
     .request-external-link-template-content {
-        width: 868px;
+        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: flex-start;

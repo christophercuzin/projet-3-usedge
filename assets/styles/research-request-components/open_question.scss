@@ -5,7 +5,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    width: 623px;
+    width: 98%;
     height: auto;
     padding: 0;
     gap: 8px;
@@ -20,7 +20,7 @@
     .research-open-question-template-answers {
         display: flex;
         align-items: flex-start;
-        width: 623px;
+        width: 100%;
         min-height: 42px;
         #research-open-question-text-area {
             @include textStyle($text-font, $font-size-14, $font-weight-400, $primary-grey-1);

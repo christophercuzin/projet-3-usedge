@@ -163,7 +163,7 @@ class ResearchPlanUtils
     public function updateResearchPlanStatus(array $dataComponent, ?ResearchPlan $researchPlan): void
     {
         $entityManager = $this->entityManager;
-        if (!empty($dataComponent)) {
+        if (!empty($dataComponent) && $researchPlan != null) {
             $researchPlan->setStatus($dataComponent['research-plan-status']);
             $entityManager->persist($researchPlan);
         }

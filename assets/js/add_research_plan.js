@@ -153,6 +153,10 @@ if (document.getElementById('title-section-research-plan')) {
     // Function used to close the modal interview planning request
     interviewPlanningHeaderClose.addEventListener('click', () => {
         modalInterviewPlanningRequest.classList.remove('modal-interview-planning-request-display');
+        modalInterviewPlanningRequest.classList.add('modal-interview-planning-request-plan-close');
+        setTimeout(() => {
+            modalInterviewPlanningRequest.classList.remove('modal-interview-planning-request-plan-close')
+        }, 600)
     });
 
     //function use to send an alert before validate the form

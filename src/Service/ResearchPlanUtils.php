@@ -125,7 +125,6 @@ class ResearchPlanUtils
                 $researchPlanObjects[] = $dataComponent['research-plan-objectives-' . $count];
             }
             $researchPlanSection->setObjectives($researchPlanObjects);
-
             $entityManager->persist($researchPlanSection);
             $entityManager->flush();
         }
@@ -138,6 +137,7 @@ class ResearchPlanUtils
         $id = $dataComponent['research_plan_section'];
         $researchPlanSection = $this->resPlanSecRepo->findOneBy(['id' => $id]);
         $entityManager = $this->entityManager;
+
         if (
             !empty($dataComponent) &&
             $researchPlan != null &&
@@ -157,7 +157,16 @@ class ResearchPlanUtils
             $researchPlanSection->setObjectives($researchPlanObjects);
             $entityManager->persist($researchPlanSection);
         }
+        $entityManager->flush();
+    }
 
+    public function updateResearchPlanStatus(array $dataComponent, ?ResearchPlan $researchPlan): void
+    {
+        $entityManager = $this->entityManager;
+        if (!empty($dataComponent)) {
+            $researchPlan->setStatus($dataComponent['research-plan-status']);
+            $entityManager->persist($researchPlan);
+        }
         $entityManager->flush();
     }
 }

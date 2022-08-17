@@ -76,7 +76,7 @@ $border-radius-20: 20px;
 
 @keyframes slidein {
     from {
-        right: -2850px;
+        right: -200vw;
     }
   
     to {
@@ -97,11 +97,13 @@ $border-radius-20: 20px;
 
 @keyframes slideout {
     from {
-        right: -2850px;
-    }
-  
-    to {
         right: -100vw;
+    }
+    50% {
+        right: -200vw;
+    }
+    to {
+        right: -200vw;
     }
 }
 

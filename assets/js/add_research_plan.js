@@ -23,8 +23,9 @@ if (document.getElementById('title-section-research-plan')) {
     const modalInterviewPlanningRequest = document.getElementById('modal-interview-planning-request');
     const interviewPlanningHeaderClose = document.getElementById('interview-planning-header-close');
     const buttonAddSection = document.getElementById('button-add-section');
-    const form = document.getElementById('sections-container');
-    const errormessage = document.getElementById('error');
+    const saveAndContinue = document.getElementById('save_and_continue_later_button');
+    const planStatus = document.getElementById('plan_status');
+    const requestStatus = document.getElementById('research-request-status');
     
 
     titleSection.addEventListener('click', function () {
@@ -179,4 +180,9 @@ if (document.getElementById('title-section-research-plan')) {
             }
         })
     }
+    saveAndContinue.addEventListener('click', () => {
+        inputTitleSectionPlan.removeAttribute('required');
+        planStatus.value = "Draft";
+        requestStatus.value ="Under review";
+    })
 }

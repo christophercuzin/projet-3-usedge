@@ -183,11 +183,40 @@ class ResearchPlanController extends AbstractController
         ) {
             if ($this->isCsrfTokenValid('research_plan', $dataComponent['_token_research_plan'])) {
                 $researchReqUtils->updateResearchRequestStatus($dataComponent);
+                $researchPlanUtils->updateResearchPlanStatus($dataComponent, $researchPlan);
                 $researchPlanUtils->addResearchPlanSection($dataComponent, $researchPlan);
                 $mailer->researchPlanSendMail();
             }
         }
+        $researchReqUtils->updateResearchRequestStatus($dataComponent);
+        $researchPlanUtils->updateResearchPlanStatus($dataComponent, $researchPlan);
         $mailer->researchPlanSendMail();
         return $this->render('research_plan/confirm.html.twig');
+    }
+
+    #[Route('/research-plan/{id}/save', name: 'research_plan_save', methods: ['GET', 'POST'])]
+    public function saveAndContinue(
+        int $id,
+        Request $request,
+        CheckDataUtils $checkDataUtils,
+        ResearchPlanUtils $researchPlanUtils,
+        ResearchPlanRepository $researchPlanRepo,
+        ResearchRequestUtils $researchReqUtils,
+    ): Response {
+
+        $dataComponent = $checkDataUtils->trimData($request);
+        $researchPlan = $researchPlanRepo->findOneBy(['researchRequest' => $id]);
+        if (
+            !empty($researchPlan) &&
+            $this->isCsrfTokenValid('research_plan', $dataComponent['_token_research_plan'])
+        ) {
+            $researchReqUtils->updateResearchRequestStatus($dataComponent);
+            $researchPlanUtils->updateResearchPlanStatus($dataComponent, $researchPlan);
+            $researchPlanUtils->addResearchPlanSection($dataComponent, $researchPlan);
+        } else {
+            $researchPlanUtils->addResearchPlan($dataComponent);
+        }
+
+        return $this->redirectToRoute('app_home');
     }
 }

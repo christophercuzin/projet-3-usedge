@@ -5,36 +5,29 @@
 
 {% block body %}
 	<main class="research-template-list-page">
-
 		<div class="research-template-list-display">
-
 			<header>
 				<div class="research-template-list-header">
 					<div class="research-template-list-header-return">
-						<a href="/"><img src="{{ asset('build/images/icons/Shape.png') }}"></a>
+						<a href="{{ path('research_template_index') }}"><img src="{{ asset('build/images/icons/Shape.png') }}"></a>
 					</div>
 					<div class="research-template-list-header-title">
 						<p class="research-template-list-header-first-title">RESEARCH CENTER TEMPLATE</p>
-						{% if researchTemplates|length == 1 %}
-							<p class="research-template-list-header-second-title">1 template available</p>
-						{% elseif researchTemplates|length > 1 %}
-							<p class="research-template-list-header-second-title">{{ researchTemplates|length }} templates available</p>
+						{% if archiveResearchTemplates|length == 1 %}
+							<p class="research-template-list-header-second-title">1 archive template</p>
+						{% elseif archiveResearchTemplates|length > 1 %}
+							<p class="research-template-list-header-second-title">{{ archiveResearchTemplates|length }} archive templates</p>
 						{% else %}
-                        	<p class="research-template-list-header-second-title">No templates available</p>
+                        	<p class="research-template-list-header-second-title">No archive templates</p>
 						{% endif %}
 					</div>
-					{% if researchTemplates %}
+					{% if archiveResearchTemplates %}
 						<div class="button-container">
-							{% for researchTemplate in archiveResearchTemplates %}
-								{% if researchTemplate.status is same as 'archive' %}
-									<a href="{{ path('research_template_archive') }}" class="view-template-link">
-										<button class="view-template-button" id="view-archive-template-button">
-											View archived templates
-										</button>
-									</a>
-								{% endif %}
-							{% endfor %}
-							
+							<a href="{{ path('research_template_index') }}" class="view-template-link">
+								<button class="view-template-button" id="view-template-button">
+									View all templates
+								</button>
+							</a>
 							<button class="research-template-defined-list-add-button" id="add-template-button">
 								<img class="research-template-defined-list-add-icon" src="{{ asset('build/images/icons/Path.png') }}">
 								Create a new request template
@@ -43,11 +36,10 @@
 					{% endif %}
 				</div>
 			</header>
-
-			{% if researchTemplates %}
+			{% if archiveResearchTemplates %}
 				<div class="research-template-list-main">
 				{% set count = 0 %}
-				{% for researchTemplate in researchTemplates %}
+				{% for researchTemplate in archiveResearchTemplates %}
 					{% include "cards/_research_template_card.html.twig" %}
 					{% set count = count + 1 %}
 				{% endfor %}
@@ -59,7 +51,7 @@
 						<img src="{{ asset('build/images/icons/empty_state_1.png') }}">
 					</div>
 					<div class="research-template-list-main-text">
-						<p class="research-template-list-main-first-text">You don't have any requests created yet!</p>
+						<p class="research-template-list-main-first-text">You don't have any requests archived yet!</p>
 						<p class="research-template-list-main-second-text">Create a first request template your team will be able to submit</p>
 					</div>
 					<button class="research-template-list-add-button" id="add-template-button"><img src="{{ asset('build/images/icons/Path.png') }}">New request template</button>

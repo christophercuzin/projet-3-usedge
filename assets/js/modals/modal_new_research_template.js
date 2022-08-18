@@ -16,6 +16,9 @@ function changeStatusColor(selectStatusLists) {
         case "dropped":
             selectStatusList.classList.add('bg-red-dot');
             break;
+        case "archive":
+            selectStatusList.classList.add('bg-grey-dot');
+            break;
         }
     }
 }

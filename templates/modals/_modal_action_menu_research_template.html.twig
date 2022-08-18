@@ -32,7 +32,8 @@
 			{% include "modals/_view_all_submissions.html.twig" %}
 			<p class="action-p view_all_submissions">View all submissions</p>
 	</div>
-
+	{% if researchTemplate.status != 'archive' %}
+	
 	<div class="action-container">
 		<svg width="10" height="10" viewbox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
 			<path fill-rule="evenodd" clip-rule="evenodd" d="M6.66699 0.416656H3.33366C1.72283 0.416656 0.416992 1.72249 0.416992 3.33332V6.66666C0.416992 8.27749 1.72283 9.58332 3.33366 9.58332H6.66699C8.27782 9.58332 9.58366 8.27749 9.58366 6.66666V3.33332C9.58366 1.72249 8.27782 0.416656 6.66699 0.416656ZM1.25033 3.33332C1.25033 2.18273 2.18307 1.24999 3.33366 1.24999H6.66699C7.81758 1.24999 8.75032 2.18273 8.75032 3.33332V6.66666C8.75032 7.81725 7.81758 8.74999 6.66699 8.74999H3.33366C2.18307 8.74999 1.25033 7.81725 1.25033 6.66666V3.33332Z" fill="#DA1414"/>
@@ -42,6 +43,7 @@
 			{% include "modals/_modal_delete_template.html.twig" %}	
 			<p class="action-p delete-action-p action_modal" id="action_modal">Archive template</p>		
 	</div>
+	{% endif %}
 
 </div>
 <div id="full-screen-action-menu-container-modal-close{{ loop.index }}" class="full-screen-action-menu-container-modal-close"></div>

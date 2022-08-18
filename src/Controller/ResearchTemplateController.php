@@ -67,10 +67,44 @@ class ResearchTemplateController extends AbstractController
             }
         }
         $researchTemplateList = $templateRepository->findByStatus();
+        $archiveTemplateList = $templateRepository->findByArchiveStatus();
 
         return $this->renderForm('research_template/index.html.twig', [
             'form' => $form,
             'researchTemplates' => $researchTemplateList,
+            'archiveResearchTemplates' => $archiveTemplateList,
+        ]);
+    }
+
+    #[Route('/archive', name: 'archive', methods: ['GET', 'POST'])]
+    public function archive(
+        Request $request,
+        ResearchTemplateRepository $templateRepository,
+        CheckDataUtils $checkDataUtils,
+    ): Response {
+        $dataComponent =  $checkDataUtils->trimData($request);
+
+        $researchTemplate = new ResearchTemplate();
+        $form = $this->createForm(ResearchTemplateType::class, $researchTemplate);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if (
+                $this->isCsrfTokenValid(
+                    'add_research_template',
+                    $dataComponent['_token_add_research_template']
+                )
+            ) {
+                $templateRepository->add($researchTemplate, true);
+                $id = $researchTemplate->getId();
+                return $this->redirectToRoute('research_template_add', ['id' => $id], Response::HTTP_SEE_OTHER);
+            }
+        }
+        $archiveTemplateList = $templateRepository->findByArchiveStatus();
+
+        return $this->renderForm('research_template/archive.html.twig', [
+            'form' => $form,
+            'archiveResearchTemplates' => $archiveTemplateList,
         ]);
     }
 

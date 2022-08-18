@@ -45,6 +45,9 @@
 									{% else %}
 										<option value="dropped">Dropped</option>
 									{% endif %}
+									{% if researchTemplate.status is same as "archive" %}
+										<option value="archive" selected="selected">archive</option>
+									{% endif %}
 								</select>
 							</div>
 						</div>

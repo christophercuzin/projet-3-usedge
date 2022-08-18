@@ -23,18 +23,16 @@
                         	<p class="research-template-list-header-second-title">No templates available</p>
 						{% endif %}
 					</div>
+					
 					{% if researchTemplates %}
 						<div class="button-container">
-							{% for researchTemplate in archiveResearchTemplates %}
-								{% if researchTemplate.status is same as 'archive' %}
-									<a href="{{ path('research_template_archive') }}" class="view-template-link">
-										<button class="view-template-button" id="view-archive-template-button">
-											View archived templates
-										</button>
-									</a>
-								{% endif %}
-							{% endfor %}
-							
+							{% if archiveResearchTemplates is not empty %}
+								<a href="{{ path('research_template_archive') }}" class="view-template-link">
+									<button class="view-template-button" id="view-archive-template-button">
+										View archived templates
+									</button>
+								</a>
+							{% endif %}
 							<button class="research-template-defined-list-add-button" id="add-template-button">
 								<img class="research-template-defined-list-add-icon" src="{{ asset('build/images/icons/Path.png') }}">
 								Create a new request template
@@ -43,7 +41,6 @@
 					{% endif %}
 				</div>
 			</header>
-
 			{% if researchTemplates %}
 				<div class="research-template-list-main">
 				{% set count = 0 %}

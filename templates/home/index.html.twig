@@ -109,10 +109,10 @@
                                     <td class="view-details">                                      
                                         {% if 'Draft' in researchRequest.status %}
                                             <a href="{{path('research_request_edit', {id: researchRequest.id})}}" class="edit-request-link">
-                                                <button class="edit-request-button">Edit</button>
+                                                <button type="button" class="edit-request-button">Edit</button>
                                             </a>
                                         {% else %}
-                                            <button id="{{ researchRequest.id }}" class="request-details-button">View</button>
+                                            <button type="button" id="{{ researchRequest.id }}" class="request-details-button">View</button>
                                         {% endif %}
                                     </td>
                                     <td class="icon-see-more">
@@ -166,13 +166,14 @@
                 </table>
                 <div class="table-scroll" id="plan-table-scroll">
                     <table>
+                    {% set count = 0 %}
                         {% for researchRequest in researchRequests %}
                             {% if researchRequest.status is not same as 'Draft' %}
                                 {% include "home/modals/_modal_interview_planning_request.html.twig" %}
                             {% endif %}
                         {% endfor %}
                         {% for researchPlan in researchPlans %}
-                            {% include "home/modals/_modal_details_research_plan.html.twig" %}
+                        {% include "home/modals/_modal_details_research_plan.html.twig" %}
                             <tbody class="result">
                                 <tr>
                                     <td class="view-details view-request-type" id="view-request-type">
@@ -195,8 +196,27 @@
                                     <td class="view-details">
                                     <img class="coach-picture" src="{{ asset('build/images/icons/john-doe.png') }}">{{ researchPlan.researchRequest.researchTemplate.coach }}
                                     </td>
-                                    <td class="view-details color-status">
-                                        {% include "home/_research_plans_status.html.twig" %}
+                                    <td class="view-details color-status plan-status{{researchPlan.id}}">
+                                        {% if researchPlan.status is same as 'Dropped' %}
+                                            <div class="dropped">
+                                                <p><img src="{{ asset('build/images/icons/red-dot.png')}}">{{ researchPlan.status }}</p>
+                                            </div>
+                                        {% endif %}
+                                        {% if researchPlan.status is same as 'Validated' %}
+                                            <div class="validated">
+                                                <p><img src="{{ asset('build/images/icons/green-dot.png')}}">{{ researchPlan.status }}</p>
+                                            </div>
+                                        {% endif %}
+                                        {% if researchPlan.status is same as 'Sent to user' %}
+                                            <div class="sent-to-user">
+                                                <p><img src="{{ asset('build/images/icons/blue-dot.png')}}">{{ researchPlan.status }}</p>
+                                            </div>
+                                        {% endif %}
+                                        {% if researchPlan.status is same as 'Draft' %}
+                                            <div class="draft">
+                                                <p><img src="{{ asset('build/images/icons/grey-dot.png')}}">{{ researchPlan.status }}</p>
+                                            </div>
+                                        {% endif %}
                                     </td> 
                                     <td class="view-details">                                     
                                         {% if 'Draft' in researchPlan.status %}
@@ -204,7 +224,7 @@
                                                 <button type="button" class="edit-request-button">Edit</button>
                                             </a>
                                         {% else %}
-                                            <button id="{{ researchPlan.id }}" class="research-plan-details-button">View</button>
+                                            <button type="button" id="{{ researchPlan.id }}" class="research-plan-details-button">View</button>
                                         {% endif %}
                                     </td>
                                     <td class="icon-see-more">
@@ -212,6 +232,7 @@
                                     </td>
                                 </tr>
                             </tbody>
+                            {% set count = count + 1 %}
                         {% endfor %}
                         {% if researchPlans is empty %}
                             <tbody class="result">

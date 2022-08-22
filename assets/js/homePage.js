@@ -1,3 +1,32 @@
+function load(validatePlanButtons) {
+    for (const validatePlanButton of validatePlanButtons) {
+        const idOfvalidatePlanButton = validatePlanButton.getAttribute('id');
+        const tbodys = document.getElementsByClassName('details-research-plan-title' + idOfvalidatePlanButton);
+        for (const tbody of tbodys) {
+            fetch('/modal/' + idOfvalidatePlanButton)
+                .then(response => response.text()
+                    .then(content => tbody.innerHTML = content))
+            ;
+        }
+        const bodys = document.getElementsByClassName('validate-plan-container' + idOfvalidatePlanButton);
+        for (const body of bodys) {
+            fetch('/validate/' + idOfvalidatePlanButton)
+                .then(response => response.text()
+                    .then(content => body.innerHTML = content))
+            ; 
+        }
+
+        const statusBodys = document.getElementsByClassName('plan-status' + idOfvalidatePlanButton);
+        for (const statusBody of statusBodys) {
+            fetch('/plan/status/' + idOfvalidatePlanButton)
+                .then(response => response.text()
+                    .then(content => statusBody.innerHTML = content))
+            ; 
+        }
+              
+    }  
+}
+
 if (document.getElementById('reasearch-plans')) {
 
     const researchPlans = document.getElementById('reasearch-plans');
@@ -26,6 +55,9 @@ if (document.getElementById('reasearch-plans')) {
     const researchPlanDetailsModals = document.querySelectorAll('.research-center-details-research-plan');
     const researchPlanDetailsModalsClose = document.querySelectorAll('.details-research-plan-header-close');
     const researchPlanDetailsReturnLinks = document.querySelectorAll('.details-research-plan-header-return-icon');
+    const validatePlanForm = document.getElementById('validate-plan-form');
+    const validatePlanButtons = document.querySelectorAll('.validate-plan-button');
+    const researchPlanIds = document.querySelectorAll('.research-plan-id');
 
     researchRequests.onchange = function () {
         researchPlans.checked = true;
@@ -226,8 +258,35 @@ if (document.getElementById('reasearch-plans')) {
                 }
                 if (idOfmodalResearchPlan === idOfButtonViewResearchPlan) {
                     researchPlanDetailsModal.classList.add('research-center-details-research-plan-display');
+                    
                 }
             }
         });
     }
+
+    //function use to change the status of the research plan to validated
+    
+    for (const validatePlanButton of validatePlanButtons) {
+        validatePlanButton.addEventListener('click', () => {
+            const idOfvalidatePlanButton = validatePlanButton.getAttribute('id');
+            for (const researchPlanId of researchPlanIds) {
+                if (researchPlanId.value != idOfvalidatePlanButton) {
+                    researchPlanId.value = idOfvalidatePlanButton
+                }
+            }
+        });
+    }
+    if(validatePlanForm) {
+        validatePlanForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const form = new FormData(validatePlanForm);
+            fetch('/', {
+                method: 'POST',
+                body: form
+            })
+                .then(function(){
+                    load(validatePlanButtons);
+                })
+        })
+    } 
 }

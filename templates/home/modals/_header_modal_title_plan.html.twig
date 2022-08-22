@@ -1,0 +1,13 @@
+{% if researchPlan.status is not same as 'Validated' %}
+            <p class="details-research-plan-header-first-title">
+                Research plan assigned to your request
+                </p>
+                
+            {% else %}
+                <p class="details-research-plan-header-first-title">
+                    <img src="{{asset('build/images/icons/icon-validated.png')}}"> Research plan assigned to your request
+                </p>
+            {% endif %}
+            <p class="details-research-plan-header-subtitle">
+                This element has been built upon your research request, feel free to use it as you want.
+            </p>

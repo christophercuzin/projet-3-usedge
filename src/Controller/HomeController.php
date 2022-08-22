@@ -31,6 +31,14 @@ class HomeController extends AbstractController
         ]);
     }
 
+    #[Route('/plan/status/{id}', name: 'app_home_get_plan_status', methods: ['GET'])]
+    public function getPlanStatus(ResearchPlan $researchPlan): Response
+    {
+        return $this->render('home/_research_plans_status.html.twig', [
+            'researchPlan' => $researchPlan,
+        ]);
+    }
+
     #[Route('/', name: 'app_home_get', methods: ['GET'])]
     public function indexGet(
         ResearchTemplateRepository $researchTemplates,

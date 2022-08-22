@@ -15,6 +15,14 @@ function load(validatePlanButtons) {
                     .then(content => body.innerHTML = content))
             ; 
         }
+
+        const statusBodys = document.getElementsByClassName('plan-status' + idOfvalidatePlanButton);
+        for (const statusBody of statusBodys) {
+            fetch('/plan/status/' + idOfvalidatePlanButton)
+                .then(response => response.text()
+                    .then(content => statusBody.innerHTML = content))
+            ; 
+        }
               
     }  
 }

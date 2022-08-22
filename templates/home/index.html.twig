@@ -196,8 +196,27 @@
                                     <td class="view-details">
                                     <img class="coach-picture" src="{{ asset('build/images/icons/john-doe.png') }}">{{ researchPlan.researchRequest.researchTemplate.coach }}
                                     </td>
-                                    <td class="view-details color-status">
-                                        {% include "home/_research_plans_status.html.twig" %}
+                                    <td class="view-details color-status plan-status{{researchPlan.id}}">
+                                        {% if researchPlan.status is same as 'Dropped' %}
+                                            <div class="dropped">
+                                                <p><img src="{{ asset('build/images/icons/red-dot.png')}}">{{ researchPlan.status }}</p>
+                                            </div>
+                                        {% endif %}
+                                        {% if researchPlan.status is same as 'Validated' %}
+                                            <div class="validated">
+                                                <p><img src="{{ asset('build/images/icons/green-dot.png')}}">{{ researchPlan.status }}</p>
+                                            </div>
+                                        {% endif %}
+                                        {% if researchPlan.status is same as 'Sent to user' %}
+                                            <div class="sent-to-user">
+                                                <p><img src="{{ asset('build/images/icons/blue-dot.png')}}">{{ researchPlan.status }}</p>
+                                            </div>
+                                        {% endif %}
+                                        {% if researchPlan.status is same as 'Draft' %}
+                                            <div class="draft">
+                                                <p><img src="{{ asset('build/images/icons/grey-dot.png')}}">{{ researchPlan.status }}</p>
+                                            </div>
+                                        {% endif %}
                                     </td> 
                                     <td class="view-details">                                     
                                         {% if 'Draft' in researchPlan.status %}

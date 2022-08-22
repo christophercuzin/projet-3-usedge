@@ -109,10 +109,10 @@
                                     <td class="view-details">                                      
                                         {% if 'Draft' in researchRequest.status %}
                                             <a href="{{path('research_request_edit', {id: researchRequest.id})}}" class="edit-request-link">
-                                                <button class="edit-request-button">Edit</button>
+                                                <button type="button" class="edit-request-button">Edit</button>
                                             </a>
                                         {% else %}
-                                            <button id="{{ researchRequest.id }}" class="request-details-button">View</button>
+                                            <button type="button" id="{{ researchRequest.id }}" class="request-details-button">View</button>
                                         {% endif %}
                                     </td>
                                     <td class="icon-see-more">
@@ -166,13 +166,14 @@
                 </table>
                 <div class="table-scroll" id="plan-table-scroll">
                     <table>
+                    {% set count = 0 %}
                         {% for researchRequest in researchRequests %}
                             {% if researchRequest.status is not same as 'Draft' %}
                                 {% include "home/modals/_modal_interview_planning_request.html.twig" %}
                             {% endif %}
                         {% endfor %}
                         {% for researchPlan in researchPlans %}
-                            {% include "home/modals/_modal_details_research_plan.html.twig" %}
+                        {% include "home/modals/_modal_details_research_plan.html.twig" %}
                             <tbody class="result">
                                 <tr>
                                     <td class="view-details view-request-type" id="view-request-type">
@@ -204,7 +205,7 @@
                                                 <button type="button" class="edit-request-button">Edit</button>
                                             </a>
                                         {% else %}
-                                            <button id="{{ researchPlan.id }}" class="research-plan-details-button">View</button>
+                                            <button type="button" id="{{ researchPlan.id }}" class="research-plan-details-button">View</button>
                                         {% endif %}
                                     </td>
                                     <td class="icon-see-more">
@@ -212,6 +213,7 @@
                                     </td>
                                 </tr>
                             </tbody>
+                            {% set count = count + 1 %}
                         {% endfor %}
                         {% if researchPlans is empty %}
                             <tbody class="result">

@@ -57,10 +57,6 @@ class ResearchPlanUtils
             $this->checkErrors[] = "The workshop description field is mandatory";
         }
 
-        if (empty($dataComponent['research-plan-recommendation'])) {
-            $this->checkErrors[] = "The recommendation field is mandatory";
-        }
-
         if (empty($dataComponent['research-request-coach'])) {
             $this->checkErrors[] = "The coach field is mandatory";
         }

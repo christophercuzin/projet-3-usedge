@@ -69,30 +69,44 @@
             padding: 15px 25px 25px;
             gap: 10px;
             width: 307px;
-            min-height: 198px;
             @include absolutePosition(243px, 374px);
             background-color: $primary-white-1;
             border-radius: 15px;
-            h1 {
-                @include textStyle($text-font, $font-size-18,
-                $font-weight-600, $primary-dark-1);
-                line-height: 23px;
+            .plan-sections-title {
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+                margin-bottom: 0.5rem;
+                h1 {
+                    margin: 0;
+                    @include textStyle($text-font, $font-size-18,
+                    $font-weight-600, $primary-dark-1);
+                    line-height: 23px;
+                }
+                .button-add-section-icon {
+                    background: transparent;
+                    border: none;
+                    img {
+                        @include dimension (20px, 20px);
+                        align-self: center;
+                    }
+                }
             }
             .button-untitled {
+                display: flex;
+                justify-content: center;
+                align-items: center;
                 @include dimension(257px, 53px);
                 @include button($primary-blue-2, $border-radius-10, none);
                 @include textStyle($text-font, $font-size-18,
                 $font-weight-600, $primary-blue-1);
                 line-height: 23px;
                 letter-spacing: 0.116667px;
+                p {
+                    margin: 0;
+                }
             }
-            .button-add-section {
-                @include dimension(257px, 53px);
-                @include button($primary-white-1, $border-radius-10, 1.5px dashed $primary-grey-4);
-                @include textStyle($text-font, $font-size-18,
-                $font-weight-600, $primary-grey-4);
-                letter-spacing: 0.116667px;
-            }
+        
         }
     }
     .section-form {
@@ -105,15 +119,28 @@
         @include absolutePosition(108px, 706px);
         background-color: $primary-white-1;
         border-radius: 15px;
-        .send-research-plan {
-            @include dimension(760px, 42px);
-            @include button($primary-blue-1, $border-radius-10, none);
-            @include textStyle($text-font, $font-size-14,
-            $font-weight-600, $primary-white-1);
-            align-self: flex-end;
-            padding: 10px 10px 10px 10px;  
-            img {
-                padding-bottom: 5px;
+        .validation-plan-button-container {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+            .send-research-plan {
+                @include dimension(50%, 42px);
+                @include button($primary-blue-1, $border-radius-10, none);
+                @include textStyle($text-font, $font-size-14,
+                $font-weight-600, $primary-white-1);
+                align-self: flex-end;
+                padding: 10px 10px 10px 10px;  
+                img {
+                    padding-bottom: 5px;
+                }
+            }
+            .button-add-section {
+                @include dimension(50%, 42px);
+                @include button($primary-white-1, $border-radius-10, 1px solid $primary-blue-1);
+                @include textStyle($text-font, $font-size-18,
+                $font-weight-600, $primary-blue-1);
+                align-self: flex-end;
+                letter-spacing: 0.116667px;
             }
         }
     }

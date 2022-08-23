@@ -24,17 +24,19 @@
         </div>
 
         <div class="section-plan">
-            <h1>Plan sections</h1> 
+            <div class="plan-sections-title">
+                <h1>Plan sections</h1>
+                <button type="submit" formaction="{{path('research_plan_new_section', {id: researchRequest.id})}}" class="button-add-section button-add-section-icon" id="button-add-section"><img src="{{ asset('build/images/icons/add-section.png') }}" alt="add a new section icon"></button>
+            </div> 
             {% if researchPlan is not empty %}
                 {% for researchPlanSection in researchPlan.researchPlanSections %}
                     <button type="submit" formaction="{{path('edit_research_plan_section', {researchRequestId: researchPlan.researchRequest.id, sectionId: researchPlanSection.id})}}" class="button-untitled">{{researchPlanSection.title}}</button>
                 {% endfor %} 
             {% endif %}  
             <input type="hidden" name="research_plan_section" value=" {{researchPlanSection.id}}">        
-            <input type="button" class="button-untitled" id="button-untitled" value="Untitled">
-            <button type="submit" formaction="{{path('research_plan_new_section', {id: researchRequest.id})}}" class="button-add-section" id="button-add-section">
-                + Add a new section
-            </button>
+            <div class="button-untitled" >
+                <p id="button-untitled">Untitled</p>
+            </div>
         </div>
     </div>
 
@@ -45,10 +47,21 @@
         <div>
             {% include 'research_plan/_layout_edit_section_plan.html.twig' %}
         </div>
-        <button formaction="{{path('research_plan_new_section', {id: researchRequest.id})}}" class="send-research-plan" id="send-research-plan">
-            <img src="{{ asset('build/images/icons/send.png') }}" alt="icon send"> 
-            Update this section
-        </button>
+        <div class="validation-plan-button-container">
+            {% if researchPlan is not empty %}
+                <button type="submit" formaction="{{path('research_plan_new_section', {id: researchRequest.id})}}" class="button-add-section" id="button-add-section">+ Add a new section</button>
+                <button formaction="{{path('research_plan_new_section', {id: researchRequest.id})}}" class="send-research-plan" id="send-research-plan">
+                    <img src="{{ asset('build/images/icons/send.png') }}" alt="icon send"> 
+                    Update this section
+                </button>                    
+                        {% else %}
+                <button type="submit" formaction="{{path('research_plan_new_section', {id: researchRequest.id})}}" class="button-add-section" id="button-add-section">+ Add a new section</button>
+                <button formaction="{{path('research_plan_new_section', {id: researchRequest.id})}}" class="send-research-plan" id="send-research-plan">
+                    <img src="{{ asset('build/images/icons/send.png') }}" alt="icon send"> 
+                    Update this section
+                </button>                
+            {% endif %}
+        </div>
     </div>
 </div>
 </form>

@@ -22,7 +22,7 @@ if (document.getElementById('title-section-research-plan')) {
     const linkViewRequest = document.getElementById('link-view-request');
     const modalInterviewPlanningRequest = document.getElementById('modal-interview-planning-request');
     const interviewPlanningHeaderClose = document.getElementById('interview-planning-header-close');
-    const buttonAddSection = document.getElementById('button-add-section');
+    const buttonAddSections = document.getElementsByClassName('button-add-section');
     const saveAndContinue = document.getElementById('save_and_continue_later_button');
     const planStatus = document.getElementById('plan_status');
     const requestStatus = document.getElementById('research-request-status');
@@ -41,7 +41,7 @@ if (document.getElementById('title-section-research-plan')) {
         inputTitleSectionPlan.addEventListener("keyup", function (event) {
             if (event.key != "Enter") {
                 const valueInput = inputTitleSectionPlan.value;
-                buttonUntitled.value = valueInput;
+                buttonUntitled.innerHTML = valueInput;
             }
         
         })
@@ -49,7 +49,7 @@ if (document.getElementById('title-section-research-plan')) {
             inputTitleSectionPlan.classList.remove('title-section-research-plan');
             inputTitleSectionPlan.classList.add("newTitleSection");
             const valueInput = inputTitleSectionPlan.value;
-            buttonUntitled.value = valueInput;
+            buttonUntitled.innerHTML = valueInput;
         })
         
     }, true);
@@ -173,13 +173,16 @@ if (document.getElementById('title-section-research-plan')) {
         })
     }
 
-    if (buttonAddSection) {
-        buttonAddSection.addEventListener('click', () => {
-            if (selectedWorkshopNameInput.value == "") {
-                buttonAddSection.removeAttribute('formaction');
-            }
-        })
+    for (const buttonAddSection of buttonAddSections) {
+        if (buttonAddSection) {
+            buttonAddSection.addEventListener('click', () => {
+                if (selectedWorkshopNameInput.value == "") {
+                    buttonAddSection.removeAttribute('formaction');
+                }
+            })
+        }
     }
+    
     saveAndContinue.addEventListener('click', () => {
         inputTitleSectionPlan.removeAttribute('required');
         planStatus.value = "Draft";

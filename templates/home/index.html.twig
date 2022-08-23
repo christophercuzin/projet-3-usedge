@@ -50,6 +50,14 @@
                 <input type="date" name="Creation-date" id="Creation-date">
             </form>
         </div>
+        {% for researchPlan in researchPlans %}
+            {% include "home/modals/_modal_details_research_plan.html.twig" %}
+        {% endfor %}
+        {% for researchRequest in researchRequests %}
+            {% if researchRequest.status is not same as 'Draft' %}
+                {% include "home/modals/_modal_interview_planning_request.html.twig" %}
+            {% endif %}
+        {% endfor %}
         <div class="research-list">
             <div class="requests-list" id="requests-list">
                 <div class="requests-header">
@@ -79,14 +87,7 @@
                 </table>
                 <div class="table-scroll">
                     <table>
-                    {% for researchPlan in researchPlans %}
-                                {% include "home/modals/_modal_details_research_plan.html.twig" %}
-                            {% endfor %}
                         {% for researchRequest in researchRequests %}
-                            {% if researchRequest.status is not same as 'Draft' %}
-                                {% include "home/modals/_modal_interview_planning_request.html.twig" %}
-                            {% endif %}
-                            
                             <tbody class="result">
                                 <tr>
                                     <td class="view-details view-request-type" id="view-request-type">
@@ -166,14 +167,7 @@
                 </table>
                 <div class="table-scroll" id="plan-table-scroll">
                     <table>
-                    {% set count = 0 %}
-                        {% for researchRequest in researchRequests %}
-                            {% if researchRequest.status is not same as 'Draft' %}
-                                {% include "home/modals/_modal_interview_planning_request.html.twig" %}
-                            {% endif %}
-                        {% endfor %}
                         {% for researchPlan in researchPlans %}
-                        {% include "home/modals/_modal_details_research_plan.html.twig" %}
                             <tbody class="result">
                                 <tr>
                                     <td class="view-details view-request-type" id="view-request-type">
@@ -232,7 +226,6 @@
                                     </td>
                                 </tr>
                             </tbody>
-                            {% set count = count + 1 %}
                         {% endfor %}
                         {% if researchPlans is empty %}
                             <tbody class="result">

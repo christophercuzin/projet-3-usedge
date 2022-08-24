@@ -30,7 +30,9 @@ class ResearchRequestMailer
         $researchTemplate = $this->resTempRepository->findOneBy([
             'id' => $dataComponent['research_request_template_id']
         ]);
-        $this->templateName = $researchTemplate->getName();
+        if ($researchTemplate != null) {
+            $this->templateName = $researchTemplate->getName();
+        }
     }
 
     public function researchRequestSendMail(): void

@@ -28,8 +28,10 @@ class ResearchPlanMailer
     public function getResearchRequestData(array $dataComponent): void
     {
         $researchRequest = $this->resReqRepository->findOneBy(['id' => $dataComponent['research-request-id']]);
-        $this->coachName = $researchRequest->getResearchTemplate()->getCoach();
-        $this->templateName = $researchRequest->getResearchTemplate()->getName();
+        if ($researchRequest != null) {
+            $this->coachName = $researchRequest->getResearchTemplate()->getCoach();
+            $this->templateName = $researchRequest->getResearchTemplate()->getName();
+        }
     }
 
     public function researchPlanSendMail(): void

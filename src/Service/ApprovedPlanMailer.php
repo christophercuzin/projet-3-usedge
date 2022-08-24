@@ -28,7 +28,9 @@ class ApprovedPlanMailer
     public function getTemplateName(array $dataComponent): void
     {
         $researchPlan = $this->resPlanRepository->findOneBy(['id' => $dataComponent['research-plan-id']]);
-        $this->templateName = $researchPlan->getResearchRequest()->getResearchTemplate()->getName();
+        if ($researchPlan != null) {
+            $this->templateName = $researchPlan->getResearchRequest()->getResearchTemplate()->getName();
+        }
     }
 
     public function approvedPlanSendMail(): void

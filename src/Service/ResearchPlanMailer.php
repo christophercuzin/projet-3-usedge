@@ -30,6 +30,7 @@ class ResearchPlanMailer
         $researchRequest = $this->resReqRepository->findOneBy(['id' => $dataComponent['research-request-id']]);
         if (
             $researchRequest != null &&
+            $researchRequest->getResearchTemplate() != null &&
             $researchRequest->getResearchTemplate()->getCoach() != null &&
             $researchRequest->getResearchTemplate()->getName() != null
         ) {

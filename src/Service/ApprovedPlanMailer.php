@@ -30,6 +30,8 @@ class ApprovedPlanMailer
         $researchPlan = $this->resPlanRepository->findOneBy(['id' => $dataComponent['research-plan-id']]);
         if (
             $researchPlan != null &&
+            $researchPlan->getResearchRequest() != null &&
+            $researchPlan->getResearchRequest()->getResearchTemplate() != null &&
             $researchPlan->getResearchRequest()->getResearchTemplate()->getName() != null
         ) {
             $this->templateName = $researchPlan->getResearchRequest()->getResearchTemplate()->getName();

@@ -7,8 +7,8 @@ use App\Repository\CanvasWorkshopsRepository;
 use App\Entity\ResearchRequest;
 use App\Repository\ResearchPlanRepository;
 use App\Service\CheckDataUtils;
+use App\Service\ResearchPlanMailer;
 use App\Service\ResearchPlanUtils;
-use App\Service\ResearchRequestMailer;
 use App\Service\ResearchRequestUtils;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,7 +27,7 @@ class ResearchPlanController extends AbstractController
         CheckDataUtils $checkDataUtils,
         ResearchPlanUtils $researchPlanUtils,
         ResearchRequestUtils $researchReqUtils,
-        ResearchRequestMailer $mailer,
+        ResearchPlanMailer $mailer,
         ResearchPlanRepository $researchPlanRepo,
     ): Response {
 
@@ -58,6 +58,7 @@ class ResearchPlanController extends AbstractController
             )
         ) {
             $researchReqUtils->updateResearchRequestStatus($dataComponent);
+            $mailer->getResearchRequestData($dataComponent);
             $researchPlanUtils->addResearchPlan($dataComponent);
             $mailer->researchPlanSendMail();
         }
@@ -168,7 +169,7 @@ class ResearchPlanController extends AbstractController
         Request $request,
         CheckDataUtils $checkDataUtils,
         ResearchPlanUtils $researchPlanUtils,
-        ResearchRequestMailer $mailer,
+        ResearchPlanMailer $mailer,
         ResearchPlanRepository $researchPlanRepo,
         ResearchRequestUtils $researchReqUtils,
     ): Response {
@@ -185,10 +186,12 @@ class ResearchPlanController extends AbstractController
                 $researchReqUtils->updateResearchRequestStatus($dataComponent);
                 $researchPlanUtils->updateResearchPlanStatus($dataComponent, $researchPlan);
                 $researchPlanUtils->addResearchPlanSection($dataComponent, $researchPlan);
+                $mailer->getResearchRequestData($dataComponent);
                 $mailer->researchPlanSendMail();
             }
         }
         $researchReqUtils->updateResearchRequestStatus($dataComponent);
+        $mailer->getResearchRequestData($dataComponent);
         $researchPlanUtils->updateResearchPlanStatus($dataComponent, $researchPlan);
         $mailer->researchPlanSendMail();
         return $this->render('research_plan/confirm.html.twig');

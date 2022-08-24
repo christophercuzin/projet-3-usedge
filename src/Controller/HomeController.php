@@ -6,8 +6,10 @@ use App\Entity\ResearchPlan;
 use App\Repository\ResearchPlanRepository;
 use App\Repository\ResearchRequestRepository;
 use App\Repository\ResearchTemplateRepository;
+use App\Service\ApprovedPlanMailer;
 use App\Service\CheckDataUtils;
 use App\Service\ResearchPlanUtils;
+use App\Service\ResearchRequestMailer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     #[Route('/modal/{id}', name: 'app_home_get_modal', methods: ['GET'])]
-    public function getModal(ResearchPlan $researchPlan): Response
+    public function getModal(ResearchPlan $researchPlan,): Response
     {
         return $this->render('home/modals/_header_modal_title_plan.html.twig', [
             'researchPlan' => $researchPlan,
@@ -63,14 +65,16 @@ class HomeController extends AbstractController
         ResearchPlanRepository $researchPlanRepo,
         CheckDataUtils $checkDataUtils,
         ResearchPlanUtils $researchPlanUtils,
+        ApprovedPlanMailer $mailer,
     ): Response {
         $dataComponent = $checkDataUtils->trimData($request);
         if (!empty($dataComponent)) {
             $id = $dataComponent['research-plan-id'];
             $researchPlan = $researchPlanRepo->findOneBy(['id' => $id]);
+            $mailer->getTemplateName($dataComponent);
+            $mailer->approvedPlanSendMail();
             $researchPlanUtils->updateResearchPlanStatus($dataComponent, $researchPlan);
         }
-
         return new response();
     }
 }

@@ -2,38 +2,36 @@
 
 namespace App\Service;
 
-use App\Repository\ResearchTemplateRepository;
+use App\Repository\ResearchPlanRepository;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Mailer\MailerInterface;
 
-class ResearchRequestMailer
+class ApprovedPlanMailer
 {
     private MailerInterface $mailer;
     private ParameterBagInterface $parameters;
-    private ResearchTemplateRepository $resTempRepository;
+    private ResearchPlanRepository $resPlanRepository;
     private string $templateName;
 
 
     public function __construct(
         MailerInterface $mailer,
         ParameterBagInterface $parameters,
-        ResearchTemplateRepository $resTempRepository,
+        ResearchPlanRepository $resPlanRepository,
     ) {
         $this->mailer = $mailer;
         $this->parameters = $parameters;
-        $this->resTempRepository = $resTempRepository;
+        $this->resPlanRepository = $resPlanRepository;
     }
 
     public function getTemplateName(array $dataComponent): void
     {
-        $researchTemplate = $this->resTempRepository->findOneBy([
-            'id' => $dataComponent['research_request_template_id']
-        ]);
-        $this->templateName = $researchTemplate->getName();
+        $researchPlan = $this->resPlanRepository->findOneBy(['id' => $dataComponent['research-plan-id']]);
+        $this->templateName = $researchPlan->getResearchRequest()->getResearchTemplate()->getName();
     }
 
-    public function researchRequestSendMail(): void
+    public function approvedPlanSendMail(): void
     {
         $email = new TemplatedEmail();
         if (is_string($this->parameters->get('mailer_from'))) {
@@ -42,9 +40,9 @@ class ResearchRequestMailer
         if (is_string($this->parameters->get('mailer_to'))) {
             $email->to($this->parameters->get('mailer_to'));
         }
-        $email->subject('A new research request has been submitted');
-        $email->htmlTemplate('mail-template/researchRequestTemplateMail.html.twig');
-        $email->context(['templateName' => $this->templateName,]);
+        $email->subject('Your research plan has been approved');
+        $email->htmlTemplate('mail-template/approvedPlanTemplateMail.html.twig');
+        $email->context(['templateName' => $this->templateName]);
         $this->mailer->send($email);
     }
 }

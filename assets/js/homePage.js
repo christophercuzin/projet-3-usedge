@@ -258,13 +258,17 @@ if (document.getElementById('reasearch-plans')) {
                 }
                 if (idOfmodalResearchPlan === idOfButtonViewResearchPlan) {
                     researchPlanDetailsModal.classList.add('research-center-details-research-plan-display');
-                    
+                    for (const modalInterviewPlanningRequest of modalInterviewPlanningRequests) {
+                        modalInterviewPlanningRequest.classList.remove('modal-interview-planning-request-display');
+                    }
                 }
             }
+            
         });
     }
 
-    //function use to change the status of the research plan to validated
+
+    //function use to change the status of the research plan when validate
     
     for (const validatePlanButton of validatePlanButtons) {
         validatePlanButton.addEventListener('click', () => {

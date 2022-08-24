@@ -63,6 +63,7 @@ class ResearchRequestController extends AbstractController
                     $requestStatus = $resReqRepository->findOneBy([], ['id' => 'DESC'])->getStatus();
                 }
                 $requestUtils->addResearchRequestAnswer($answerList);
+                $mailer->getTemplateName($dataComponent);
                 if ($requestStatus === 'Waiting list') {
                     $mailer->researchRequestSendMail();
                 } else {

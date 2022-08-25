@@ -196,8 +196,16 @@ if (document.getElementById('reasearch-plans')) {
     for (const buttoninterviewPlanningModalClose of buttoninterviewPlanningModalCloses) {
         buttoninterviewPlanningModalClose.addEventListener('click', () => {
             planTableScroll.classList.remove('table-scroll-none');
+            const idOfButtoninterviewPlanningModalClose = buttoninterviewPlanningModalClose.getAttribute('data-id');
             for (const modalInterviewPlanningRequest of modalInterviewPlanningRequests) {
-                modalInterviewPlanningRequest.classList.remove('modal-interview-planning-request-display');
+                const idOfmodalInterviewPlanningRequest = modalInterviewPlanningRequest.getAttribute('id');
+                if (idOfButtoninterviewPlanningModalClose === idOfmodalInterviewPlanningRequest) {
+                    modalInterviewPlanningRequest.classList.remove('modal-interview-planning-request-display');
+                    modalInterviewPlanningRequest.classList.add('modal-interview-planning-request-close');
+                    setTimeout(() => {
+                        modalInterviewPlanningRequest.classList.remove('modal-interview-planning-request-close')
+                    }, 600)
+                }
             }
         });
     }

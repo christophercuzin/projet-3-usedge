@@ -316,6 +316,7 @@
     }
     .modal-interview-planning-request-close {
         @extend .modal-interview-planning-request-display;
+        box-shadow: none;
         animation-duration: 0.6s;
         animation-name: slideout1;
         right: -1000px;

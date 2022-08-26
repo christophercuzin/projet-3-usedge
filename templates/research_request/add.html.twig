@@ -1,4 +1,5 @@
-{% extends 'base.html.twig' %}
+
+    {% extends 'base.html.twig' %}
 
 {% block title %}New research request{% endblock %}
 
@@ -8,14 +9,34 @@
             <img class="add-research-request-header-logo" src="{{ asset('build/images/usedge-logo.png') }}"/>
             <p class="add-research-request-header-title">New research request<p>
         </div>
+        <div class="request-button-container" id="request-button-container">
         <button form="add-research-request-form" class="add-research-request-header-button" id="add-research-request-header-button">
             <img class="add-research-request-header-button-icon" src="{{ asset('build/images/icons/logout-dark.png') }}"/>
             <p class="add-research-request-header-button-text">Save and continue later</p>
         </button>
+        </div>
     </header>
     <main class="add-research-request-main-content">
         <form method="POST" action="{{ path('research_request_add', {id: templateId}) }}" id="add-research-request-form" class="add-research-request-form">
-            <input type="hidden" name="research_request_template_id" value="{{ templateId }}">
+            {% if lastResearchRequestId is defined %}
+                <input type="hidden" id="research_request_id" name="research_request_id" value="{{ lastResearchRequestId }}">
+            {% else %}
+                <div class="new-research-request-modal-content-select">
+                    <input type="hidden" name="template_id" value="{{ researchTemplate.id }}">
+                    <input type="hidden" name="owner" value="Dominique Dupont">
+                    <input id="research-request-status" type="hidden" name="research-request-status" value="Draft">
+                    <label class="new-research-request-modal-select-label" for="research-request-project">
+                        Select a project <span class="red-star">*</span>
+                    </label>
+                    <select name="project" id="research-request-project" class="new-research-request-modal-select" required>
+                        <option value="">Select a project</option>
+                        <option value="UX/UI Project">UX/UI Project</option>
+                        <option value="Functionnality Project">Functionnality Project</option>
+                        <option value="Other Project">Other Project</option>
+                    </select>
+                </div>
+            {% endif %}
+            <input type="hidden" id="research_request_template_id" name="research_request_template_id" value="{{ templateId }}">
             <input id="research-request-status" type="hidden" name="research-request-status" value="Waiting list">
             <input type="hidden" name="_token_add_research_request_answer" value="{{ csrf_token('add_research_request_answer') }}">
             <div class="add-research-request-form-builder">
@@ -34,10 +55,19 @@
                 {% endfor %}
             {% endif %}
             </div>
-            <button class="add-research-request-form-button" id="add-research-request-form-button">
-                <img class="add-research-request-form-button-icon" src="{{ asset('build/images/icons/save-icon.png') }}"/>
-                <p class="add-research-request-form-button-text">Send/Update this research request</p>
-            </button>
+            {% if lastResearchRequestId is not defined %}
+                <button formaction="{{ path('research_request_add_external', {id: templateId}) }}" class="add-research-request-form-button" id="add-research-request-form-button">
+                    <img class="add-research-request-form-button-icon" src="{{ asset('build/images/icons/save-icon.png') }}"/>
+                    <p class="add-research-request-form-button-text">Send/Update this research request</p>
+                </button>
+            {% else %}
+                <button class="add-research-request-form-button" id="add-research-request-form-button">
+                    <img class="add-research-request-form-button-icon" src="{{ asset('build/images/icons/save-icon.png') }}"/>
+                    <p class="add-research-request-form-button-text">Send/Update this research request</p>
+                </button>
+            {% endif %}
+            
         </form>
-    </main>
+    </main> 
 {% endblock %}
+

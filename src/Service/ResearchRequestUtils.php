@@ -112,7 +112,14 @@ class ResearchRequestUtils
         }
     }
 
-    public function addResearchRequest(array $dataComponent): void
+    public function researchRequestCheckProject(array $dataComponent): void
+    {
+        if (!isset($dataComponent['project']) || empty($dataComponent['project'])) {
+            $this->checkErrors[] = "You must select a project";
+        }
+    }
+
+    public function addResearchRequest(array $dataComponent): int
     {
         $researchTemplate = $this->resTempRepository->findOneBy(['id' => $dataComponent['template_id']]);
         $entityManager = $this->entityManager;
@@ -129,6 +136,8 @@ class ResearchRequestUtils
         $entityManager->persist($researchRequest);
 
         $entityManager->flush();
+
+        return $researchRequest->getId();
     }
 
     public function addResearchRequestAnswer(array $answerList): void

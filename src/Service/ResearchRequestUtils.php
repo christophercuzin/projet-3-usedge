@@ -18,6 +18,7 @@ class ResearchRequestUtils
     private ResearchRequestRepository $resReqRepository;
     private AnswerRequestRepository $answerReqRep;
     private array $checkErrors = [];
+    private int $lastId;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -125,7 +126,6 @@ class ResearchRequestUtils
         $entityManager = $this->entityManager;
         $researchRequest = new ResearchRequest();
         $creationDate = new DateTime("now");
-        $lastId = "";
         if ($researchTemplate instanceof ResearchTemplate) {
             $researchRequest->setResearchTemplate($researchTemplate);
         }
@@ -137,10 +137,10 @@ class ResearchRequestUtils
 
         $entityManager->flush();
         if ($researchRequest->getId() != null) {
-            $lastId = $researchRequest->getId();
+            $this->lastId = $researchRequest->getId();
         }
 
-        return $lastId;
+        return $this->lastId;
     }
 
     public function addResearchRequestAnswer(array $answerList): void

@@ -121,7 +121,9 @@ class ResearchRequestController extends AbstractController
                 if (isset($dataComponent['project'])) {
                     $lastResReqId = $requestUtils->addResearchRequest($dataComponent);
                     $requestUtils->updateResearchRequestStatus($dataComponent, $lastResReqId);
-                    $requestStatus = $resReqRepository->findOneBy(['id' => $lastResReqId])->getStatus();
+                    if ($resReqRepository->findOneBy(['id' => $lastResReqId])->getStatus() != null) {
+                        $requestStatus = $resReqRepository->findOneBy(['id' => $lastResReqId])->getStatus();
+                    }
                 } elseif ($resReqRepository->findOneBy([], ['id' => 'DESC']) instanceof ResearchRequest) {
                         $requestStatus = $resReqRepository->findOneBy([], ['id' => 'DESC'])->getStatus();
                 }

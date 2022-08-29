@@ -32,7 +32,7 @@
                 <div class="new-research-request-modal-content-select">
                     <input type="hidden" name="template_id" value="{{ researchTemplate.id }}">
                     <input type="hidden" name="owner" value="Dominique Dupont">
-                    <input id="research-request-status" type="hidden" name="research-request-status" value="Draft">
+                    <input id="research-request-status" type="hidden" name="research-request-status" value="Waiting list">
                     <label class="new-research-request-modal-select-label" for="research-request-project">
                         Select a project <span class="red-star">*</span>
                     </label>
@@ -65,12 +65,12 @@
             {% if lastResearchRequestId is not defined %}
                 <button formaction="{{ path('research_request_add_external', {id: templateId}) }}" class="add-research-request-form-button" id="add-research-request-form-button">
                     <img class="add-research-request-form-button-icon" src="{{ asset('build/images/icons/save-icon.png') }}"/>
-                    <p class="add-research-request-form-button-text">Send/Update this research request</p>
+                    <p class="add-research-request-form-button-text">Send this research request</p>
                 </button>
             {% else %}
                 <button class="add-research-request-form-button" id="add-research-request-form-button">
                     <img class="add-research-request-form-button-icon" src="{{ asset('build/images/icons/save-icon.png') }}"/>
-                    <p class="add-research-request-form-button-text">Send/Update this research request</p>
+                    <p class="add-research-request-form-button-text">Send this research request</p>
                 </button>
             {% endif %}
             

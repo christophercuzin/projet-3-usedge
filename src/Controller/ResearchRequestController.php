@@ -180,6 +180,7 @@ class ResearchRequestController extends AbstractController
                 $requestStatus = '';
                 $requestStatus = $researchRequest->getStatus();
                 $requestUtils->updateResearchRequestAnswer($answerList, $researchRequest);
+                $mailer->getTemplateName($dataComponent);
                 if ($requestStatus === 'Waiting list') {
                     $mailer->researchRequestSendMail();
                 } else {

@@ -15,6 +15,7 @@
     </header>
     <main class="add-research-request-main-content">
         <form method="POST" action="{{ path('research_request_edit', {id: researchRequest.id}) }}" id="add-research-request-form" class="add-research-request-form">
+            <input type="hidden" id="research_request_template_id" name="research_request_template_id" value="{{ researchRequest.researchTemplate.id }}">
             <input type="hidden" name="_token_edit_research_request_answer" value="{{ csrf_token('edit_research_request_answer') }}">
             <input id="research-request-status" type="hidden" name="research-request-status" value="Waiting list">
             <div class="add-research-request-form-builder">
@@ -36,7 +37,7 @@
             </div>
             <button type="submit" class="add-research-request-form-button" id="add-research-request-form-button">
                 <img class="add-research-request-form-button-icon" src="{{ asset('build/images/icons/save-icon.png') }}"/>
-                <p class="add-research-request-form-button-text">Send/Update this research request</p>
+                <p class="add-research-request-form-button-text">Update this research request</p>
             </button>
         </form>
     </main>

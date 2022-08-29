@@ -112,18 +112,18 @@ class ResearchRequestController extends AbstractController
             if (isset($dataComponent['project'])) {
                 $requestUtils->researchRequestCheckProject($dataComponent);
             }
-            $requestUtils->updateResearchRequestStatus($dataComponent);
             $answerList = $requestUtils->researchRequestSortAnswer($dataComponent);
             $requestUtils->researchRequestCheckDate($answerList);
             $requestUtils->researchRequestCheckURL($answerList);
             $requestErrors = $requestUtils->getCheckErrors();
             if (empty($requestErrors)) {
-                if (isset($dataComponent['project'])) {
-                    $requestUtils->addResearchRequest($dataComponent);
-                }
                 $requestStatus = '';
-                if ($resReqRepository->findOneBy([], ['id' => 'DESC']) instanceof ResearchRequest) {
-                    $requestStatus = $resReqRepository->findOneBy([], ['id' => 'DESC'])->getStatus();
+                if (isset($dataComponent['project'])) {
+                    $lastResReqId = $requestUtils->addResearchRequest($dataComponent);
+                    $requestUtils->updateResearchRequestStatus($dataComponent, $lastResReqId);
+                    $requestStatus = $resReqRepository->findOneBy(['id' => $lastResReqId])->getStatus();
+                } elseif ($resReqRepository->findOneBy([], ['id' => 'DESC']) instanceof ResearchRequest) {
+                        $requestStatus = $resReqRepository->findOneBy([], ['id' => 'DESC'])->getStatus();
                 }
                 $requestUtils->addResearchRequestAnswer($answerList);
                 $mailer->getTemplateName($dataComponent);

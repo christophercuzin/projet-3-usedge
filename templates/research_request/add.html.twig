@@ -10,16 +10,24 @@
             <p class="add-research-request-header-title">New research request<p>
         </div>
         <div class="request-button-container" id="request-button-container">
-        <button form="add-research-request-form" class="add-research-request-header-button" id="add-research-request-header-button">
+            {% if lastResearchRequestId is not defined %}
+                <button formaction="{{ path('research_request_add_external', {id: templateId}) }}" form="add-research-request-form" class="add-research-request-header-button" id="add-research-request-header-button">
             <img class="add-research-request-header-button-icon" src="{{ asset('build/images/icons/logout-dark.png') }}"/>
             <p class="add-research-request-header-button-text">Save and continue later</p>
         </button>
+            {% else %}
+                <button form="add-research-request-form" class="add-research-request-header-button" id="add-research-request-header-button">
+            <img class="add-research-request-header-button-icon" src="{{ asset('build/images/icons/logout-dark.png') }}"/>
+            <p class="add-research-request-header-button-text">Save and continue later</p>
+        </button>
+            {% endif %}
         </div>
     </header>
     <main class="add-research-request-main-content">
         <form method="POST" action="{{ path('research_request_add', {id: templateId}) }}" id="add-research-request-form" class="add-research-request-form">
             {% if lastResearchRequestId is defined %}
                 <input type="hidden" id="research_request_id" name="research_request_id" value="{{ lastResearchRequestId }}">
+                <input id="research-request-status" type="hidden" name="research-request-status" value="Waiting list">
             {% else %}
                 <div class="new-research-request-modal-content-select">
                     <input type="hidden" name="template_id" value="{{ researchTemplate.id }}">
@@ -37,7 +45,6 @@
                 </div>
             {% endif %}
             <input type="hidden" id="research_request_template_id" name="research_request_template_id" value="{{ templateId }}">
-            <input id="research-request-status" type="hidden" name="research-request-status" value="Waiting list">
             <input type="hidden" name="_token_add_research_request_answer" value="{{ csrf_token('add_research_request_answer') }}">
             <div class="add-research-request-form-builder">
             {% if requestComponents %}

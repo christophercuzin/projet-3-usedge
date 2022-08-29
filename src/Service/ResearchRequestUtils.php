@@ -170,12 +170,14 @@ class ResearchRequestUtils
         $entityManager->flush();
     }
 
-    public function updateResearchRequestStatus(array $dataComponent): void
+    public function updateResearchRequestStatus(array $dataComponent, int $lastResReqId = null): void
     {
         $entityManager = $this->entityManager;
         if (isset($dataComponent['research-request-id']) && !empty($dataComponent['research-request-id'])) {
             $id = $dataComponent['research-request-id'];
             $researchRequest = $this->resReqRepository->findOneBy(['id' => $id]);
+        } elseif ($lastResReqId != null) {
+            $researchRequest = $this->resReqRepository->findOneBy(['id' => $lastResReqId]);
         } else {
             $researchRequest = $this->resReqRepository->findOneBy([], ['id' => 'DESC']);
         }

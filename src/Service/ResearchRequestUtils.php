@@ -125,7 +125,7 @@ class ResearchRequestUtils
         $entityManager = $this->entityManager;
         $researchRequest = new ResearchRequest();
         $creationDate = new DateTime("now");
-
+        $lastId = "";
         if ($researchTemplate instanceof ResearchTemplate) {
             $researchRequest->setResearchTemplate($researchTemplate);
         }
@@ -136,8 +136,11 @@ class ResearchRequestUtils
         $entityManager->persist($researchRequest);
 
         $entityManager->flush();
+        if ($researchRequest->getId() != null) {
+            $lastId = $researchRequest->getId();
+        }
 
-        return $researchRequest->getId();
+        return $lastId;
     }
 
     public function addResearchRequestAnswer(array $answerList): void

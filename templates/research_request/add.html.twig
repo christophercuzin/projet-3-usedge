@@ -25,6 +25,10 @@
     </header>
     <main class="add-research-request-main-content">
         <form method="POST" action="{{ path('research_request_add', {id: templateId}) }}" id="add-research-request-form" class="add-research-request-form">
+            
+            <input type="hidden" id="research_request_template_id" name="research_request_template_id" value="{{ templateId }}">
+            <input type="hidden" name="_token_add_research_request_answer" value="{{ csrf_token('add_research_request_answer') }}">
+            <div class="add-research-request-form-builder">
             {% if lastResearchRequestId is defined %}
                 <input type="hidden" id="research_request_id" name="research_request_id" value="{{ lastResearchRequestId }}">
                 <input id="research-request-status" type="hidden" name="research-request-status" value="Waiting list">
@@ -44,9 +48,6 @@
                     </select>
                 </div>
             {% endif %}
-            <input type="hidden" id="research_request_template_id" name="research_request_template_id" value="{{ templateId }}">
-            <input type="hidden" name="_token_add_research_request_answer" value="{{ csrf_token('add_research_request_answer') }}">
-            <div class="add-research-request-form-builder">
             {% if requestComponents %}
                 {% set orderNumber = 1 %}
                 {% for requestComponent in requestComponents %}

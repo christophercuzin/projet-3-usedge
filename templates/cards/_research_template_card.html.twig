@@ -32,7 +32,8 @@
             Number of submissions : 
             <span class="research-template-list-card-number-submissions">{{ researchTemplate.researchRequests|length }}</span>
         </p>
-        <button class="research-template-list-card-link-button">
+        <input type="hidden" id="copy-link{{count}}" data-id="{{researchTemplate.id}}" class="copy-link" value="http://localhost:8000/research-request/add/{{ researchTemplate.id}}">
+        <button class="research-template-list-card-link-button" data-id="{{researchTemplate.id}}">
             <img class="research-template-list-card-link-icon" src="{{ asset('build/images/icons/link.png') }}">
             Copy sharing link
         </button>

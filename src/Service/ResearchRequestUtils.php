@@ -18,6 +18,7 @@ class ResearchRequestUtils
     private ResearchRequestRepository $resReqRepository;
     private AnswerRequestRepository $answerReqRep;
     private array $checkErrors = [];
+    private int $lastId;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -112,13 +113,19 @@ class ResearchRequestUtils
         }
     }
 
-    public function addResearchRequest(array $dataComponent): void
+    public function researchRequestCheckProject(array $dataComponent): void
+    {
+        if (!isset($dataComponent['project']) || empty($dataComponent['project'])) {
+            $this->checkErrors[] = "You must select a project";
+        }
+    }
+
+    public function addResearchRequest(array $dataComponent): int
     {
         $researchTemplate = $this->resTempRepository->findOneBy(['id' => $dataComponent['template_id']]);
         $entityManager = $this->entityManager;
         $researchRequest = new ResearchRequest();
         $creationDate = new DateTime("now");
-
         if ($researchTemplate instanceof ResearchTemplate) {
             $researchRequest->setResearchTemplate($researchTemplate);
         }
@@ -129,6 +136,11 @@ class ResearchRequestUtils
         $entityManager->persist($researchRequest);
 
         $entityManager->flush();
+        if ($researchRequest->getId() != null) {
+            $this->lastId = $researchRequest->getId();
+        }
+
+        return $this->lastId;
     }
 
     public function addResearchRequestAnswer(array $answerList): void
@@ -161,12 +173,14 @@ class ResearchRequestUtils
         $entityManager->flush();
     }
 
-    public function updateResearchRequestStatus(array $dataComponent): void
+    public function updateResearchRequestStatus(array $dataComponent, int $lastResReqId = null): void
     {
         $entityManager = $this->entityManager;
         if (isset($dataComponent['research-request-id']) && !empty($dataComponent['research-request-id'])) {
             $id = $dataComponent['research-request-id'];
             $researchRequest = $this->resReqRepository->findOneBy(['id' => $id]);
+        } elseif ($lastResReqId != null) {
+            $researchRequest = $this->resReqRepository->findOneBy(['id' => $lastResReqId]);
         } else {
             $researchRequest = $this->resReqRepository->findOneBy([], ['id' => 'DESC']);
         }

@@ -423,6 +423,15 @@
     }
     .validated {
         @extend .solved;
+        p {
+            @include dimension(78px !important, 24px);
+        }
+    }
+    .review-needed {
+        @extend .waiting-list;
+        p {
+            @include dimension(109px !important, 24px);
+        }
     }
     .request-details-link {
         background-color: transparent;

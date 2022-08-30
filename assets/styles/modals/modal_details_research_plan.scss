@@ -90,29 +90,32 @@
         }
         .validate-plan-button-container {
             width: 35%;
-            display: flex;
-            justify-content: space-between;
-            .ask-review-button {
+            .validate-plan-form {
+                width: 100%;
                 display: flex;
-                align-items: center;
-                justify-content: center;
-                @include button($primary-white-1, $border-radius-10, 1px solid $primary-grey-1);
-                @include textStyle($text-font, $font-size-14, $font-weight-600, $primary-grey-1);
-                @include dimension(150px, 42px);
-                text-align: center;
-                padding: 12px;
-                gap: 5px;
-            }
-            .validate-plan-button {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                @include button($primary-blue-1, $border-radius-10, 0);
-                @include textStyle($text-font, $font-size-14, $font-weight-600, $primary-white-1);
-                @include dimension(85px, 42px);
-                text-align: center;
-                padding: 12px;
-                gap: 5px;
+                justify-content: space-between;
+                .ask-review-button {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    @include button($primary-white-1, $border-radius-10, 1px solid $primary-grey-1);
+                    @include textStyle($text-font, $font-size-14, $font-weight-600, $primary-grey-1);
+                    @include dimension(150px, 42px);
+                    text-align: center;
+                    padding: 12px;
+                    gap: 5px;
+                }
+                .validate-plan-button {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    @include button($primary-blue-1, $border-radius-10, 0);
+                    @include textStyle($text-font, $font-size-14, $font-weight-600, $primary-white-1);
+                    @include dimension(85px, 42px);
+                    text-align: center;
+                    padding: 12px;
+                    gap: 5px;
+                }
             }
         }
     }

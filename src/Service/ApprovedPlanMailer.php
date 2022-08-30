@@ -25,9 +25,9 @@ class ApprovedPlanMailer
         $this->resPlanRepository = $resPlanRepository;
     }
 
-    public function getTemplateName(array $dataComponent): void
+    public function getTemplateName(string $id): void
     {
-        $researchPlan = $this->resPlanRepository->findOneBy(['id' => $dataComponent['research-plan-id']]);
+        $researchPlan = $this->resPlanRepository->findOneBy(['id' => $id]);
         if (
             $researchPlan != null &&
             $researchPlan->getResearchRequest() != null &&
@@ -49,6 +49,21 @@ class ApprovedPlanMailer
         }
         $email->subject('Your research plan has been approved');
         $email->htmlTemplate('mail-template/approvedPlanTemplateMail.html.twig');
+        $email->context(['templateName' => $this->templateName]);
+        $this->mailer->send($email);
+    }
+
+    public function planReviewRequiredSendMail(): void
+    {
+        $email = new TemplatedEmail();
+        if (is_string($this->parameters->get('mailer_from'))) {
+            $email->from($this->parameters->get('mailer_from'));
+        }
+        if (is_string($this->parameters->get('mailer_to'))) {
+            $email->to($this->parameters->get('mailer_to'));
+        }
+        $email->subject('Review required for your research plan');
+        $email->htmlTemplate('mail-template/planReviewRequiredTemplateMail.html.twig');
         $email->context(['templateName' => $this->templateName]);
         $this->mailer->send($email);
     }

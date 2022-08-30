@@ -1,31 +1,107 @@
-function load(validatePlanButtons) {
+//function use to change the status of the research plan when validate
+// or requir a review
+
+function asyncForm() {
+    const validatePlanForms = document.getElementsByClassName('validate-plan-form');
+    for (const validatePlanForm of validatePlanForms) {
+        if(validatePlanForm) {
+            validatePlanForm.addEventListener('submit', (event) =>{
+                const idOfValidatePlanForm =  validatePlanForm.getAttribute('data-id');
+                event.preventDefault();
+                const form = new FormData(validatePlanForm);
+                fetch('/', {
+                    method: 'POST',
+                    body: form
+                })
+                    .then(function(){
+                        if (document.getElementById('plan_status').value != 'Review needed') {
+                            loadPlanStatus(idOfValidatePlanForm)
+                            loadPlanButton(idOfValidatePlanForm)
+                            loadTitle(idOfValidatePlanForm);
+                            loadValidateContainer(idOfValidatePlanForm)
+                        } else {
+                            loadPlanStatus(idOfValidatePlanForm)
+                            loadPlanButton(idOfValidatePlanForm)
+                            loadValidateContainer(idOfValidatePlanForm)
+                            setTimeout(asyncForm, 1000)
+                        } 
+                    })
+            })
+        }
+    }
+    const planStatusInputs = document.getElementsByClassName('plan_status');
+    const validatePlanButtons = document.querySelectorAll('.validate-plan-button');
     for (const validatePlanButton of validatePlanButtons) {
-        const idOfvalidatePlanButton = validatePlanButton.getAttribute('id');
-        const tbodys = document.getElementsByClassName('details-research-plan-title' + idOfvalidatePlanButton);
-        for (const tbody of tbodys) {
+        validatePlanButton.addEventListener('click', () => {
+            for (const planStatusInput of planStatusInputs) {
+                planStatusInput.value = 'Validated';
+            }
+        })
+    }
+    const askAReviewButtons = document.getElementsByClassName('ask-review-button');
+    for (const askAReviewButton of askAReviewButtons) {
+        askAReviewButton.addEventListener('click', () => {
+            for (const planStatusInput of planStatusInputs) {
+                planStatusInput.value = 'Review needed';
+            }
+        })
+    }
+}
+
+
+function loadTitle(idOfvalidatePlanButton) {
+    const tbodys = document.getElementsByClassName('details-research-plan-title' + idOfvalidatePlanButton);
+    for (const tbody of tbodys) {
+        const idOfTbody = tbody.getAttribute('data-id');
+        if (idOfvalidatePlanButton === idOfTbody) {
             fetch('/modal/' + idOfvalidatePlanButton)
                 .then(response => response.text()
                     .then(content => tbody.innerHTML = content))
             ;
         }
-        const bodys = document.getElementsByClassName('validate-plan-container' + idOfvalidatePlanButton);
-        for (const body of bodys) {
+    }            
+}
+
+function loadValidateContainer(idOfvalidatePlanButton) {
+    const bodys = document.getElementsByClassName('validate-plan-container' + idOfvalidatePlanButton);
+    for (const body of bodys) {
+        const idOfBody = body.getAttribute('data-id');
+        if (idOfvalidatePlanButton === idOfBody) {
             fetch('/validate/' + idOfvalidatePlanButton)
                 .then(response => response.text()
                     .then(content => body.innerHTML = content))
-            ; 
+            ;
+            
         }
+    }             
+}
 
-        const statusBodys = document.getElementsByClassName('plan-status' + idOfvalidatePlanButton);
-        for (const statusBody of statusBodys) {
+function loadPlanStatus(idOfvalidatePlanButton) {
+    const statusBodys = document.getElementsByClassName('plan-status' + idOfvalidatePlanButton);
+    for (const statusBody of statusBodys) {
+        const idOfStatusBody = statusBody.getAttribute('data-id');
+        if (idOfvalidatePlanButton === idOfStatusBody) {
             fetch('/plan/status/' + idOfvalidatePlanButton)
                 .then(response => response.text()
                     .then(content => statusBody.innerHTML = content))
-            ; 
+            ;
         }
-              
-    }  
+    } 
 }
+
+function loadPlanButton(idOfvalidatePlanButton) {
+    const buttonBodys = document.getElementsByClassName('plan-button' + idOfvalidatePlanButton);
+    for (const buttonBody of buttonBodys) {
+        const idOfButtonBody = buttonBody.getAttribute('data-id');
+        if (idOfvalidatePlanButton === idOfButtonBody) {
+            fetch('/button/' + idOfvalidatePlanButton)
+                .then(response => response.text()
+                    .then(content => buttonBody.innerHTML = content))
+            ;
+        }
+    } 
+}
+
 
 if (document.getElementById('reasearch-plans')) {
 
@@ -55,9 +131,6 @@ if (document.getElementById('reasearch-plans')) {
     const researchPlanDetailsModals = document.querySelectorAll('.research-center-details-research-plan');
     const researchPlanDetailsModalsClose = document.querySelectorAll('.details-research-plan-header-close');
     const researchPlanDetailsReturnLinks = document.querySelectorAll('.details-research-plan-header-return-icon');
-    const validatePlanForm = document.getElementById('validate-plan-form');
-    const validatePlanButtons = document.querySelectorAll('.validate-plan-button');
-    const researchPlanIds = document.querySelectorAll('.research-plan-id');
 
     researchRequests.onchange = function () {
         researchPlans.checked = true;
@@ -277,28 +350,6 @@ if (document.getElementById('reasearch-plans')) {
 
 
     //function use to change the status of the research plan when validate
-    
-    for (const validatePlanButton of validatePlanButtons) {
-        validatePlanButton.addEventListener('click', () => {
-            const idOfvalidatePlanButton = validatePlanButton.getAttribute('id');
-            for (const researchPlanId of researchPlanIds) {
-                if (researchPlanId.value != idOfvalidatePlanButton) {
-                    researchPlanId.value = idOfvalidatePlanButton
-                }
-            }
-        });
-    }
-    if(validatePlanForm) {
-        validatePlanForm.addEventListener('submit', (event) => {
-            event.preventDefault();
-            const form = new FormData(validatePlanForm);
-            fetch('/', {
-                method: 'POST',
-                body: form
-            })
-                .then(function(){
-                    load(validatePlanButtons);
-                })
-        })
-    } 
+    // or requir a review
+    asyncForm();
 }

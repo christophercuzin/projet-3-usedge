@@ -190,7 +190,7 @@
                                     <td class="view-details">
                                     <img class="coach-picture" src="{{ asset('build/images/icons/john-doe.png') }}">{{ researchPlan.researchRequest.researchTemplate.coach }}
                                     </td>
-                                    <td class="view-details color-status plan-status{{researchPlan.id}}">
+                                    <td class="view-details color-status plan-status{{researchPlan.id}}" data-id="{{researchPlan.id}}">
                                         {% if researchPlan.status is same as 'Dropped' %}
                                             <div class="dropped">
                                                 <p><img src="{{ asset('build/images/icons/red-dot.png')}}">{{ researchPlan.status }}</p>
@@ -211,9 +211,14 @@
                                                 <p><img src="{{ asset('build/images/icons/grey-dot.png')}}">{{ researchPlan.status }}</p>
                                             </div>
                                         {% endif %}
+                                        {% if researchPlan.status is same as 'Review needed' %}
+                                            <div class="review-needed">
+                                                <p><img src="{{ asset('build/images/icons/orange-dot.png')}}">{{ researchPlan.status }}</p>
+                                            </div>
+                                        {% endif %}
                                     </td> 
-                                    <td class="view-details">                                     
-                                        {% if 'Draft' in researchPlan.status %}
+                                    <td class="view-details plan-button{{researchPlan.id}}" data-id="{{researchPlan.id}}">                                 
+                                        {% if 'Draft' in researchPlan.status or 'Review needed' in  researchPlan.status %}
                                             <a href="{{path('app_research_plan', {id: researchPlan.researchRequest.id})}}" class="edit-request-link">
                                                 <button type="button" class="edit-request-button">Edit</button>
                                             </a>

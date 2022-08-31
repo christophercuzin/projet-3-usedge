@@ -30,7 +30,7 @@
                     </div>
                     {% if researchPlan is not empty %}
                         {% for researchPlanSection in researchPlan.researchPlanSections %}
-                            <button type="submit" formaction="{{path('edit_research_plan_section', {researchRequestId: researchPlan.researchRequest.id, sectionId: researchPlanSection.id})}}" class="button-untitled">{{researchPlanSection.title}}</button>
+                            <button type="submit" formaction="{{path('edit_research_plan_section', {researchRequestId: researchPlan.researchRequest.id, sectionId: researchPlanSection.id})}}" class="button-untitled button-switch-section">{{researchPlanSection.title}}</button>
                         {% endfor %} 
                     {% endif %}          
                     <div class="button-untitled" >

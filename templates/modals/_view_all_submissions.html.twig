@@ -2,9 +2,11 @@
 <div class="modal_view_all_submissions">
     <div class="request-details-title">
         <p>Requests submitted</p>
-        <div class="request-details-close" id="request-details-close">
-            <span class="request-details-cross"></span>
-            <span class="request-details-cross"></span>
+        <div class="request-details-close-container">
+            <img src="{{ asset('build/images/icons/option-dots.png') }}">
+            <div class="request-details-close" id="request-details-close">
+                <img src="{{ asset('build/images/icons/close-dark-blue.png') }}">
+            </div>
         </div>
     </div>
     <table class="view-all-submssions-table">
@@ -43,7 +45,11 @@
                             <td class="request-details">
                                 <button id="{{ researchRequest.id }}" class="view-request-button">View</button>
                             </td>
+                            <td class="icon-see-more">
+                                <img src="{{ asset('build/images/icons/ic_More.png')}}">
+                            </td>
                         </tr>
+                        
                     </tbody>
                 {% endfor %}
             </table>

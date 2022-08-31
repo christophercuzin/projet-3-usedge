@@ -106,33 +106,37 @@ book a review if you need more help or explanations.</p>
                     </button>
                 </div>
             </div>
-            <div class="details-research-recommendation-part">
-                <img class="details-research-recommendation-image" src="{{ asset('build/images/icons/equalizer.png')}}"/>
-                <div class="details-research-recommendation-content">
-                    <p class="details-research-recommendation-content-title">
-                        Recommendation note
-                    </p>
-                    <div class="details-research-recommendation-content-description">
-                        {% autoescape %}
-                            {{ researchPlanSection.recommendation|raw }}
-                        {% endautoescape %}
+            {% if researchPlanSection.recommendation is not empty %}
+                <div class="details-research-recommendation-part">
+                    <img class="details-research-recommendation-image" src="{{ asset('build/images/icons/equalizer.png')}}"/>
+                    <div class="details-research-recommendation-content">
+                        <p class="details-research-recommendation-content-title">
+                            Recommendation note
+                        </p>
+                        <div class="details-research-recommendation-content-description">
+                            {% autoescape %}
+                                {{ researchPlanSection.recommendation|raw }}
+                            {% endautoescape %}
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="details-research-objectives-part">
-                <img class="details-research-objectives-image" src="{{ asset('build/images/icons/target.png')}}"/>
-                <div class="details-research-objectives-content">
-                    <p class="details-research-objectives-content-title">
-                        What are the objectives for this phase?
-                    </p>
-                    {% for objective in researchPlanSection.objectives %}
-                        <div class="details-research-objectives-content-objectives">
-                            <input type="checkbox" class="details-research-objectives-content-input" disabled/>
-                            <label class="details-research-objectives-content-label">{{ objective }}</label>
-                        </div>
-                    {% endfor %}
+            {% endif %}
+            {% if researchPlanSection.objectives is not empty %}           
+                <div class="details-research-objectives-part">
+                    <img class="details-research-objectives-image" src="{{ asset('build/images/icons/target.png')}}"/>
+                    <div class="details-research-objectives-content">
+                        <p class="details-research-objectives-content-title">
+                            What are the objectives for this phase?
+                        </p>
+                        {% for objective in researchPlanSection.objectives %}
+                            <div class="details-research-objectives-content-objectives">
+                                <input type="checkbox" class="details-research-objectives-content-input" disabled/>
+                                <label class="details-research-objectives-content-label">{{ objective }}</label>
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
-            </div>
+            {% endif %}
         </div>
         <div class="details-research-plan-content-separator"></div>
         {% endfor %}

@@ -105,6 +105,7 @@
                     padding: 12px;
                     gap: 5px;
                 }
+                
                 .validate-plan-button {
                     display: flex;
                     align-items: center;
@@ -324,4 +325,10 @@
 .details-research-objectives-content-label-done {
     color: $primary-grey-1 !important;
     text-decoration: line-through !important;
+}
+
+.button-yes-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }

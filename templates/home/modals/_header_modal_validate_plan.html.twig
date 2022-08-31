@@ -38,10 +38,12 @@ book a review if you need more help or explanations.</p>
             <form method="POST" id="validate-plan-form" class="validate-plan-form" data-id="{{researchPlan.id}}">
             <input type="hidden" class="plan_status" id="plan_status" name="research-plan-status" value="Validated">
             <input type="hidden" class="research-plan-id" id="research-plan-id" name="research-plan-id" value="{{researchPlan.id}}">
-                <button type="submit" class="validate-plan-button" data-id="{{researchPlan.id}}">
-                <img src="{{asset('build/images/icons/button-validate.png')}}">
-                    Yes
-                </button>
+                <div class="button-yes-container">
+                    <button type="submit" class="validate-plan-button" data-id="{{researchPlan.id}}">
+                    <img src="{{asset('build/images/icons/button-validate.png')}}">
+                        Yes
+                    </button>
+                </div>
             </form>
         </div>
     </div>

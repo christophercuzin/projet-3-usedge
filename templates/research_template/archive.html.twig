@@ -14,11 +14,9 @@
 					<div class="research-template-list-header-title">
 						<p class="research-template-list-header-first-title">RESEARCH CENTER TEMPLATE</p>
 						{% if archiveResearchTemplates|length == 1 %}
-							<p class="research-template-list-header-second-title">1 archive template</p>
+							<p class="research-template-list-header-second-title">1 Archived template</p>
 						{% elseif archiveResearchTemplates|length > 1 %}
-							<p class="research-template-list-header-second-title">{{ archiveResearchTemplates|length }} archive templates</p>
-						{% else %}
-                        	<p class="research-template-list-header-second-title">No archive templates</p>
+							<p class="research-template-list-header-second-title">{{ archiveResearchTemplates|length }} Archived templates</p>
 						{% endif %}
 					</div>
 					{% if archiveResearchTemplates %}

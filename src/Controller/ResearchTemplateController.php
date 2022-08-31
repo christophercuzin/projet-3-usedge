@@ -76,7 +76,7 @@ class ResearchTemplateController extends AbstractController
         ]);
     }
 
-    #[Route('/archive', name: 'archive', methods: ['GET', 'POST'])]
+    #[Route('/archived', name: 'archive', methods: ['GET', 'POST'])]
     public function archive(
         Request $request,
         ResearchTemplateRepository $templateRepository,

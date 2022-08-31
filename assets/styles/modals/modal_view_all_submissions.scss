@@ -4,11 +4,13 @@
 .modal_view_all_submissions {
     display: none;
     .request-details-title {
-        width: 98%;
+        width: 100%;
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid $primary-grey-2;
         p:first-child{
             @include textStyle($title-font, 24px, $font-weight-500, $primary-blue-5);
             margin-bottom: 3px;
@@ -78,6 +80,8 @@
         margin-bottom: 30px;
         margin-top: 30px;
         .view-all-requests-link {
+            text-align: center;
+            width: 100%;
             @include textStyle($text-font, $font-size-18,$font-weight-400, $primary-blue-1);
         }
     }
@@ -98,7 +102,7 @@
             border-radius: $border-radius-20;
             padding: 5px 0px 0px 5px;
             .view-all-request-result {
-                width: 98%;
+                width: 100%;
                 display: flex;
                 flex-direction: row;
                 justify-content: space-between;
@@ -244,4 +248,11 @@
     animation-duration: 0.6s;
     animation-name: slideout1;
 }
+.view-all-requests-link-empty {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    @include textStyle($text-font, $font-size-18,$font-weight-400, $primary-blue-1);
+}
+
 

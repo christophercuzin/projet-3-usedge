@@ -53,8 +53,8 @@ class ResearchPlanUtils
 
     public function researchPlanCheckEmpty(array $dataComponent): void
     {
-        if (empty($dataComponent['workshop_description'])) {
-            $this->checkErrors[] = "The workshop description field is mandatory";
+        if (empty($dataComponent['workshop_description']) && empty($dataComponent['workshop_name'])) {
+            $this->checkErrors[] = "You must select a workshop";
         }
 
         if (empty($dataComponent['research-request-coach'])) {
@@ -63,10 +63,6 @@ class ResearchPlanUtils
 
         if (empty($dataComponent['research-plan-status'])) {
             $this->checkErrors[] = "The status field is mandatory";
-        }
-
-        if (empty($dataComponent['workshop_name'])) {
-            $this->checkErrors[] = "The workshop name field is mandatory";
         }
 
         if (empty($dataComponent['research-plan-title'])) {

@@ -1,5 +1,3 @@
-const { eventListeners } = require("@popperjs/core");
-
 if (document.getElementById('title-section-research-plan')) {
 
     const titleSection = document.getElementById('title-section-research-plan');
@@ -25,6 +23,7 @@ if (document.getElementById('title-section-research-plan')) {
     const buttonAddSections = document.getElementsByClassName('button-add-section');
     const saveAndContinue = document.getElementById('save_and_continue_later_button');
     const planStatus = document.getElementById('plan_status');
+    const buttonSwitchSections = document.getElementsByClassName('button-switch-section');
     const requestStatus = document.getElementById('research-request-status');
     
 
@@ -164,12 +163,16 @@ if (document.getElementById('title-section-research-plan')) {
     if (document.querySelector('.send-research-plan-validation')) {
         const sendResearchPlanValidation = document.querySelector('.send-research-plan-validation');
         sendResearchPlanValidation.addEventListener('click', (event) => {
-            titleSection.removeAttribute('required');
-            let comfirm = confirm('this plan will be sent, check that all fields are filled in, otherwise the last section will not be saved');
-            if (comfirm == false) {
-                event.preventDefault();
+            if (inputTitleSectionPlan.value === "" && selectedWorkshopNameInput.value == "") {
+                inputTitleSectionPlan.removeAttribute('required');
+            } else if (
+                inputTitleSectionPlan.value != "" &&
+                selectedWorkshopNameInput.value == "" ||
+                inputTitleSectionPlan.value === "" &&
+                selectedWorkshopNameInput.value != ""
+            ) {
+                sendResearchPlanValidation.removeAttribute('formaction');
             }
-
         })
     }
 
@@ -178,6 +181,23 @@ if (document.getElementById('title-section-research-plan')) {
             buttonAddSection.addEventListener('click', () => {
                 if (selectedWorkshopNameInput.value == "") {
                     buttonAddSection.removeAttribute('formaction');
+                }
+            })
+        }
+    }
+
+    for (const buttonSwitchSection of buttonSwitchSections) {
+        if (buttonSwitchSection) {
+            buttonSwitchSection.addEventListener('click', () => {
+                if (inputTitleSectionPlan.value === "" && selectedWorkshopNameInput.value == "") {
+                    inputTitleSectionPlan.removeAttribute('required');
+                } else if (
+                    inputTitleSectionPlan.value != "" &&
+                    selectedWorkshopNameInput.value == "" ||
+                    inputTitleSectionPlan.value === "" &&
+                    selectedWorkshopNameInput.value != ""
+                ) {
+                    buttonSwitchSection.removeAttribute('formaction');
                 }
             })
         }

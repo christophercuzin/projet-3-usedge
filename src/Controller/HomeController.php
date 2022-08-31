@@ -8,6 +8,7 @@ use App\Repository\ResearchRequestRepository;
 use App\Repository\ResearchTemplateRepository;
 use App\Service\ApprovedPlanMailer;
 use App\Service\CheckDataUtils;
+use App\Service\PlanReviewRequiredMailer;
 use App\Service\ResearchPlanUtils;
 use App\Service\ResearchRequestMailer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -37,6 +38,14 @@ class HomeController extends AbstractController
     public function getPlanStatus(ResearchPlan $researchPlan): Response
     {
         return $this->render('home/_research_plans_status.html.twig', [
+            'researchPlan' => $researchPlan,
+        ]);
+    }
+
+    #[Route('/button/{id}', name: 'app_home_get_plan_button', methods: ['GET'])]
+    public function getPlanButton(ResearchPlan $researchPlan): Response
+    {
+        return $this->render('home/_plan_button.html.twig', [
             'researchPlan' => $researchPlan,
         ]);
     }
@@ -71,8 +80,13 @@ class HomeController extends AbstractController
         if (!empty($dataComponent)) {
             $id = $dataComponent['research-plan-id'];
             $researchPlan = $researchPlanRepo->findOneBy(['id' => $id]);
-            $mailer->getTemplateName($dataComponent);
-            $mailer->approvedPlanSendMail();
+            if ($dataComponent['research-plan-status'] === 'Validated') {
+                $mailer->getTemplateName($id);
+                $mailer->approvedPlanSendMail();
+            } else {
+                $mailer->getTemplateName($id);
+                $mailer->planReviewRequiredSendMail();
+            }
             $researchPlanUtils->updateResearchPlanStatus($dataComponent, $researchPlan);
         }
         return new response();

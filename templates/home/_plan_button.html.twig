@@ -1,0 +1,7 @@
+{% if 'Draft' in researchPlan.status or 'Review needed' in  researchPlan.status %}
+    <a href="{{path('app_research_plan', {id: researchPlan.researchRequest.id})}}" class="edit-request-link">
+        <button type="button" class="edit-request-button">Edit</button>
+    </a>
+{% else %}
+    <button type="button" id="{{ researchPlan.id }}" class="research-plan-details-button">View</button>
+{% endif %}

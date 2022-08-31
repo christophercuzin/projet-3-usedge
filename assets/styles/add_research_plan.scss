@@ -137,7 +137,7 @@
             .button-add-section {
                 @include dimension(50%, 42px);
                 @include button($primary-white-1, $border-radius-10, 1px solid $primary-blue-1);
-                @include textStyle($text-font, $font-size-18,
+                @include textStyle($text-font, $font-size-14,
                 $font-weight-600, $primary-blue-1);
                 align-self: flex-end;
                 letter-spacing: 0.116667px;

@@ -30,9 +30,14 @@
                 }
             }
             .details-research-plan-header-first-title {
+                display: flex;
                 @include textStyle($title-font, $font-size-18, $font-weight-500, $primary-blue-3);
                 line-height: 17px;
                 margin-bottom: 0;
+                img {
+                    @include dimension(17px, 17px);
+                    margin-right: 5px;
+                }
             }
             .details-research-plan-header-subtitle {
                 @include textStyle($text-font, 15px, $font-weight-400, $primary-grey-3);
@@ -55,9 +60,69 @@
             }
         }
     }
+    .research-plan-validation-container {
+        padding: 21px 35px;
+        width: 100%;
+        height: 106px;
+        background: $primary-white-1;
+        border: 1px solid $primary-blue-2;
+        box-shadow: 0px 0px 7px rgba(101, 128, 255, 0.2);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        .text-validation-plan-container {
+            width: 65%;
+            .research-plan-validation {
+                @include textStyle($text-font, $font-size-18, $font-weight-600, $primary-blue-1);
+                letter-spacing: 0.116667px;
+                margin-top: auto;
+                margin-bottom: 5px;
+            }
+            .research-plan-validation-detail {
+                @include textStyle($text-font, $font-size-14, $font-weight-400, $primary-blue-3);
+                width: 100%;
+                font-style: normal;
+                line-height: 18px;
+                margin-bottom: auto;
+            }
+        }
+        .validate-plan-button-container {
+            width: 35%;
+            .validate-plan-form {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                .ask-review-button {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    @include button($primary-white-1, $border-radius-10, 1px solid $primary-grey-1);
+                    @include textStyle($text-font, $font-size-14, $font-weight-600, $primary-grey-1);
+                    @include dimension(150px, 42px);
+                    text-align: center;
+                    padding: 12px;
+                    gap: 5px;
+                }
+                
+                .validate-plan-button {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    @include button($primary-blue-1, $border-radius-10, 0);
+                    @include textStyle($text-font, $font-size-14, $font-weight-600, $primary-white-1);
+                    @include dimension(85px, 42px);
+                    text-align: center;
+                    padding: 12px;
+                    gap: 5px;
+                }
+            }
+        }
+    }
     .details-research-plan-separator {
         @include dimension(800px, 0px);
-        border: 1px solid $primary-grey-5;
+        border-bottom: 1px solid $primary-grey-5;
     }
     .details-research-plan-content {
         overflow-y: scroll;
@@ -241,11 +306,11 @@
 }
 
 .research-center-details-research-plan-display {
-    position: absolute;
+    position: fixed;
     top: 0px;
-    right: -50px;
+    right: 0px;
     box-shadow: 0px 4px 64px rgba(0, 0, 0, 0.40);
-    @include dimension(900px, 1080px);
+    @include dimension(900px, 100%);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -260,4 +325,10 @@
 .details-research-objectives-content-label-done {
     color: $primary-grey-1 !important;
     text-decoration: line-through !important;
+}
+
+.button-yes-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }

@@ -53,12 +53,8 @@ class ResearchPlanUtils
 
     public function researchPlanCheckEmpty(array $dataComponent): void
     {
-        if (empty($dataComponent['workshop_description'])) {
-            $this->checkErrors[] = "The workshop description field is mandatory";
-        }
-
-        if (empty($dataComponent['research-plan-recommendation'])) {
-            $this->checkErrors[] = "The recommendation field is mandatory";
+        if (empty($dataComponent['workshop_description']) && empty($dataComponent['workshop_name'])) {
+            $this->checkErrors[] = "You must select a workshop";
         }
 
         if (empty($dataComponent['research-request-coach'])) {
@@ -67,10 +63,6 @@ class ResearchPlanUtils
 
         if (empty($dataComponent['research-plan-status'])) {
             $this->checkErrors[] = "The status field is mandatory";
-        }
-
-        if (empty($dataComponent['workshop_name'])) {
-            $this->checkErrors[] = "The workshop name field is mandatory";
         }
 
         if (empty($dataComponent['research-plan-title'])) {
@@ -125,7 +117,6 @@ class ResearchPlanUtils
                 $researchPlanObjects[] = $dataComponent['research-plan-objectives-' . $count];
             }
             $researchPlanSection->setObjectives($researchPlanObjects);
-
             $entityManager->persist($researchPlanSection);
             $entityManager->flush();
         }
@@ -138,6 +129,7 @@ class ResearchPlanUtils
         $id = $dataComponent['research_plan_section'];
         $researchPlanSection = $this->resPlanSecRepo->findOneBy(['id' => $id]);
         $entityManager = $this->entityManager;
+
         if (
             !empty($dataComponent) &&
             $researchPlan != null &&
@@ -157,7 +149,16 @@ class ResearchPlanUtils
             $researchPlanSection->setObjectives($researchPlanObjects);
             $entityManager->persist($researchPlanSection);
         }
+        $entityManager->flush();
+    }
 
+    public function updateResearchPlanStatus(array $dataComponent, ?ResearchPlan $researchPlan): void
+    {
+        $entityManager = $this->entityManager;
+        if (!empty($dataComponent) && $researchPlan != null) {
+            $researchPlan->setStatus($dataComponent['research-plan-status']);
+            $entityManager->persist($researchPlan);
+        }
         $entityManager->flush();
     }
 }

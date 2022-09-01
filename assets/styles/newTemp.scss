@@ -28,7 +28,7 @@
                 }
             }
             .research-template-list-header-title {
-                @include dimension(100%, 40px);
+                @include dimension(60%, 40px);
                 display: flex;
                 flex-direction: column;
                 align-items: flex-start;
@@ -54,15 +54,34 @@
                     letter-spacing: -0.8px;
                 }
             }
-            .research-template-defined-list-add-button {
-                @include button($primary-blue-1, $border-radius-10, none);
-                @include dimension(275px, 42px);
-                @include textStyle($text-font, $font-size-14, $font-weight-600, $primary-white-1);
+            .button-container {
                 display: flex;
-                justify-content: center;
-                align-items: center;
-                .research-template-defined-list-add-icon {
-                    padding-right: 4px;
+                justify-content: flex-end;
+                width: 40%;
+                gap: 20px;
+                .research-template-defined-list-add-button {
+                    @include button($primary-blue-1, $border-radius-10, none);
+                    @include dimension(275px, 42px);
+                    @include textStyle($text-font, $font-size-14, $font-weight-600, $primary-white-1);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    .research-template-defined-list-add-icon {
+                        padding-right: 4px;
+                    }
+                }.view-template-link {
+                    text-decoration: none;
+                    .view-template-button {
+                        @include button($primary-white-1, $border-radius-10, 1px solid $primary-grey-1);
+                        @include dimension(179px, 42px);
+                        @include textStyle($text-font, $font-size-14, $font-weight-600, $primary-grey-1);
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: center;
+                        align-items: center;
+                        padding: 12px;
+                        gap: 5px;
+                    }
                 }
             }
         }

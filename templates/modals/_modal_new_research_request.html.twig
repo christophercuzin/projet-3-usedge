@@ -6,7 +6,7 @@
                 Add details for this request
             </p>
         </div>
-        <form method ="POST" action="{{ path('research_request_add', {id: researchTemplate.id}) }}" class="new-research-request-modal-content-form">
+        <form method ="POST" action="{{ path('research_request_add', {id: researchTemplate.id}) }}" class="new-research-request-modal-content-form" id="new-research-request-modal-content-form">
             <input type="hidden" name="_token_add_research_request" value="{{ csrf_token('add_research_request') }}">
             <div class="new-research-request-modal-content-select">
                 <input type="hidden" name="template_id" value="{{ researchTemplate.id }}">

@@ -30,6 +30,7 @@
         align-items: center;
         padding: 12px 10px;
         gap: 10px;
+        opacity: 0;
         .add-research-request-header-button-icon {
             @include dimension(15px, 15px);
         }
@@ -37,7 +38,6 @@
             @include textStyle($text-font, $font-size-14, $font-weight-600, $primary-grey-1);
             margin-bottom: 0;
         }
-        opacity: 0;
     }
     .add-research-request-header-button {
         @include button($primary-white-1, $border-radius-10, 2px solid $primary-blue-2);
@@ -96,6 +96,27 @@
             .add-research-request-form-button-text {
                 @include textStyle($text-font, $font-size-14, $font-weight-600, $primary-white-1);
                 margin-bottom: 0;
+            }
+        }
+        .new-research-request-modal-content-select {
+            border-bottom: 1px solid $primary-blue-2;
+            .new-research-request-modal-select-label {
+                @include textStyle($text-font, $font-size-14, $font-weight-600, $primary-dark-1);
+                margin-bottom: 8px;
+                .red-star {
+                    color: $secondary-red-1;
+                }
+            }
+            .new-research-request-modal-select {
+                @include dimension(623px, 42px);
+                @include textStyle($text-font, $font-size-14, $font-weight-400, $primary-grey-1);
+                display: flex;
+                align-items: center;
+                background-color: $primary-white-1;
+                border: 1px solid $primary-blue-2;
+                border-radius: 8px;
+                padding: 10px 0 12px 12px;
+                margin-bottom: 30px;
             }
         }
     }

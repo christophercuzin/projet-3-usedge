@@ -85,11 +85,11 @@
 }
 
 .research-center-available-templates-display {
-    position: absolute;
+    position: fixed;
     top: 0px;
-    right: -50px;
+    right: 0px;
     box-shadow: 0px 4px 64px rgba(0, 0, 0, 0.40);
-    @include dimension(900px, 1080px);
+    @include dimension(900px, 100%);
     display: flex;
     flex-direction: column;
     align-items: flex-start;

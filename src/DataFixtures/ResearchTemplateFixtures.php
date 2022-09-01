@@ -12,29 +12,29 @@ class ResearchTemplateFixtures extends Fixture
         [
             'name' => 'Interview Request',
             'description' => 'Use this request to setup a track that will
-                                focus on exploration and planning mostly interviews.',
+focus on exploration and planning mostly interviews.',
             'icon' => 'build/images/icons/template_icon_1.png',
             'status' => 'active',
         ],
         [
             'name' => 'Visual Alternatives',
             'description' => 'If you think, for exemple, that A/B testing
-                                can have an impact on improving your search...',
+can have an impact on improving your search...',
             'icon' => 'build/images/icons/template_icon_2.png',
             'status' => 'active',
         ],
         [
             'name' => 'Open Research',
             'description' => 'If you do not have a concrete idea on how to make
-                                your request, answer this general form.',
+your request, answer this general form.',
             'icon' => 'build/images/icons/template_icon_4.png',
             'status' => 'dropped',
         ],
         [
             'name' => 'UX/UI Design Perspective',
             'description' => 'The main context behind any design is to consider the users needs. 
-                                This template concerns ergonomics, usability, and quality of UX/UI 
-                                as a whole.',
+This template concerns ergonomics, usability, and quality of UX/UI 
+as a whole.',
             'icon' => 'build/images/icons/template_icon_3.png',
             'status' => 'draft',
         ],

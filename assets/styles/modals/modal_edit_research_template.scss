@@ -1,0 +1,252 @@
+@import '../_var.scss';
+
+.edit-template-details-modal {
+    display: none;
+    .edit-template-details-close {
+        @include absolutePosition(21px, 656px);
+        @include dimension(25px, 25px);
+        &:hover {
+            cursor: pointer;
+        }
+        .edit-template-details-cross {
+            @include absolutePosition(45.83%, 17%);
+            @include dimension(18px, 1.5px);
+            background-color: $primary-blue-3;
+            border-radius: 2px;
+            &:first-child {
+                transform: rotateZ(45deg);
+            }
+            &:nth-child(2) {
+                transform: rotateZ(-45deg);
+            }
+        }
+    }
+    .edit-template-details-title {
+        @include dimension(620px, 25px);
+        display: flex;
+        align-items: center;
+        margin: 0 40px;
+        margin-top: 40px;
+        margin-bottom: 0;
+        p {
+            @include textStyle($title-font, 30px, $font-weight-400, $primary-blue-3)
+        }
+    }
+    .edit-template-details-separator {
+        width: 620px;
+        border: 1px solid #ECEFFF;
+        margin: 0 40px;
+        margin-top: 15px;
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0px;
+        gap: 10px;
+        margin-top: 30px;
+        margin-left: 40px;
+        .modal-icon-select {
+            @include dimension(620px, 52px);
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            .modal-icon-select-label {
+                display: flex;
+                align-items: center;
+                .modal-icon-select-label-name {
+                    @include textStyle($text-font, $font-size-16, $font-weight-600, $primary-blue-5);
+                }
+                .edit-icon-choice-button {
+                    @include dimension(55px, 52px);
+                    background-color: #FAFAFB;
+                    border-radius: 8px;
+                    margin-left: 15px;
+                    cursor: pointer;
+                    .edit-icon-choice-picture {
+                        width: 50px;
+                    }
+                }
+            }
+            .modal-edit-icon-select-popup {
+                @include absolutePosition(34%, 21%);
+                @include dimension(260px, 145px);
+                display: flex;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                background-color: $primary-white-1;
+                border: 1px solid $primary-blue-1;
+                border-radius: $border-radius-10;
+                z-index: 1;
+                .research_template_icon {
+                    margin: 5px;
+                    @for $iconNumber from 0 through 5 {
+                        input[type="radio"].edit_research_template_icon_#{$iconNumber} {
+                            display: none;
+                        }
+                        input[type="radio"].edit_research_template_icon_#{$iconNumber} + label {
+                            @include dimension(52px, 52px);
+                            background-image: url('../../images/icons/template_icon_#{$iconNumber}.png');
+                            background-size: 85%;
+                            background-repeat: no-repeat;
+                            background-position: center;
+                            background-color: #FAFAFB;
+                            border: none;
+                            color: rgba(255, 255, 255, 0);
+                            border: 1px solid white;
+                            border-radius: 8px;
+                            margin: 5px 10px 10px;
+                            &:hover {
+                                cursor: pointer;
+                            }
+                        }
+                    }
+                }
+                .edit-template-icon-close {
+                    @include absolutePosition(7px, 223px);
+                    @include dimension(25px, 25px);
+                    &:hover {
+                        cursor: pointer;
+                    }
+                    .template-icon-cross {
+                        @include absolutePosition(45.83%, 17%);
+                        @include dimension(18px, 1.5px);
+                        background-color: $primary-blue-3;
+                        border-radius: 2px;
+                        &:first-child {
+                            transform: rotateZ(45deg);
+                        }
+                        &:nth-child(2) {
+                            transform: rotateZ(-45deg);
+                        }
+                    }
+                }
+            }
+        }
+        .modal-text-input {
+            height: 68px;
+            gap: 8px;
+            .modal-label {
+                @include textStyle($text-font, $font-size-14, $font-weight-600, $primary-dark-1);
+                line-height: 18px;
+                margin-bottom: 8px;
+            }
+            .red-star {
+                color: $secondary-red-1;
+            }
+            .edit-modal-input {
+                @include dimension(620px, 42px);
+                @include textStyle($text-font, $font-size-14, $font-weight-400, $primary-grey-1);
+                background-color: #FFFFFF;
+                border: 1px solid $primary-blue-2;
+                border-radius: 8px;
+                gap: 5px;
+                padding-left: 12px;
+                letter-spacing: 0.11667px;
+                &::placeholder {
+                    opacity: 0.3;
+                }
+                &:focus {
+                    outline: none;
+                }
+            }
+            .modal-coach-select-label {
+                @include textStyle($text-font, $font-size-14, $font-weight-600, $primary-dark-1);
+                line-height: 18px;
+                margin-bottom: 8px;
+            }
+            select {
+                @include textStyle($text-font, $font-size-14, $font-weight-400, $primary-grey-1);
+                background-color: #FFFFFF;
+                border: 1px solid $primary-blue-2;
+                border-radius: 8px;
+                gap: 5px;
+                padding-left: 12px;
+                padding-right: 18.5px;
+                letter-spacing: 0.11667px;
+                &:hover {
+                    cursor: pointer;
+                }
+                &:focus {
+                    outline: none;
+                }
+            }
+            .edit-select-status {
+                background-repeat: no-repeat;
+                background-position-y: center;
+                background-position-x: 12px;
+                background-size: 10px;
+                padding-left: 25px;
+            }
+            .bg-green-dot {
+                background-image: url(../../images/icons/green-dot.png);
+            }
+            .bg-grey-dot {
+                background-image: url(../../images/icons/grey-dot.png);
+            }
+            .bg-red-dot {
+                background-image: url(../../images/icons/red-dot.png);
+            }
+        }
+        .edit-template-button {
+            @include button($primary-blue-1, $border-radius-10, none);
+            @include dimension(620px, 42px);
+            @include textStyle($text-font, $font-size-14, $font-weight-600, $primary-white-1);
+            margin-top: 5px;
+            text-align: center;
+        }
+    }
+}
+
+.modal-edit-icon-select-popup-hidden {
+    display: none;
+}
+
+.edit-template-details-modal-display {
+    position: fixed;
+    top: 290px;
+    left: 718px;
+    width: 700px;
+    min-height: 561px;
+    display: block;
+    box-sizing: border-box;
+    background-color: $primary-white-1;
+    border-radius: $border-radius-20;
+    border: 1px solid $primary-blue-1;
+    transition-duration: 0.3s;
+    box-shadow: 0px 4px 64px rgba(0, 0, 0, 0.40);
+    z-index: 2;
+    animation-duration: 0.3s;
+    animation-name: edittemplateslidein;
+}
+
+.edit-template-details-modal-close {
+    @extend .edit-template-details-modal-display;
+    top: -550px;
+    animation-duration: 0.6s;
+    animation-name: edittemplateslideout;
+}
+
+
+@keyframes edittemplateslidein {
+    from {
+        top: -550px;
+    }
+    to {
+        top: 290px;
+        left: 718px;
+    }
+}
+
+@keyframes edittemplateslideout {
+    from {
+        top: 290px;
+        left: 718px;
+    }
+    50% {
+        top: -550px;
+    }
+    to {
+        top: -550px;
+    }
+}

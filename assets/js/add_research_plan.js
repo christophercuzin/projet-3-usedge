@@ -1,5 +1,3 @@
-const { eventListeners } = require("@popperjs/core");
-
 if (document.getElementById('title-section-research-plan')) {
 
     const titleSection = document.getElementById('title-section-research-plan');
@@ -22,9 +20,11 @@ if (document.getElementById('title-section-research-plan')) {
     const linkViewRequest = document.getElementById('link-view-request');
     const modalInterviewPlanningRequest = document.getElementById('modal-interview-planning-request');
     const interviewPlanningHeaderClose = document.getElementById('interview-planning-header-close');
-    const buttonAddSection = document.getElementById('button-add-section');
-    const form = document.getElementById('sections-container');
-    const errormessage = document.getElementById('error');
+    const buttonAddSections = document.getElementsByClassName('button-add-section');
+    const saveAndContinue = document.getElementById('save_and_continue_later_button');
+    const planStatus = document.getElementById('plan_status');
+    const buttonSwitchSections = document.getElementsByClassName('button-switch-section');
+    const requestStatus = document.getElementById('research-request-status');
     
 
     titleSection.addEventListener('click', function () {
@@ -40,7 +40,7 @@ if (document.getElementById('title-section-research-plan')) {
         inputTitleSectionPlan.addEventListener("keyup", function (event) {
             if (event.key != "Enter") {
                 const valueInput = inputTitleSectionPlan.value;
-                buttonUntitled.value = valueInput;
+                buttonUntitled.innerHTML = valueInput;
             }
         
         })
@@ -48,7 +48,7 @@ if (document.getElementById('title-section-research-plan')) {
             inputTitleSectionPlan.classList.remove('title-section-research-plan');
             inputTitleSectionPlan.classList.add("newTitleSection");
             const valueInput = inputTitleSectionPlan.value;
-            buttonUntitled.value = valueInput;
+            buttonUntitled.innerHTML = valueInput;
         })
         
     }, true);
@@ -153,26 +153,59 @@ if (document.getElementById('title-section-research-plan')) {
     // Function used to close the modal interview planning request
     interviewPlanningHeaderClose.addEventListener('click', () => {
         modalInterviewPlanningRequest.classList.remove('modal-interview-planning-request-display');
+        modalInterviewPlanningRequest.classList.add('modal-interview-planning-request-plan-close');
+        setTimeout(() => {
+            modalInterviewPlanningRequest.classList.remove('modal-interview-planning-request-plan-close')
+        }, 600)
     });
 
     //function use to send an alert before validate the form
     if (document.querySelector('.send-research-plan-validation')) {
         const sendResearchPlanValidation = document.querySelector('.send-research-plan-validation');
         sendResearchPlanValidation.addEventListener('click', (event) => {
-            titleSection.removeAttribute('required');
-            let comfirm = confirm('this plan will be sent, check that all fields are filled in, otherwise the last section will not be saved');
-            if (comfirm == false) {
-                event.preventDefault();
-            }
-
-        })
-    }
-
-    if (buttonAddSection) {
-        buttonAddSection.addEventListener('click', () => {
-            if (selectedWorkshopNameInput.value == "") {
-                buttonAddSection.removeAttribute('formaction');
+            if (inputTitleSectionPlan.value === "" && selectedWorkshopNameInput.value == "") {
+                inputTitleSectionPlan.removeAttribute('required');
+            } else if (
+                inputTitleSectionPlan.value != "" &&
+                selectedWorkshopNameInput.value == "" ||
+                inputTitleSectionPlan.value === "" &&
+                selectedWorkshopNameInput.value != ""
+            ) {
+                sendResearchPlanValidation.removeAttribute('formaction');
             }
         })
     }
+
+    for (const buttonAddSection of buttonAddSections) {
+        if (buttonAddSection) {
+            buttonAddSection.addEventListener('click', () => {
+                if (selectedWorkshopNameInput.value == "") {
+                    buttonAddSection.removeAttribute('formaction');
+                }
+            })
+        }
+    }
+
+    for (const buttonSwitchSection of buttonSwitchSections) {
+        if (buttonSwitchSection) {
+            buttonSwitchSection.addEventListener('click', () => {
+                if (inputTitleSectionPlan.value === "" && selectedWorkshopNameInput.value == "") {
+                    inputTitleSectionPlan.removeAttribute('required');
+                } else if (
+                    inputTitleSectionPlan.value != "" &&
+                    selectedWorkshopNameInput.value == "" ||
+                    inputTitleSectionPlan.value === "" &&
+                    selectedWorkshopNameInput.value != ""
+                ) {
+                    buttonSwitchSection.removeAttribute('formaction');
+                }
+            })
+        }
+    }
+    
+    saveAndContinue.addEventListener('click', () => {
+        inputTitleSectionPlan.removeAttribute('required');
+        planStatus.value = "Draft";
+        requestStatus.value ="Under review";
+    })
 }

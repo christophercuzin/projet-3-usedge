@@ -23,19 +23,30 @@
                         	<p class="research-template-list-header-second-title">No templates available</p>
 						{% endif %}
 					</div>
+					
 					{% if researchTemplates %}
-						<button class="research-template-defined-list-add-button" id="add-template-button">
-							<img class="research-template-defined-list-add-icon" src="{{ asset('build/images/icons/Path.png') }}">
-							Create a new request template
-						</button>
+						<div class="button-container">
+							{% if archiveResearchTemplates is not empty %}
+								<a href="{{ path('research_template_archive') }}" class="view-template-link">
+									<button class="view-template-button" id="view-archive-template-button">
+										View archived templates
+									</button>
+								</a>
+							{% endif %}
+							<button class="research-template-defined-list-add-button" id="add-template-button">
+								<img class="research-template-defined-list-add-icon" src="{{ asset('build/images/icons/Path.png') }}">
+								Create a new request template
+							</button>
+						</div>
 					{% endif %}
 				</div>
 			</header>
-
 			{% if researchTemplates %}
 				<div class="research-template-list-main">
+				{% set count = 0 %}
 				{% for researchTemplate in researchTemplates %}
 					{% include "cards/_research_template_card.html.twig" %}
+					{% set count = count + 1 %}
 				{% endfor %}
 				{% include "modals/_modal_new_research_template.html.twig" %}
 				</div>

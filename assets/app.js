@@ -17,6 +17,7 @@ import './js/add_research_template.js';
 import './js/drag_and_drop.js';
 import './js/add_research_request.js';
 import './js/add_research_plan.js';
+import './js/new_temp.js';
 
 //import research plan
 import './js/add_research_plan.js';
@@ -33,10 +34,11 @@ import './js/modals/modal_evaluation_scale.js';
 import './js/modals/modal_section.js';
 import './js/modals/modal_open_question.js';
 import './js/modals/modal_date_picker.js';
-
 import './js/modals/modal_delete_template.js';
 import './js/modals/modal_action_menu_research_template.js';
 import './js/modals/select_request.js';
+import './js/modals/modal_template_overview.js';
+import './js/modals/modal_view_all_submissions.js';
 
 // Bootstrap import
 import './bootstrap';

@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home
+{% endblock %}
+
+{% block body %}
+	<main class="research-template-list-page">
+		<div class="research-template-list-display">
+			<header>
+				<div class="research-template-list-header">
+					<div class="research-template-list-header-return">
+						<a href="{{ path('research_template_index') }}"><img src="{{ asset('build/images/icons/Shape.png') }}"></a>
+					</div>
+					<div class="research-template-list-header-title">
+						<p class="research-template-list-header-first-title">RESEARCH CENTER TEMPLATE</p>
+						{% if archiveResearchTemplates|length == 1 %}
+							<p class="research-template-list-header-second-title">1 Archived template</p>
+						{% elseif archiveResearchTemplates|length > 1 %}
+							<p class="research-template-list-header-second-title">{{ archiveResearchTemplates|length }} Archived templates</p>
+						{% endif %}
+					</div>
+					{% if archiveResearchTemplates %}
+						<div class="button-container">
+							<a href="{{ path('research_template_index') }}" class="view-template-link">
+								<button class="view-template-button" id="view-template-button">
+									View all templates
+								</button>
+							</a>
+							<button class="research-template-defined-list-add-button" id="add-template-button">
+								<img class="research-template-defined-list-add-icon" src="{{ asset('build/images/icons/Path.png') }}">
+								Create a new request template
+							</button>
+						</div>
+					{% endif %}
+				</div>
+			</header>
+			{% if archiveResearchTemplates %}
+				<div class="research-template-list-main">
+				{% set count = 0 %}
+				{% for researchTemplate in archiveResearchTemplates %}
+					{% include "cards/_research_template_card.html.twig" %}
+					{% set count = count + 1 %}
+				{% endfor %}
+				{% include "modals/_modal_new_research_template.html.twig" %}
+				</div>
+			{% else %}
+				<div class="research-template-empty-list-main">
+					<div class="emmptyState">
+						<img src="{{ asset('build/images/icons/empty_state_1.png') }}">
+					</div>
+					<div class="research-template-list-main-text">
+						<p class="research-template-list-main-first-text">You don't have any requests archived yet!</p>
+						<p class="research-template-list-main-second-text">Create a first request template your team will be able to submit</p>
+					</div>
+					<button class="research-template-list-add-button" id="add-template-button"><img src="{{ asset('build/images/icons/Path.png') }}">New request template</button>
+					{% include "modals/_modal_new_research_template.html.twig" %}
+				</div>
+			{% endif %}
+		</div>
+	</main>
+{% endblock %}

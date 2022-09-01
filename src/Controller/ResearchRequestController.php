@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\ResearchRequest;
+use App\Entity\ResearchTemplate;
 use App\Repository\AnswerRequestRepository;
 use App\Repository\ResearchRequestRepository;
 use App\Repository\TemplateComponentRepository;
@@ -25,6 +26,7 @@ class ResearchRequestController extends AbstractController
         ResearchRequestUtils $requestUtils,
         ResearchRequestMailer $mailer,
         ResearchRequestRepository $resReqRepository,
+        ResearchTemplate $researchTemplate,
     ): Response {
         $dataComponent = $checkDataUtils->trimData($request);
         $requestComponents = $tempCompRepository->findBy(['researchTemplate' => $id], ['numberOrder' => 'ASC']);
@@ -32,16 +34,18 @@ class ResearchRequestController extends AbstractController
 
         if (
             isset($dataComponent['project']) &&
+            isset($dataComponent['_token_add_research_request']) &&
             $this->isCsrfTokenValid(
                 'add_research_request',
                 $dataComponent['_token_add_research_request']
             )
         ) {
-            $requestUtils->addResearchRequest($dataComponent);
-
+            $lastResReqId = $requestUtils->addResearchRequest($dataComponent);
             return $this->render('research_request/add.html.twig', [
                 'requestComponents' => $requestComponents,
+                'researchTemplate' => $researchTemplate,
                 'templateId' => $id,
+                'lastResearchRequestId' => $lastResReqId,
             ]);
         }
 
@@ -63,6 +67,7 @@ class ResearchRequestController extends AbstractController
                     $requestStatus = $resReqRepository->findOneBy([], ['id' => 'DESC'])->getStatus();
                 }
                 $requestUtils->addResearchRequestAnswer($answerList);
+                $mailer->getTemplateName($dataComponent);
                 if ($requestStatus === 'Waiting list') {
                     $mailer->researchRequestSendMail();
                 } else {
@@ -77,6 +82,68 @@ class ResearchRequestController extends AbstractController
 
         return $this->render('research_request/add.html.twig', [
             'requestComponents' => $requestComponents,
+            'researchTemplate' => $researchTemplate,
+            'templateId' => $id,
+        ]);
+    }
+
+    #[Route('/research-request/add/external/{id}', name: 'research_request_add_external', methods: ['GET', 'POST'])]
+    public function indexExternalLink(
+        int $id,
+        TemplateComponentRepository $tempCompRepository,
+        CheckDataUtils $checkDataUtils,
+        Request $request,
+        ResearchRequestUtils $requestUtils,
+        ResearchRequestMailer $mailer,
+        ResearchRequestRepository $resReqRepository,
+        ResearchTemplate $researchTemplate,
+    ): Response {
+        $dataComponent = $checkDataUtils->trimData($request);
+        $requestComponents = $tempCompRepository->findBy(['researchTemplate' => $id], ['numberOrder' => 'ASC']);
+        $requestErrors = [];
+
+        if (
+            isset($dataComponent['research_request_template_id']) &&
+            $this->isCsrfTokenValid(
+                'add_research_request_answer',
+                $dataComponent['_token_add_research_request_answer']
+            )
+        ) {
+            if (isset($dataComponent['project'])) {
+                $requestUtils->researchRequestCheckProject($dataComponent);
+            }
+            $answerList = $requestUtils->researchRequestSortAnswer($dataComponent);
+            $requestUtils->researchRequestCheckDate($answerList);
+            $requestUtils->researchRequestCheckURL($answerList);
+            $requestErrors = $requestUtils->getCheckErrors();
+            if (empty($requestErrors)) {
+                $requestStatus = '';
+                if (isset($dataComponent['project'])) {
+                    $lastResReqId = $requestUtils->addResearchRequest($dataComponent);
+                    $requestUtils->updateResearchRequestStatus($dataComponent, $lastResReqId);
+                    if ($resReqRepository->findOneBy(['id' => $lastResReqId]) != null) {
+                        $requestStatus = $resReqRepository->findOneBy(['id' => $lastResReqId])->getStatus();
+                    }
+                } elseif ($resReqRepository->findOneBy([], ['id' => 'DESC']) instanceof ResearchRequest) {
+                        $requestStatus = $resReqRepository->findOneBy([], ['id' => 'DESC'])->getStatus();
+                }
+                $requestUtils->addResearchRequestAnswer($answerList);
+                $mailer->getTemplateName($dataComponent);
+                if ($requestStatus === 'Waiting list') {
+                    $mailer->researchRequestSendMail();
+                } else {
+                    return $this->redirectToRoute('app_home');
+                }
+            }
+            return $this->render('research_request/confirm.html.twig', [
+                'errors' => $requestErrors,
+                'templateId' => $id,
+            ]);
+        }
+
+        return $this->render('research_request/add.html.twig', [
+            'requestComponents' => $requestComponents,
+            'researchTemplate' => $researchTemplate,
             'templateId' => $id,
         ]);
     }
@@ -115,6 +182,7 @@ class ResearchRequestController extends AbstractController
                 $requestStatus = '';
                 $requestStatus = $researchRequest->getStatus();
                 $requestUtils->updateResearchRequestAnswer($answerList, $researchRequest);
+                $mailer->getTemplateName($dataComponent);
                 if ($requestStatus === 'Waiting list') {
                     $mailer->researchRequestSendMail();
                 } else {

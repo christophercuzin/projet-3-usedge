@@ -1,3 +1,108 @@
+//function use to change the status of the research plan when validate
+// or requir a review
+
+function asyncForm() {
+    const validatePlanForms = document.getElementsByClassName('validate-plan-form');
+    for (const validatePlanForm of validatePlanForms) {
+        if(validatePlanForm) {
+            validatePlanForm.addEventListener('submit', (event) =>{
+                const idOfValidatePlanForm =  validatePlanForm.getAttribute('data-id');
+                event.preventDefault();
+                const form = new FormData(validatePlanForm);
+                fetch('/', {
+                    method: 'POST',
+                    body: form
+                })
+                    .then(function(){
+                        if (document.getElementById('plan_status').value != 'Review needed') {
+                            loadPlanStatus(idOfValidatePlanForm)
+                            loadPlanButton(idOfValidatePlanForm)
+                            loadTitle(idOfValidatePlanForm);
+                            loadValidateContainer(idOfValidatePlanForm)
+                        } else {
+                            loadPlanStatus(idOfValidatePlanForm)
+                            loadPlanButton(idOfValidatePlanForm)
+                            loadValidateContainer(idOfValidatePlanForm)
+                            setTimeout(asyncForm, 1000)
+                        } 
+                    })
+            })
+        }
+    }
+    const planStatusInputs = document.getElementsByClassName('plan_status');
+    const validatePlanButtons = document.querySelectorAll('.validate-plan-button');
+    for (const validatePlanButton of validatePlanButtons) {
+        validatePlanButton.addEventListener('click', () => {
+            for (const planStatusInput of planStatusInputs) {
+                planStatusInput.value = 'Validated';
+            }
+        })
+    }
+    const askAReviewButtons = document.getElementsByClassName('ask-review-button');
+    for (const askAReviewButton of askAReviewButtons) {
+        askAReviewButton.addEventListener('click', () => {
+            for (const planStatusInput of planStatusInputs) {
+                planStatusInput.value = 'Review needed';
+            }
+        })
+    }
+}
+
+
+function loadTitle(idOfvalidatePlanButton) {
+    const tbodys = document.getElementsByClassName('details-research-plan-title' + idOfvalidatePlanButton);
+    for (const tbody of tbodys) {
+        const idOfTbody = tbody.getAttribute('data-id');
+        if (idOfvalidatePlanButton === idOfTbody) {
+            fetch('/modal/' + idOfvalidatePlanButton)
+                .then(response => response.text()
+                    .then(content => tbody.innerHTML = content))
+            ;
+        }
+    }            
+}
+
+function loadValidateContainer(idOfvalidatePlanButton) {
+    const bodys = document.getElementsByClassName('validate-plan-container' + idOfvalidatePlanButton);
+    for (const body of bodys) {
+        const idOfBody = body.getAttribute('data-id');
+        if (idOfvalidatePlanButton === idOfBody) {
+            fetch('/validate/' + idOfvalidatePlanButton)
+                .then(response => response.text()
+                    .then(content => body.innerHTML = content))
+            ;
+            
+        }
+    }             
+}
+
+function loadPlanStatus(idOfvalidatePlanButton) {
+    const statusBodys = document.getElementsByClassName('plan-status' + idOfvalidatePlanButton);
+    for (const statusBody of statusBodys) {
+        const idOfStatusBody = statusBody.getAttribute('data-id');
+        if (idOfvalidatePlanButton === idOfStatusBody) {
+            fetch('/plan/status/' + idOfvalidatePlanButton)
+                .then(response => response.text()
+                    .then(content => statusBody.innerHTML = content))
+            ;
+        }
+    } 
+}
+
+function loadPlanButton(idOfvalidatePlanButton) {
+    const buttonBodys = document.getElementsByClassName('plan-button' + idOfvalidatePlanButton);
+    for (const buttonBody of buttonBodys) {
+        const idOfButtonBody = buttonBody.getAttribute('data-id');
+        if (idOfvalidatePlanButton === idOfButtonBody) {
+            fetch('/button/' + idOfvalidatePlanButton)
+                .then(response => response.text()
+                    .then(content => buttonBody.innerHTML = content))
+            ;
+        }
+    } 
+}
+
+
 if (document.getElementById('reasearch-plans')) {
 
     const researchPlans = document.getElementById('reasearch-plans');
@@ -164,8 +269,16 @@ if (document.getElementById('reasearch-plans')) {
     for (const buttoninterviewPlanningModalClose of buttoninterviewPlanningModalCloses) {
         buttoninterviewPlanningModalClose.addEventListener('click', () => {
             planTableScroll.classList.remove('table-scroll-none');
+            const idOfButtoninterviewPlanningModalClose = buttoninterviewPlanningModalClose.getAttribute('data-id');
             for (const modalInterviewPlanningRequest of modalInterviewPlanningRequests) {
-                modalInterviewPlanningRequest.classList.remove('modal-interview-planning-request-display');
+                const idOfmodalInterviewPlanningRequest = modalInterviewPlanningRequest.getAttribute('id');
+                if (idOfButtoninterviewPlanningModalClose === idOfmodalInterviewPlanningRequest) {
+                    modalInterviewPlanningRequest.classList.remove('modal-interview-planning-request-display');
+                    modalInterviewPlanningRequest.classList.add('modal-interview-planning-request-close');
+                    setTimeout(() => {
+                        modalInterviewPlanningRequest.classList.remove('modal-interview-planning-request-close')
+                    }, 600)
+                }
             }
         });
     }
@@ -226,8 +339,17 @@ if (document.getElementById('reasearch-plans')) {
                 }
                 if (idOfmodalResearchPlan === idOfButtonViewResearchPlan) {
                     researchPlanDetailsModal.classList.add('research-center-details-research-plan-display');
+                    for (const modalInterviewPlanningRequest of modalInterviewPlanningRequests) {
+                        modalInterviewPlanningRequest.classList.remove('modal-interview-planning-request-display');
+                    }
                 }
             }
+            
         });
     }
+
+
+    //function use to change the status of the research plan when validate
+    // or requir a review
+    asyncForm();
 }

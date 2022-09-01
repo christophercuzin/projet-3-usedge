@@ -18,3 +18,8 @@
         <p><img src="{{ asset('build/images/icons/grey-dot.png')}}">{{ researchPlan.status }}</p>
     </div>
 {% endif %}
+{% if researchPlan.status is same as 'Review needed' %}
+    <div class="review-needed">
+        <p><img src="{{ asset('build/images/icons/orange-dot.png')}}">{{ researchPlan.status }}</p>
+    </div>
+{% endif %}

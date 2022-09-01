@@ -1,7 +1,6 @@
 @import '../_var.scss';
 
 //Style of modal_interview_planning_request in the home page
-.home {
 
     .modal-interview-planning-request {
         display: none;
@@ -300,10 +299,10 @@
     }
 
     .modal-interview-planning-request-display {
-        position: absolute;
+        position: fixed;
         top: 0px;
         box-shadow: 0px 4px 64px rgba(0, 0, 0, 0.25);
-        @include dimension(900px, 1080px);
+        @include dimension(900px, 100%);
         display: flex;
         flex-direction: column;
         align-items: flex-start;
@@ -313,9 +312,16 @@
         gap: 20px;
         animation-duration: 0.3s;
         animation-name: slidein1;
-        right: -50px;
+        right: 0px;
     }
-}
+    .modal-interview-planning-request-close {
+        @extend .modal-interview-planning-request-display;
+        box-shadow: none;
+        animation-duration: 0.6s;
+        animation-name: slideout1;
+        right: -1000px;
+    }
+
 
 //Style of modal_interview_planning_request in the research-plan creation page
 .research-plan {
@@ -633,5 +639,12 @@
         animation-duration: 0.3s;
         animation-name: slidein;
         z-index: 3;
+    }
+
+    .modal-interview-planning-request-plan-close {
+        @extend .modal-interview-planning-request-display;
+        animation-duration: 0.6s;
+        animation-name: slideout;
+        right: -200vw;
     }
 }

@@ -50,6 +50,14 @@
                 <input type="date" name="Creation-date" id="Creation-date">
             </form>
         </div>
+        {% for researchPlan in researchPlans %}
+            {% include "home/modals/_modal_details_research_plan.html.twig" %}
+        {% endfor %}
+        {% for researchRequest in researchRequests %}
+            {% if researchRequest.status is not same as 'Draft' %}
+                {% include "home/modals/_modal_interview_planning_request.html.twig" %}
+            {% endif %}
+        {% endfor %}
         <div class="research-list">
             <div class="requests-list" id="requests-list">
                 <div class="requests-header">
@@ -79,14 +87,7 @@
                 </table>
                 <div class="table-scroll">
                     <table>
-                    {% for researchPlan in researchPlans %}
-                                {% include "home/modals/_modal_details_research_plan.html.twig" %}
-                            {% endfor %}
                         {% for researchRequest in researchRequests %}
-                            {% if researchRequest.status is not same as 'Draft' %}
-                                {% include "home/modals/_modal_interview_planning_request.html.twig" %}
-                            {% endif %}
-                            
                             <tbody class="result">
                                 <tr>
                                     <td class="view-details view-request-type" id="view-request-type">
@@ -108,11 +109,11 @@
                                     </td>
                                     <td class="view-details">                                      
                                         {% if 'Draft' in researchRequest.status %}
-                                            <a href="{{path('research_request_edit', {id: researchRequest.id})}}">
-                                                <button class="edit-request-button">Edit</button>
+                                            <a href="{{path('research_request_edit', {id: researchRequest.id})}}" class="edit-request-link">
+                                                <button type="button" class="edit-request-button">Edit</button>
                                             </a>
                                         {% else %}
-                                            <button id="{{ researchRequest.id }}" class="request-details-button">View</button>
+                                            <button type="button" id="{{ researchRequest.id }}" class="request-details-button">View</button>
                                         {% endif %}
                                     </td>
                                     <td class="icon-see-more">
@@ -134,10 +135,9 @@
                                     <td class="view-details"></td>
                                 </tr>
                             </tbody>
-                            {% endif %}
-                       
-                    </div>
-                </table>
+                        {% endif %}   
+                    </table>
+                </div>
             </div>
             <div class="plans-list-none" id="plans-list-none">
                 <div class="plans-header">
@@ -167,13 +167,7 @@
                 </table>
                 <div class="table-scroll" id="plan-table-scroll">
                     <table>
-                        {% for researchRequest in researchRequests %}
-                            {% if researchRequest.status is not same as 'Draft' %}
-                                {% include "home/modals/_modal_interview_planning_request.html.twig" %}
-                            {% endif %}
-                        {% endfor %}
                         {% for researchPlan in researchPlans %}
-                            {% include "home/modals/_modal_details_research_plan.html.twig" %}
                             <tbody class="result">
                                 <tr>
                                     <td class="view-details view-request-type" id="view-request-type">
@@ -196,16 +190,40 @@
                                     <td class="view-details">
                                     <img class="coach-picture" src="{{ asset('build/images/icons/john-doe.png') }}">{{ researchPlan.researchRequest.researchTemplate.coach }}
                                     </td>
-                                    <td class="view-details color-status">
-                                        {% include "home/_research_plans_status.html.twig" %}
+                                    <td class="view-details color-status plan-status{{researchPlan.id}}" data-id="{{researchPlan.id}}">
+                                        {% if researchPlan.status is same as 'Dropped' %}
+                                            <div class="dropped">
+                                                <p><img src="{{ asset('build/images/icons/red-dot.png')}}">{{ researchPlan.status }}</p>
+                                            </div>
+                                        {% endif %}
+                                        {% if researchPlan.status is same as 'Validated' %}
+                                            <div class="validated">
+                                                <p><img src="{{ asset('build/images/icons/green-dot.png')}}">{{ researchPlan.status }}</p>
+                                            </div>
+                                        {% endif %}
+                                        {% if researchPlan.status is same as 'Sent to user' %}
+                                            <div class="sent-to-user">
+                                                <p><img src="{{ asset('build/images/icons/blue-dot.png')}}">{{ researchPlan.status }}</p>
+                                            </div>
+                                        {% endif %}
+                                        {% if researchPlan.status is same as 'Draft' %}
+                                            <div class="draft">
+                                                <p><img src="{{ asset('build/images/icons/grey-dot.png')}}">{{ researchPlan.status }}</p>
+                                            </div>
+                                        {% endif %}
+                                        {% if researchPlan.status is same as 'Review needed' %}
+                                            <div class="review-needed">
+                                                <p><img src="{{ asset('build/images/icons/orange-dot.png')}}">{{ researchPlan.status }}</p>
+                                            </div>
+                                        {% endif %}
                                     </td> 
-                                    <td class="view-details">                                     
-                                        {% if 'Draft' in researchPlan.status %}
-                                            <a href="{{path('app_research_plan', {id: researchPlan.researchRequest.id})}}">
+                                    <td class="view-details plan-button{{researchPlan.id}}" data-id="{{researchPlan.id}}">                                 
+                                        {% if 'Draft' in researchPlan.status or 'Review needed' in  researchPlan.status %}
+                                            <a href="{{path('app_research_plan', {id: researchPlan.researchRequest.id})}}" class="edit-request-link">
                                                 <button type="button" class="edit-request-button">Edit</button>
                                             </a>
                                         {% else %}
-                                            <button id="{{ researchPlan.id }}" class="research-plan-details-button">View</button>
+                                            <button type="button" id="{{ researchPlan.id }}" class="research-plan-details-button">View</button>
                                         {% endif %}
                                     </td>
                                     <td class="icon-see-more">
@@ -236,3 +254,4 @@
     </main>
 
 {% endblock %}
+

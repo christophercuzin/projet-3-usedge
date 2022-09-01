@@ -12,6 +12,7 @@ use App\Service\CheckDataUtils;
 use App\Service\ComponentManager;
 use App\Service\ComponentUpdateManager;
 use App\Service\ComponentUtils;
+use App\Service\ResearchTemplateDetailsUtils;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use App\Service\RetrieveAnswers;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -66,10 +67,44 @@ class ResearchTemplateController extends AbstractController
             }
         }
         $researchTemplateList = $templateRepository->findByStatus();
+        $archiveTemplateList = $templateRepository->findByArchiveStatus();
 
         return $this->renderForm('research_template/index.html.twig', [
             'form' => $form,
             'researchTemplates' => $researchTemplateList,
+            'archiveResearchTemplates' => $archiveTemplateList,
+        ]);
+    }
+
+    #[Route('/archived', name: 'archive', methods: ['GET', 'POST'])]
+    public function archive(
+        Request $request,
+        ResearchTemplateRepository $templateRepository,
+        CheckDataUtils $checkDataUtils,
+    ): Response {
+        $dataComponent =  $checkDataUtils->trimData($request);
+
+        $researchTemplate = new ResearchTemplate();
+        $form = $this->createForm(ResearchTemplateType::class, $researchTemplate);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if (
+                $this->isCsrfTokenValid(
+                    'add_research_template',
+                    $dataComponent['_token_add_research_template']
+                )
+            ) {
+                $templateRepository->add($researchTemplate, true);
+                $id = $researchTemplate->getId();
+                return $this->redirectToRoute('research_template_add', ['id' => $id], Response::HTTP_SEE_OTHER);
+            }
+        }
+        $archiveTemplateList = $templateRepository->findByArchiveStatus();
+
+        return $this->renderForm('research_template/archive.html.twig', [
+            'form' => $form,
+            'archiveResearchTemplates' => $archiveTemplateList,
         ]);
     }
 
@@ -176,5 +211,30 @@ class ResearchTemplateController extends AbstractController
         $id = $researchTemplate->getId();
 
         return $this->redirectToRoute('research_template_add', ['id' => $id], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/details/edit/{id}', name: 'edit_details', methods: ['GET', 'POST'])]
+    public function editDetails(
+        Request $request,
+        ResearchTemplate $researchTemplate,
+        ResearchTemplateDetailsUtils $resTempDetailsUtils,
+        CheckDataUtils $checkDataUtils,
+    ): Response {
+
+        $dataComponent = $checkDataUtils->trimData($request);
+        $resTempDetailsUtils->checkResearchTemplateData($dataComponent);
+        $validationErrors = $resTempDetailsUtils->getCheckErrors();
+        if (
+            empty($validationErrors) &&
+            $this->isCsrfTokenValid(
+                'edit_research_template',
+                $dataComponent['_token_edit_research_template']
+            )
+        ) {
+            $resTempDetailsUtils->updateResearchTemplateDetails($dataComponent, $researchTemplate);
+        }
+
+        return $this->redirectToRoute('research_template_index', [
+        ]);
     }
 }

@@ -8,10 +8,12 @@
             <img class="add-research-request-header-logo" src="{{ asset('build/images/usedge-logo.png') }}"/>
             <p class="add-research-request-header-title">New research request<p>
         </div>
+        <div class="request-button-container" id="request-button-container">
         <button form="add-research-request-form" class="add-research-request-confirm-header-button" id="add-research-request-header-button">
             <img class="add-research-request-header-button-icon" src="{{ asset('build/images/icons/logout-dark.png') }}"/>
             <p class="add-research-request-header-button-text">Save and continue later</p>
         </button>
+        </div>
     </header>
     <main class="add-research-request-main-content">
         {% if errors is defined and errors is not empty %}

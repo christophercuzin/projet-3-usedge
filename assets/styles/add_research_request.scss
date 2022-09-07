@@ -58,10 +58,10 @@
 }
 
 .add-research-request-main-content {
-    @include dimension(1920px, 1012px);
+    @include dimension(100vw, 1012px);
     position: relative;
     .add-research-request-form {
-        @include dimension(750px, 942px);
+        @include dimension(750px, 100%);
         @include absolutePosition(50%, 50%);
         transform: translate(-50%, -50%);
         display: flex;
